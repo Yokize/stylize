@@ -1,0 +1,13 @@
+@mixin before($content: '') {
+  &::before {
+    content: $content;
+    @content;
+  }
+}
+
+@mixin after($content: '') {
+  &::after {
+    content: $content;
+    @content;
+  }
+}

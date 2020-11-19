@@ -1,0 +1,48 @@
+/// Mixin to generate flex properties.
+/// @param {String} $display - Display.
+/// @param {String} $direction - Flex Direction.
+/// @param {String | null} $justify - Justify Content.
+/// @param {String | null} $align - Align Items.
+/// @param {String | null} $wrap - Flex Wrap.
+/// @ignore
+@mixin -flexbox($display, $direction, $justify, $align, $wrap) {
+  display: $display;
+  flex-direction: $direction;
+  justify-content: $justify;
+  align-items: $align;
+  flex-wrap: $wrap;
+}
+
+/// Shorthand mixin for flex.
+/// @param {String} $direction [row] - Flex Direction.
+/// @param {String} $justify [null] - Justify Content.
+/// @param {String} $align [null] - Align Items.
+/// @param {String} $wrap [null] - Flex Wrap.
+/// @group Flex
+///
+/// @example
+///   @include flex
+///   @include flex(row)
+///   @include flex(row, center)
+///   @include flex(row, center, center)
+///   @include flex(row, center, center, wrap)
+@mixin flex($direction: row, $justify: null, $align: null, $wrap: null) {
+  @include -flexbox(flex, $direction, $justify, $align, $wrap);
+}
+
+/// Shorthand mixin for inline-flex.
+/// @param {String} $direction [row] - Flex Direction.
+/// @param {String} $justify [null] - Justify Content.
+/// @param {String} $align [null] - Align Items.
+/// @param {String} $wrap [null] - Flex Wrap.
+/// @group Flex
+///
+/// @example
+///   @include inline-flex
+///   @include inline-flex(row)
+///   @include inline-flex(row, center)
+///   @include inline-flex(row, center, center)
+///   @include inline-flex(row, center, center, wrap)
+@mixin inline-flex($direction: row, $justify: null, $align: null, $wrap: null) {
+  @include -flexbox(inline-flex, $direction, $justify, $align, $wrap);
+}

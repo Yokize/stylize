@@ -1,0 +1,78 @@
+/// Shorthand mixin for position.
+/// @param {String} $position - Position (`relative`, `absolute`, etc.)
+/// @param {Length} $top [null] - Top offset
+/// @param {Length} $right [null] - Right offset
+/// @param {Length} $bottom [null] - Bottom offset
+/// @param {Length} $left [null] - Left offset
+/// @group Position
+@mixin -position($position, $top: null, $right: null, $bottom: null, $left: null) {
+  position: $position;
+  top: $top;
+  right: $right;
+  bottom: $bottom;
+  left: $left;
+}
+
+/// Shorthand mixin for absolute position.
+/// @require {mixin} -position
+/// @param {Length} $top [null] - Top offset
+/// @param {Length} $right [null] - Right offset
+/// @param {Length} $bottom [null] - Bottom offset
+/// @param {Length} $left [null] - Left offset
+/// @group Position
+///
+/// @example
+///   @include absolute
+///   @include absolute(0)
+///   @include absolute(0, null, 0);
+@mixin absolute($top: null, $right: null, $bottom: null, $left: null) {
+  @include -position(absolute, $top, $right, $bottom, $left);
+}
+
+/// Shorthand mixin for fixed position.
+/// @require {mixin} -position
+/// @param {Length} $top [null] - Top offset
+/// @param {Length} $right [null] - Right offset
+/// @param {Length} $bottom [null] - Bottom offset
+/// @param {Length} $left [null] - Left offset
+/// @group Position
+///
+/// @example
+///   @include fixed
+///   @include fixed(0)
+///   @include fixed(0, null, 0);
+@mixin fixed($top: null, $right: null, $bottom: null, $left: null) {
+  @include -position(fixed, $top, $right, $bottom, $left);
+}
+
+/// Shorthand mixin for relative position.
+/// @require {mixin} -position
+/// @param {Length} $top [null] - Top offset
+/// @param {Length} $right [null] - Right offset
+/// @param {Length} $bottom [null] - Bottom offset
+/// @param {Length} $left [null] - Left offset
+/// @group Position
+///
+/// @example
+///   @include relative
+///   @include relative(0)
+///   @include relative(0, null, 0);
+@mixin relative($top: null, $right: null, $bottom: null, $left: null) {
+  @include -position(relative, $top, $right, $bottom, $left);
+}
+
+/// Shorthand mixin for sticky position.
+/// @require {mixin} -position
+/// @param {Length} $top [null] - Top offset
+/// @param {Length} $right [null] - Right offset
+/// @param {Length} $bottom [null] - Bottom offset
+/// @param {Length} $left [null] - Left offset
+/// @group Position
+///
+/// @example
+///   @include sticky
+///   @include sticky(0)
+///   @include sticky(0, null, 0);
+@mixin sticky($top: null, $right: null, $bottom: null, $left: null) {
+  @include -position(sticky, $top, $right, $bottom, $left);
+}

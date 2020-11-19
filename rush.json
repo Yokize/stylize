@@ -1,0 +1,17 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush.schema.json",
+  "rushVersion": "5.35.2",
+  "yarnVersion": "1.22.10",
+  "suppressNodeLtsWarning": true,
+  "ensureConsistentVersions": true,
+  "repository": {
+    "url": "https://github.com/Yokize/stylize.git"
+  },
+  "projects": [
+    {
+      "packageName": "@stylize/sass",
+      "projectFolder": "package/sass",
+      "shouldPublish": true
+    }
+  ]
+}
