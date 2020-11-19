@@ -1,0 +1,6 @@
+---
+extends: 'stylelint-config-sass-guidelines'
+
+rules:
+  'scss/at-mixin-pattern': null
+  'order/properties-alphabetical-order': null

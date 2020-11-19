@@ -1,0 +1,18 @@
+# IDE
+.idea
+.vscode
+
+# Sass
+sassdoc
+
+# Rush
+common/temp
+node_modules
+package-deps*
+yarn.lock
+
+# Log
+*.log
+
+# OS
+.DS_Store

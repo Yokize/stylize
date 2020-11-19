@@ -1,0 +1,52 @@
+@use '~sass-true' as *;
+@use './index' as *;
+
+// Shorthand mixin for ::before pseudo.
+@include describe('Before mixin') {
+  // :: Case
+  @include it('should define before pseudo') {
+    @include assert {
+      // :: Output
+      @include output {
+        .text {
+          @include before {
+            font-weight: normal;
+          }
+        }
+      }
+
+      // :: Expect
+      @include expect {
+        .text::before {
+          content: '';
+          font-weight: normal;
+        }
+      }
+    }
+  }
+}
+
+// Shorthand mixin for ::after pseudo.
+@include describe('After mixin') {
+  // :: Case
+  @include it('should define after pseudo') {
+    @include assert {
+      // :: Output
+      @include output {
+        .text {
+          @include after {
+            font-weight: normal;
+          }
+        }
+      }
+
+      // :: Expect
+      @include expect {
+        .text::after {
+          content: '';
+          font-weight: normal;
+        }
+      }
+    }
+  }
+}

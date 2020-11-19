@@ -1,0 +1,23 @@
+@use 'sass:list';
+
+/// Shorthand to define width and height.
+/// @param {Length | List} $width - Width or size.
+/// @param {Length} $height [null] - Height.
+/// @group Size
+///
+/// @example
+///   @include size(10px)
+///   @include size(10px 20px)
+///   @include size(10px, 20px)
+@mixin size($width, $height: null) {
+  @if (list.length($width) == 2) {
+    @include size($width...);
+  } @else {
+    @if ($height == null) {
+      $height: $width;
+    }
+
+    width: $width;
+    height: $height;
+  }
+}

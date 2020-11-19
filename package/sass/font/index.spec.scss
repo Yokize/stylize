@@ -1,0 +1,45 @@
+@use '~sass-true' as *;
+@use './index' as *;
+
+// Shorthand mixin for font.
+@include describe('Font mixin') {
+  // :: Case
+  @include it('should create font property') {
+    @include assert {
+      // :: Output
+      @include output {
+        @include font($size: 1px, $weight: bold);
+      }
+
+      // :: Expect
+      @include expect {
+        font: normal normal bold 1px / normal #{$base-font};
+      }
+    }
+  }
+
+  @include it('should create font property with default params') {
+    // :: Case
+    @include assert {
+      // :: Output
+      @include output {
+        @include font();
+      }
+
+      // :: Expect
+      @include expect {
+        font: normal normal normal inherit / normal #{$base-font};
+      }
+    }
+  }
+}
+
+@include describe('Font function') {
+  @include it('should create font property value') {
+    @include assert-equal(font($size: 1px, $weight: bold), normal normal bold 1px / normal #{$base-font});
+  }
+
+  @include it('should create font property value with default params') {
+    @include assert-equal(font(), normal normal normal inherit / normal #{$base-font});
+  }
+}

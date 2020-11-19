@@ -1,0 +1,53 @@
+@use '~sass-true' as *;
+@use './index' as *;
+
+// Shorthand mixin for width and height.
+@include describe('Size mixin') {
+  // :: Case
+  @include it('should define width and height by list') {
+    @include assert {
+      // :: Output
+      @include output {
+        @include size(1px 2px);
+      }
+
+      // :: Expect
+      @include expect {
+        width: 1px;
+        height: 2px;
+      }
+    }
+  }
+
+  // :: Case
+  @include it('should define width and height by diff params') {
+    @include assert {
+      // :: Output
+      @include output {
+        @include size(1px, 2px);
+      }
+
+      // :: Expect
+      @include expect {
+        width: 1px;
+        height: 2px;
+      }
+    }
+  }
+
+  // :: Case
+  @include it('should define width and height by single param') {
+    @include assert {
+      // :: Output
+      @include output {
+        @include size(1px);
+      }
+
+      // :: Expect
+      @include expect {
+        width: 1px;
+        height: 1px;
+      }
+    }
+  }
+}
