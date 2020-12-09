@@ -1,6 +1,6 @@
 {
   "name": "@stylize/sass",
-  "version": "0.0.1-rc.1",
+  "version": "0.0.1-rc.2",
   "scripts": {
     "doc": "sassdoc **/index.scss",
     "test": "jest --env=node"

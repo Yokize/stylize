@@ -4,7 +4,26 @@
 // Shorthand mixin for flex.
 @include describe('Flex mixin') {
   // :: Case
-  @include it('should create flex properties') {
+  @include it('should create flex properties with list param') {
+    @include assert {
+      // :: Output
+      @include output {
+        @include flex(column flex-end stretch nowrap);
+      }
+
+      // :: Expect
+      @include expect {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        align-items: stretch;
+        flex-wrap: nowrap;
+      }
+    }
+  }
+
+  // :: Case
+  @include it('should create flex properties with diff params') {
     @include assert {
       // :: Output
       @include output {
@@ -42,7 +61,26 @@
 // Shorthand mixin for inline-flex.
 @include describe('Inline Flex mixin') {
   // :: Case
-  @include it('should create flex properties') {
+  @include it('should create flex properties with list param') {
+    @include assert {
+      // :: Output
+      @include output {
+        @include inline-flex(row flex-start flex-end nowrap);
+      }
+
+      // :: Expect
+      @include expect {
+        display: inline-flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: flex-end;
+        flex-wrap: nowrap;
+      }
+    }
+  }
+
+  // :: Case
+  @include it('should create flex properties with diff params') {
     @include assert {
       // :: Output
       @include output {

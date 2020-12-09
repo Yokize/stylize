@@ -1,39 +1,92 @@
+@use 'sass:list';
+
 /// Base safe font.
+/// @group font
 $base-font: Arial, Helvetica, sans-serif !default;
 
-/// Shorthand mixin for font property.
-/// @param {String | Length} $size [inherit] - Font Size.
-/// @param {String | Length} $line [normal] - Line Height.
-/// @param {String | Number} $weight [normal] - Font Weight.
-/// @param {String | List} $family [$base-font] - Font Family.
-/// @param {String} $style [normal] - Font Style.
-/// @param {String} $variant [normal] - Font Variant.
-/// @group Font
-///
+/// Shorthand mixin for font property
+/// @require {function} _font_
+/// @param {List} $props - Font Props
+/// @group font
 /// @example
 ///   @include font(10px)
-///   @include font(10px, 20px)
-///   @include font(10px, normal, 300)
-///   @include font(10px, normal, 300, Arial)
-///   @include font(10px, normal, 300, Arial, italic)
-///   @include font(10px, normal, 300, Arial, normal, small-caps)
-@mixin font($size: inherit, $line: normal, $weight: normal, $family: $base-font, $style: normal, $variant: normal) {
-  font: font($size, $line, $weight, $family, $style, $variant);
+///   @include font(10px 16px)
+///   @include font(10px normal 300)
+///   @include font(10px normal 300 Arial)
+///   @include font(10px normal 300 (Arial, sans-serif) italic)
+///   @include font(10px normal 300 (Arial, sans-serif) normal small-caps)
+@mixin font($props: []) {
+  font: _font_($props);
 }
 
-/// Function to crete font property value.
-/// @param {String | Length} $size [inherit] - Font Size.
-/// @param {String | Length} $line [normal] - Line Height.
-/// @param {String | Number} $weight [normal] - Font Weight.
-/// @param {String | List} $family [$base-font] - Font Family.
-/// @param {String} $style [normal] - Font Style.
-/// @param {String} $variant [normal] - Font Variant.
-/// @group Font
-///
+/// Shorthand mixin for font property
+/// @require {function} _font_
+/// @param {String | Length} $size [inherit] - Font Size
+/// @param {String | Length} $line [normal] - Line Height
+/// @param {String | Number} $weight [normal] - Font Weight
+/// @param {String | List} $family [$base-font] - Font Family
+/// @param {String} $style [normal] - Font Style
+/// @param {String} $variant [normal] - Font Variant
+/// @group font
+/// @example
+///   @include font(10px)
+///   @include font(10px, 16px)
+///   @include font(10px, normal, 300)
+///   @include font(10px, normal, 300, Arial)
+///   @include font(10px, normal, 300, (Arial, sans-serif), italic)
+///   @include font(10px, normal, 300, (Arial, sans-serif), normal, small-caps)
+@mixin font($size: inherit, $line: normal, $weight: normal, $family: $base-font, $style: normal, $variant: normal) {
+  font: _font_($size, $line, $weight, $family, $style, $variant);
+}
+
+/// Function to create font property value
+/// @require {function} _font_
+/// @param {List} $props - Font Props
+/// @group font
 /// @example
 ///   font(10px)
-///   font(10px, 1)
-///   font(10px, 1, 300)
+///   font(10px 16px)
+///   font(10px normal 300)
+///   font(10px normal 300 Arial)
+///   font(10px normal 300 (Arial, sans-serif) italic)
+///   font(10px normal 300 (Arial, sans-serif) normal small-caps)
+@function font($props: []) {
+  @return _font_($props);
+}
+
+/// Function to create font property value
+/// @require {function} _font_
+/// @param {String | Length} $size [inherit] - Font Size
+/// @param {String | Length} $line [normal] - Line Height
+/// @param {String | Number} $weight [normal] - Font Weight
+/// @param {String | List} $family [$base-font] - Font Family
+/// @param {String} $style [normal] - Font Style
+/// @param {String} $variant [normal] - Font Variant
+/// @group font
+/// @example
+///   font(10px)
+///   font(10px, 16px)
+///   font(10px, normal, 300)
+///   font(10px, normal, 300, Arial)
+///   font(10px, normal, 300, (Arial, sans-serif), italic)
+///   font(10px, normal, 300, (Arial, sans-serif), normal, small-caps)
 @function font($size: inherit, $line: normal, $weight: normal, $family: $base-font, $style: normal, $variant: normal) {
-  @return #{$style} #{$variant} #{$weight} #{$size} / #{$line} #{$family};
+  @return _font_($size, $line, $weight, $family, $style, $variant);
+}
+
+/// Internal function to generate font property value
+/// @param {String | Length | List} $size - Font Size
+/// @param {String | Length} $line [normal] - Line Height
+/// @param {String | Number} $weight [normal] - Font Weight
+/// @param {String | List} $family [$base-font] - Font Family
+/// @param {String} $style [normal] - Font Style
+/// @param {String} $variant [normal] - Font Variant
+/// @group font
+/// @ignore
+@function _font_($size, $line: normal, $weight: normal, $family: $base-font, $style: normal, $variant: normal) {
+  @if list.length($size) > 1 {
+    @return (_font_($size...));
+  } @else {
+    @return #{$style} #{$variant} #{$weight} #{$size} / #{$line} #{$family};
+  }
 }

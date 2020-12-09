@@ -9,7 +9,7 @@
       // :: Output
       @include output {
         .text {
-          @include before {
+          @include before('↺') {
             font-weight: normal;
           }
         }
@@ -18,7 +18,7 @@
       // :: Expect
       @include expect {
         .text::before {
-          content: '';
+          content: '↺';
           font-weight: normal;
         }
       }
@@ -34,7 +34,7 @@
       // :: Output
       @include output {
         .text {
-          @include after {
+          @include after('↺') {
             font-weight: normal;
           }
         }
@@ -43,7 +43,7 @@
       // :: Expect
       @include expect {
         .text::after {
-          content: '';
+          content: '↺';
           font-weight: normal;
         }
       }
