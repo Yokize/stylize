@@ -4,7 +4,24 @@
 // Shorthand mixin for absolute position.
 @include describe('Absolute mixin') {
   // :: Case
-  @include it('should define absolute position') {
+  @include it('should define absolute position with list param') {
+    @include assert {
+      // :: Output
+      @include output {
+        @include absolute(0 null 0);
+      }
+
+      // :: Expect
+      @include expect {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+      }
+    }
+  }
+
+  // :: Case
+  @include it('should define absolute position with diff params') {
     @include assert {
       // :: Output
       @include output {
@@ -19,12 +36,44 @@
       }
     }
   }
+
+  // :: Case
+  @include it('should define absolute position with default params') {
+    @include assert {
+      // :: Output
+      @include output {
+        @include absolute;
+      }
+
+      // :: Expect
+      @include expect {
+        position: absolute;
+      }
+    }
+  }
 }
 
 // Shorthand mixin for fixed position.
 @include describe('Fixed mixin') {
   // :: Case
-  @include it('should define fixed position') {
+  @include it('should define fixed position with list param') {
+    @include assert {
+      // :: Output
+      @include output {
+        @include fixed(0 null 0);
+      }
+
+      // :: Expect
+      @include expect {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+      }
+    }
+  }
+
+  // :: Case
+  @include it('should define fixed position with diff param') {
     @include assert {
       // :: Output
       @include output {
@@ -39,12 +88,44 @@
       }
     }
   }
+
+  // :: Case
+  @include it('should define fixed position with default param') {
+    @include assert {
+      // :: Output
+      @include output {
+        @include fixed;
+      }
+
+      // :: Expect
+      @include expect {
+        position: fixed;
+      }
+    }
+  }
 }
 
 // Shorthand mixin for relative position.
 @include describe('Relative mixin') {
   // :: Case
-  @include it('should define relative position') {
+  @include it('should define relative position with list param') {
+    @include assert {
+      // :: Output
+      @include output {
+        @include relative(0 null 0);
+      }
+
+      // :: Expect
+      @include expect {
+        position: relative;
+        top: 0;
+        bottom: 0;
+      }
+    }
+  }
+
+  // :: Case
+  @include it('should define relative position with diff param') {
     @include assert {
       // :: Output
       @include output {
@@ -59,12 +140,44 @@
       }
     }
   }
+
+  // :: Case
+  @include it('should define relative position with default param') {
+    @include assert {
+      // :: Output
+      @include output {
+        @include relative;
+      }
+
+      // :: Expect
+      @include expect {
+        position: relative;
+      }
+    }
+  }
 }
 
 // Shorthand mixin for sticky position.
 @include describe('Sticky mixin') {
   // :: Case
-  @include it('should define sticky position') {
+  @include it('should define sticky position with list param') {
+    @include assert {
+      // :: Output
+      @include output {
+        @include sticky(0 null 0);
+      }
+
+      // :: Expect
+      @include expect {
+        position: sticky;
+        top: 0;
+        bottom: 0;
+      }
+    }
+  }
+
+  // :: Case
+  @include it('should define sticky position with diff param') {
     @include assert {
       // :: Output
       @include output {
@@ -76,6 +189,21 @@
         position: sticky;
         top: 0;
         bottom: 0;
+      }
+    }
+  }
+
+  // :: Case
+  @include it('should define sticky position with default param') {
+    @include assert {
+      // :: Output
+      @include output {
+        @include sticky;
+      }
+
+      // :: Expect
+      @include expect {
+        position: sticky;
       }
     }
   }

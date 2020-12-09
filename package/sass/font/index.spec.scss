@@ -4,7 +4,22 @@
 // Shorthand mixin for font.
 @include describe('Font mixin') {
   // :: Case
-  @include it('should create font property') {
+  @include it('should create font property with list param') {
+    @include assert {
+      // :: Output
+      @include output {
+        @include font(10px 10px 300 (Arial, san-sarif) italic);
+      }
+
+      // :: Expect
+      @include expect {
+        font: italic normal 300 10px / 10px Arial, san-sarif;
+      }
+    }
+  }
+
+  // :: Case
+  @include it('should create font property with diff params') {
     @include assert {
       // :: Output
       @include output {
@@ -23,7 +38,7 @@
     @include assert {
       // :: Output
       @include output {
-        @include font();
+        @include font;
       }
 
       // :: Expect
@@ -35,7 +50,11 @@
 }
 
 @include describe('Font function') {
-  @include it('should create font property value') {
+  @include it('should create font property value with list param') {
+    @include assert-equal(font(1px normal bold), normal normal bold 1px / normal #{$base-font});
+  }
+
+  @include it('should create font property value with diff params') {
     @include assert-equal(font($size: 1px, $weight: bold), normal normal bold 1px / normal #{$base-font});
   }
 

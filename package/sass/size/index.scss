@@ -1,17 +1,36 @@
 @use 'sass:list';
 
-/// Shorthand to define width and height.
-/// @param {Length | List} $width - Width or size.
-/// @param {Length} $height [null] - Height.
-/// @group Size
-///
+/// Shorthand to define width and height
+/// @require {mixin} _size_
+/// @param {List} $size - Width and height
+/// @group size
 /// @example
 ///   @include size(10px)
 ///   @include size(10px 20px)
+@mixin size($size: []) {
+  @include _size_($size);
+}
+
+/// Shorthand to define width and height
+/// @require {mixin} _size_
+/// @param {Length} $width - Width
+/// @param {Length} $height [null] - Height
+/// @group size
+/// @example
+///   @include size(10px)
 ///   @include size(10px, 20px)
 @mixin size($width, $height: null) {
+  @include _size_($width, $height);
+}
+
+/// Internal mixin to generate width and height property
+/// @param {Length | List} $width [null] - Width or Size
+/// @param {Length} $height [null] - Height
+/// @group size
+/// @ignore
+@mixin _size_($width: null, $height: null) {
   @if (list.length($width) == 2) {
-    @include size($width...);
+    @include _size_($width...);
   } @else {
     @if ($height == null) {
       $height: $width;

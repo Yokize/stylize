@@ -4,7 +4,7 @@
 // Shorthand mixin for width and height.
 @include describe('Size mixin') {
   // :: Case
-  @include it('should define width and height by list') {
+  @include it('should define width and height c list param') {
     @include assert {
       // :: Output
       @include output {
@@ -20,7 +20,7 @@
   }
 
   // :: Case
-  @include it('should define width and height by diff params') {
+  @include it('should define width and height with diff params') {
     @include assert {
       // :: Output
       @include output {
@@ -36,7 +36,7 @@
   }
 
   // :: Case
-  @include it('should define width and height by single param') {
+  @include it('should define width and height with single param') {
     @include assert {
       // :: Output
       @include output {
