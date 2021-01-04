@@ -1,0 +1,89 @@
+@use 'sass:list';
+@use 'sass:string';
+@forward 'sass:string';
+
+/// Replace $search with $replace in $string
+/// @param {String} $string - The string in which to replace
+/// @param {String} $search - Substring to find and replace
+/// @param {String} $replace [''] - New value
+/// @return {String} The string with replacement
+/// @author Nojukubi
+/// @group string
+/// @example
+///   replace('search-string', '-string')
+///   replace('search-string', '-string', '-str')
+@function replace($string, $search, $replace: '') {
+  $index: string.index($string, $search);
+
+  @if $index != null {
+    @return string.slice($string, 1, $index - 1) + $replace +
+      replace(string.slice($string, $index + string.length($search)), $search, $replace);
+  }
+
+  @return $string;
+}
+
+/// Split $string with $separator into substrings
+/// @param {String} $string - The string to split
+/// @param {String} $separator - The string separator
+/// @return {List | String} The list of substrings
+/// @author Nojukubi
+/// @group string
+/// @example
+///   split('-str1-str2-', '-')
+@function split($string, $separator) {
+  $index: string.index($string, $separator);
+
+  @if $index != null {
+    @return list.join(
+      string.slice($string, 1, $index - 1),
+      split(string.slice($string, $index + string.length($separator)), $separator)
+    );
+  }
+
+  @return $string;
+}
+
+/// Removes leading and trailing $char from $string
+/// @param {String} $string - The string to trim
+/// @return {String} The trimmed string from char
+/// @author Nojukubi
+/// @group string
+/// @example
+///   trim(' string ')
+///   trim('-string-', '-')
+@function trim($string, $char: ' ') {
+  @return trim-start(trim-end($string, $char), $char);
+}
+
+/// Removes trailing $char from $string
+/// @param {String} $string - The string to trim
+/// @return {String} The trimmed string from char
+/// @author Nojukubi
+/// @group string
+/// @example
+///   trim-end('string ')
+///   trim-end('string-', '-')
+@function trim-end($string, $char: ' ') {
+  @if (string.slice($string, string.length($string), -1) == $char) {
+    @return trim-end(string.slice($string, 1, -2));
+  } @else {
+    @return $string;
+  }
+}
+
+/// Removes leading $char from $string
+/// @param {String} $string - The string to trim
+/// @return {String} The trimmed string from char
+/// @author Nojukubi
+/// @group string
+/// @example
+///   trim-start(' string')
+///   trim-start('-string', '-')
+@function trim-start($string, $char: ' ') {
+  @if (string.slice($string, 1, 1) == $char) {
+    @return trim-start(string.slice($string, 2));
+  } @else {
+    @return $string;
+  }
+}

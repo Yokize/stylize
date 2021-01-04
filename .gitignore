@@ -9,7 +9,7 @@ sassdoc
 common/temp
 node_modules
 package-deps*
-yarn.lock
+shrinkwrap*
 
 # Log
 *.log

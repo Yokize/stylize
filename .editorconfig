@@ -1,33 +1,33 @@
 # EditorConfig helps maintain consistent coding styles for multiple
-# developers working on the same project across various editors.
+# developers working on the same project across various editors and IDEs.
 # © EditorConfig <https://editorconfig.org>
 root = true
 
 [*]
-# Character encoding.
+# Character encoding
 charset = utf-8
 
-# Line ending.
+# Line ending with LF
 end_of_line = lf
 
-# Indentation size.
+# Indentation min size
 indent_size = 2
 
-# Indentation style.
+# Indentation space style
 indent_style = space
 
-# End file with a newline.
+# End file with a newline
 insert_final_newline = true
 
-# Max line length.
+# Max line length to wrap on
 max_line_length = 120
 
-# Trim whitespace at the end of line.
+# Trim whitespace at the end of line
 trim_trailing_whitespace = true
 
 [*.md]
-# Not limited line length.
+# Not limited max line length
 max_line_length = off
 
-# Whitespace is allowed at the end of line.
+# Whitespace is allowed at the end of line
 trim_trailing_whitespace = false

@@ -1,0 +1,36 @@
+@use '~sass-true' as test;
+@use './index' as meta;
+
+@include test.describe('Meta') {
+  @include test.describe('is-list') {
+    @include test.it('should determine variable as list') {
+      @include test.assert-equal(meta.is-list(item1 item2), true);
+      @include test.assert-equal(meta.is-list(item1), false);
+    }
+  }
+
+  @include test.describe('is-map') {
+    @include test.it('should determine variable as map') {
+      // prettier-ignore
+      @include test.assert-equal(meta.is-map((1: item)), true);
+      @include test.assert-equal(meta.is-map(item1), false);
+      @include test.assert-equal(meta.is-map(item1 item2), false);
+    }
+  }
+
+  @include test.describe('is-number') {
+    @include test.it('should determine variable as number') {
+      @include test.assert-equal(meta.is-number(1), true);
+      @include test.assert-equal(meta.is-number(1px), true);
+      @include test.assert-equal(meta.is-number(item1), false);
+    }
+  }
+
+  @include test.describe('is-string') {
+    @include test.it('should determine variable as string') {
+      @include test.assert-equal(meta.is-string(px), true);
+      @include test.assert-equal(meta.is-string(1px), false);
+      @include test.assert-equal(meta.is-string(item1 item2), false);
+    }
+  }
+}

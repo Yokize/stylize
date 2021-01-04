@@ -1,7 +1,8 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush.schema.json",
   "rushVersion": "5.35.2",
-  "yarnVersion": "1.22.10",
+  "pnpmVersion": "5.14.3",
+  "projectFolderMaxDepth": 3,
   "suppressNodeLtsWarning": true,
   "ensureConsistentVersions": true,
   "repository": {
@@ -11,6 +12,26 @@
     {
       "packageName": "@stylize/sass",
       "projectFolder": "package/sass",
+      "shouldPublish": true
+    },
+    {
+      "packageName": "@stylize/sass-tool",
+      "projectFolder": "common/tools/sass",
+      "shouldPublish": false
+    },
+    {
+      "packageName": "@stylize/sass-func",
+      "projectFolder": "package/sass-func",
+      "shouldPublish": true
+    },
+    {
+      "packageName": "@stylize/sass-mixin",
+      "projectFolder": "package/sass-mixin",
+      "shouldPublish": true
+    },
+    {
+      "packageName": "@stylize/sass-triangle",
+      "projectFolder": "package/sass-triangle",
       "shouldPublish": true
     }
   ]

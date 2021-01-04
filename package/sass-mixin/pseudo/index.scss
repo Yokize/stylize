@@ -1,0 +1,29 @@
+/// Shorthand mixin for before pseudo
+/// @param {String} $content - Content
+/// @author Nojukubi
+/// @group pseudo
+/// @content
+/// @example
+///    @include before {}
+///    @include before('↺') {}
+@mixin before($content: '') {
+  &::before {
+    content: $content;
+    @content;
+  }
+}
+
+/// Shorthand mixin for after pseudo
+/// @param {String} $content - Content
+/// @author Nojukubi
+/// @group pseudo
+/// @content
+/// @example
+///    @include after {}
+///    @include after('↺') {}
+@mixin after($content: '') {
+  &::after {
+    content: $content;
+    @content;
+  }
+}
