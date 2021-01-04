@@ -1,0 +1,39 @@
+@use '~@stylize/sass-func/list';
+
+/// Shorthand to define width and height
+/// @param {List} $size - Width and height
+/// @author Nojukubi
+/// @group size
+/// @example
+///   @include size(10px)
+///   @include size(10px 20px)
+@mixin size($size: []) {
+  @include -size-($size);
+}
+
+/// Shorthand to define width and height
+/// @param {Length} $width - Width
+/// @param {Length} $height [null] - Height
+/// @author Nojukubi
+/// @group size
+/// @example
+///   @include size(10px)
+///   @include size(10px, 20px)
+@mixin size($width, $height: null) {
+  @include -size-($width, $height);
+}
+
+/// Internal mixin to generate width and height property
+/// @ignore
+@mixin -size-($width: null, $height: null) {
+  @if (list.length($width) == 2) {
+    @include -size-($width...);
+  } @else {
+    @if ($height == null) {
+      $height: $width;
+    }
+
+    width: $width;
+    height: $height;
+  }
+}

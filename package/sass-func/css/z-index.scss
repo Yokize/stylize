@@ -1,0 +1,67 @@
+@use '../list';
+@use '../map';
+@use '../meta';
+
+/// Z-index layers
+/// @ignore
+$-z: ();
+
+/// Determine whether config ready
+/// @ignore
+$-is-ready: null;
+
+/// Configure z-index layers to be used by index
+/// @param {List|Map} $z-mapping - Z mapping
+/// @param {Number} $base [0] - Base index
+/// @param {ArgList} $path - Path for nesting
+/// @author Nojukubi
+/// @group z-index
+/// @example
+///   configure(footer header)
+///   configure(footer header, 100)
+///   configure(footer header, 100, page)
+@function configure($z-config, $base: 0, $path...) {
+  $-is-ready: true !global;
+
+  @if meta.is-list($z-config) or meta.is-string($z-config) {
+    $z-config: -to-config($z-config, $base);
+  }
+
+  @if list.is-empty($path) {
+    $-z: map.merge($-z, $z-config) !global;
+  } @else {
+    $-z: map.set($-z, $path..., $z-config) !global;
+  }
+
+  @return $-z;
+}
+
+/// Get z-index by $path namespace
+/// @param {ArgList} $path - Z-index path
+/// @author Nojukubi
+/// @group z-index
+/// @example
+///   z-index(modal)
+///   z-index(page, header)
+@function index($path...) {
+  $path: list.flatten($path);
+
+  @if not $-is-ready {
+    $_: configure($-z);
+    $-is-ready: true !global;
+  }
+
+  @return map.get($-z, $path...);
+}
+
+/// Internal function to convert config to proper format
+/// @ignore
+@function -to-config($z-config, $base) {
+  $z-config-map: ();
+
+  @for $index from 1 through list.length($z-config) {
+    $z-config-map: map.set($z-config-map, list.nth($z-config, $index), $index + $base);
+  }
+
+  @return $z-config-map;
+}

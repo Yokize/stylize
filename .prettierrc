@@ -3,14 +3,8 @@
 # reprinting the parsed AST with its own rules.
 # © Prettier <https://prettier.io>
 
-# LF at the end of the line.
-endOfLine: lf
-
-# Line length used to wrap on.
-printWidth: 120
-
-# Single quotes for string literal.
+# Single quotes for string literal
 singleQuote: true
 
-# No trailing commas on multi-line.
+# No trailing commas on multi-line
 trailingComma: none

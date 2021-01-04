@@ -1,0 +1,182 @@
+@use '~@stylize/sass-func/list';
+
+/// Shorthand mixin for position property
+/// @param {List} $props - Position Props
+/// @author Nojukubi
+/// @group position
+/// @example
+///   @include position(absolute)
+///   @include position(absolute 0 null);
+///   @include position(absolute 0 1px 0);
+///   @include position(absolute 0 1px 0 null);
+///   @include position(absolute 0 1px 0 1px 1);
+@mixin position($props: []) {
+  // Autocomplete purpose
+}
+
+/// Shorthand mixin for position property
+/// @param {String} $position - Position (`relative`, `absolute`, etc.)
+/// @param {Length} $top [null] - Top offset
+/// @param {Length} $right [null] - Right offset
+/// @param {Length} $bottom [null] - Bottom offset
+/// @param {Length} $left [null] - Left offset
+/// @param {Number} $z-index [null] - Stack order
+/// @author Nojukubi
+/// @group position
+/// @example
+///   @include position(absolute)
+///   @include position(absolute, 0, null);
+///   @include position(absolute, 0, 1px, 0);
+///   @include position(absolute, 0, 1px, 0, null);
+///   @include position(absolute, 0, 1px, 0, 1px, 1);
+///   @include position($position: absolute, $top: 0, $z-index: 1);
+@mixin position($position, $top: null, $right: null, $bottom: null, $left: null, $z-index: null) {
+  @include -position-($position, $top, $right, $bottom, $left, $z-index);
+}
+
+/// Shorthand mixin for absolute position
+/// @param {List} $props - Props
+/// @author Nojukubi
+/// @group position
+/// @example
+///   @include absolute
+///   @include absolute(0 null);
+///   @include absolute(0 1px 0);
+///   @include absolute(0 1px 0 null);
+///   @include absolute(0 1px 0 1px 1);
+@mixin absolute($props: []) {
+  // Autocomplete purpose
+}
+
+/// Shorthand mixin for absolute position
+/// @param {Length} $top [null] - Top offset
+/// @param {Length} $right [null] - Right offset
+/// @param {Length} $bottom [null] - Bottom offset
+/// @param {Length} $left [null] - Left offset
+/// @param {Number} $z-index [null] - Stack order
+/// @author Nojukubi
+/// @group position
+/// @example
+///   @include absolute
+///   @include absolute(0, null);
+///   @include absolute(0, 1px 0);
+///   @include absolute(0, 1px 0 null);
+///   @include absolute(0, 1px 0 1px 1);
+///   @include absolute($top: 0, $z-index: 1);
+@mixin absolute($top: null, $right: null, $bottom: null, $left: null, $z-index: null) {
+  @include -position-(absolute, $top, $right, $bottom, $left, $z-index);
+}
+
+/// Shorthand mixin for fixed position
+/// @param {List} $props - Props
+/// @author Nojukubi
+/// @group position
+/// @example
+///   @include fixed
+///   @include fixed(0 null);
+///   @include fixed(0 1px 0);
+///   @include fixed(0 1px 0 null);
+///   @include fixed(0 1px 0 1px 1);
+@mixin fixed($props: []) {
+  // Autocomplete purpose
+}
+
+/// Shorthand mixin for fixed position
+/// @param {Length} $top [null] - Top offset
+/// @param {Length} $right [null] - Right offset
+/// @param {Length} $bottom [null] - Bottom offset
+/// @param {Length} $left [null] - Left offset
+/// @param {Number} $z-index [null] - Stack order
+/// @author Nojukubi
+/// @group position
+/// @example
+///   @include fixed
+///   @include fixed(0, null);
+///   @include fixed(0, 1px 0);
+///   @include fixed(0, 1px 0 null);
+///   @include fixed(0, 1px 0 1px 1);
+///   @include fixed($top: 0, $z-index: 1);
+@mixin fixed($top: null, $right: null, $bottom: null, $left: null, $z-index: null) {
+  @include -position-(fixed, $top, $right, $bottom, $left, $z-index);
+}
+
+/// Shorthand mixin for relative position
+/// @param {List} $props - Props
+/// @author Nojukubi
+/// @group position
+/// @example
+///   @include relative
+///   @include relative(0 null);
+///   @include relative(0 1px 0);
+///   @include relative(0 1px 0 null);
+///   @include relative(0 1px 0 1px 1);
+@mixin relative($props: []) {
+  // Autocomplete purpose
+}
+
+/// Shorthand mixin for relative position
+/// @param {Length} $top [null] - Top offset
+/// @param {Length} $right [null] - Right offset
+/// @param {Length} $bottom [null] - Bottom offset
+/// @param {Length} $left [null] - Left offset
+/// @param {Number} $z-index [null] - Stack order
+/// @author Nojukubi
+/// @group position
+/// @example
+///   @include relative
+///   @include relative(0, null);
+///   @include relative(0, 1px 0);
+///   @include relative(0, 1px 0 null);
+///   @include relative(0, 1px 0 1px 1);
+///   @include relative($top: 0, $z-index: 1);
+@mixin relative($top: null, $right: null, $bottom: null, $left: null, $z-index: null) {
+  @include -position-(relative, $top, $right, $bottom, $left, $z-index);
+}
+
+/// Shorthand mixin for sticky position
+/// @param {List} $props - Props
+/// @author Nojukubi
+/// @group position
+/// @example
+///   @include sticky
+///   @include sticky(0 null);
+///   @include sticky(0 1px 0);
+///   @include sticky(0 1px 0 null);
+///   @include sticky(0 1px 0 1px 1);
+@mixin sticky($props: []) {
+  // Autocomplete purpose
+}
+
+/// Shorthand mixin for sticky position
+/// @param {Length} $top [null] - Top offset
+/// @param {Length} $right [null] - Right offset
+/// @param {Length} $bottom [null] - Bottom offset
+/// @param {Length} $left [null] - Left offset
+/// @param {Number} $z-index [null] - Stack order
+/// @author Nojukubi
+/// @group position
+/// @example
+///   @include sticky
+///   @include sticky(0, null);
+///   @include sticky(0, 1px 0);
+///   @include sticky(0, 1px 0 null);
+///   @include sticky(0, 1px 0 1px 1);
+///   @include sticky($top: 0, $z-index: 1);
+@mixin sticky($top: null, $right: null, $bottom: null, $left: null, $z-index: null) {
+  @include -position-(sticky, $top, $right, $bottom, $left, $z-index);
+}
+
+/// Internal function to generate position property
+/// @ignore
+@mixin -position-($position, $top: null, $right: null, $bottom: null, $left: null, $z-index: null) {
+  @if list.has-multiple($top) {
+    @include -position-($position, $top...);
+  } @else {
+    position: $position;
+    top: $top;
+    right: $right;
+    bottom: $bottom;
+    left: $left;
+    z-index: $z-index;
+  }
+}

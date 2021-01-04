@@ -1,0 +1,269 @@
+@use '../meta';
+@use '../string';
+@use 'sass:list';
+@forward 'sass:list';
+
+/// Determine whether the $list contains the $item
+/// @param {List} $list - List with items
+/// @param {Any} $item - Item to check
+/// @return {Bool} True if contains item; false otherwise
+/// @author Nojukubi
+/// @group list
+/// @example
+///   contains(item1 item2, item1)
+@function contains($list, $item) {
+  @return not not list.index($list, $item);
+}
+
+/// Iterate through the list and call the function on each item
+/// @param {List} $list - List to iterate over
+/// @param {Function} $function - Function to call on item
+/// @param {ArgList} $args - Extra arguments passed to function
+/// @return {List} New list with function result for each item
+/// @author Nojukubi
+/// @group list
+/// @example
+///   each(item1 item2, meta.get-function(is-string))
+@function each($list, $function, $args...) {
+  @for $index from 1 through list.length($list) {
+    $arguments: list.join(list.nth($list, $index), $args);
+    $list: list.set-nth($list, $index, meta.call($function, $arguments...));
+  }
+
+  @return $list;
+}
+
+/// Determine if predicate returns true for all items in the list
+/// @param {List} $list - List to iterate over
+/// @param {Function} $predicate - Predicate function
+/// @param {ArgList} $args - Extra arguments passed to function
+/// @return {Bool} True if all items fit the predicate
+/// @author Nojukubi
+/// @group list
+/// @example
+///   every(item1 item2, meta.get-function(is-string))
+@function every($list, $predicate, $args...) {
+  @each $item in $list {
+    @if not meta.call($predicate, $item, $args...) {
+      @return false;
+    }
+  }
+
+  @return true;
+}
+
+/// Fill out the $list with a certain number of items
+/// @param {List} $list - List to fill out
+/// @param {Number} $amount - Amount of items
+/// @param {Any} $value [null] - Value to set
+/// @return {List} List with filled items
+/// @author Nojukubi
+/// @group list
+/// @example
+///   fill(item1 item2, 4, 0)
+@function fill($list, $amount, $value: null) {
+  // New list with existing items
+  $result: list.join((), $list, list.separator($list));
+  // In case there is space to fill
+  @if (list.length($list) < $amount) {
+    @for $index from list.length($list) + 1 through $amount {
+      $result: list.append($result, $value, list.separator($index));
+    }
+  }
+
+  @return $result;
+}
+
+/// Get the first item on the $list
+/// @param {List} $list - List with items
+/// @return {Any} First item from the list
+/// @author Nojukubi
+/// @group list
+/// @example
+///   first(item1 item2)
+@function first($list) {
+  @return list.nth($list, 1);
+}
+
+/// Make the list flattened to the specified depth level
+/// @param {List} $list - List to be flattened
+/// @param {Number} $depth [null] - Depth level
+/// @return {List} Flattened list to defined depth level
+/// @author Nojukubi
+/// @group list
+/// @example
+///   flatten(item1 item2, item3 item4)
+@function flatten($list, $depth: null) {
+  $result: ();
+
+  @each $item in $list {
+    // In case the item is in the list and the depth is allowed
+    @if (has-multiple($item) and ($depth == null or $depth > 0)) {
+      // Recursive combination of items with depth level
+      $nFlatten: flatten($item, if($depth, $depth - 1, $depth));
+
+      @each $nItem in $nFlatten {
+        $result: list.append($result, $nItem, list.separator($list));
+      }
+    } @else {
+      $result: list.append($result, $item, list.separator($list));
+    }
+  }
+
+  @return $result;
+}
+
+/// Determine whether there is multiple items in the $list
+/// @param {List} $list - List to check
+/// @return {Bool} True if multiple items; false otherwise
+/// @author Nojukubi
+/// @group list
+/// @example
+///   has-multiple(item1 item2)
+@function has-multiple($list) {
+  @return list.length($list) > 1;
+}
+
+/// Insert $value at the $index to the $list
+/// @param {List} $list - List to extend
+/// @param {Number} $index - Index position
+/// @param {Any} $value - Value to insert
+/// @return {List} The extended list with new value
+/// @author Nojukubi
+/// @group list
+/// @example
+///   insert-nth(item1 item3, 2, item2)
+@function insert-nth($list, $index, $value) {
+  @if meta.type-of($index) != number {
+    @error '$index `#{string.quote($index)}` is not a number';
+  } @else if $index < 1 or $index > list.length($list) {
+    @error '$index `#{string.quote($index)}` must be in range between 1 and #{list.length($list)}';
+  }
+
+  $result: ();
+  @for $i from 1 through (list.length($list)) {
+    @if $i == $index {
+      $result: list.append($result, $value);
+    }
+
+    $result: list.append($result, list.nth($list, $i));
+  }
+
+  @return $result;
+}
+
+/// Determine whether the $list is empty
+/// @param {List} $list - List to check
+/// @return {Bool} True if empty; false otherwise
+/// @author Nojukubi
+/// @group list
+/// @example
+///   is-empty([])
+///   is-empty(item1 item2)
+@function is-empty($list) {
+  @return list.length($list) == 0;
+}
+
+/// Determine whether there is only one item in the $list
+/// @param {List} $list - List to check
+/// @return {Bool} True if one item; false otherwise
+/// @author Nojukubi
+/// @group list
+/// @example
+///   is-single(item)
+@function is-single($list) {
+  @return list.length($list) == 1;
+}
+
+/// Get the last item on the $list
+/// @param {List} $list - List with items
+/// @return {Any} Last item from the list
+/// @author Nojukubi
+/// @group list
+/// @example
+///   last(item1 item2)
+@function last($list) {
+  @return list.nth($list, list.length($list));
+}
+
+/// Prepend an $item to the $list
+/// @param {List} $list - List to copy
+/// @param {Any} $item - Item to be added to the start
+/// @param {String} $separator [auto] - Separator (coma or space)
+/// @return {List} A copy of $list with $item added to the start
+/// @author Nojukubi
+/// @group list
+/// @example
+///   prepend(item1, item2)
+///   prepend(item1, item2, comma)
+@function prepend($list, $item, $separator: auto) {
+  @return list.join($item, $list, $separator);
+}
+
+/// Create a list with a specified range ($n)
+/// @param {Number} $n - Range
+/// @return {List} Created List
+/// @author Nojukubi
+/// @group list
+/// @example
+///   range(4)
+@function range($n) {
+  $range: ();
+
+  @for $i from 1 through $n {
+    $range: list.append($range, $i);
+  }
+
+  @return $range;
+}
+
+/// Slice $list between $start and $end
+/// @param {List} $list - List to slice
+/// @param {Number} $start [1] - Start index
+/// @param {Number} $end [length($list)] - End index
+/// @return {List} Fragment of the list
+/// @author Nojukubi
+/// @group list
+/// @example
+///   fill([1px], 4, 0)
+@function slice($list, $start: 1, $end: length($list)) {
+  $result: ();
+
+  @if list.length($list) < $start {
+    @return $result;
+  }
+
+  @for $i from $start through $end {
+    $result: list.append($result, list.nth($list, $i), list.separator($list));
+  }
+
+  @return $result;
+}
+
+/// Joins all the items of the list with glue
+/// @param {List} $list - List to join
+/// @param {String} $glue [''] - Glue
+/// @return {String} Joined items of the list with glue
+/// @author Nojukubi
+/// @group list
+/// @example
+///   to-string(item1 item2)
+///   to-string(item1 item2, ', ')
+@function to-string($list, $glue: '') {
+  $result: '';
+
+  @for $index from 1 through list.length($list) {
+    // Retrieve an item from the list by index
+    $item: list.nth($list, $index);
+    // Combine linear and nested items
+    $result: $result + if(has-multiple($item), to-string($item, $glue), $item);
+
+    // In case the last items the glue is not needed
+    @if $index != list.length($list) {
+      $result: $result + $glue;
+    }
+  }
+
+  // Unquote string to remove any single or double quotes
+  @return string.quote($result);
+}

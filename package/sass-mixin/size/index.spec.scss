@@ -1,0 +1,44 @@
+@use '~sass-true' as test;
+@use './index' as mixin;
+
+// Shorthand mixin for width and height.
+@include test.describe('Size mixin') {
+  @include test.it('should define width and height c list param') {
+    @include test.assert {
+      @include test.output {
+        @include mixin.size(1px 2px);
+      }
+
+      @include test.expect {
+        width: 1px;
+        height: 2px;
+      }
+    }
+  }
+
+  @include test.it('should define width and height with diff params') {
+    @include test.assert {
+      @include test.output {
+        @include mixin.size(1px, 2px);
+      }
+
+      @include test.expect {
+        width: 1px;
+        height: 2px;
+      }
+    }
+  }
+
+  @include test.it('should define width and height with single param') {
+    @include test.assert {
+      @include test.output {
+        @include mixin.size(1px);
+      }
+
+      @include test.expect {
+        width: 1px;
+        height: 1px;
+      }
+    }
+  }
+}

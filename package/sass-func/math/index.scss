@@ -1,0 +1,170 @@
+@use '../map';
+@use '../meta';
+@use '../list';
+@use '../string';
+@forward 'sass:math';
+
+/// Internal variables cache
+/// @ignore
+$-cache: [];
+
+/// Units of measurement for Time
+/// @author Nojukubi
+/// @group math
+$unit-time: 1s 1ms 1%;
+
+/// Units of measurement for Angle
+/// @author Nojukubi
+/// @group math
+$unit-angle: 1deg 1grad 1rad 1turn 1%;
+
+/// Units of measurement for Frequency
+/// @author Nojukubi
+/// @group math
+$unit-frequency: 1hz 1khz 1%;
+
+/// Units of measurement for Resolution
+/// @author Nojukubi
+/// @group math
+$unit-resolution: 1dpi 1dpcm 1dppx 1x;
+
+/// Units of measurement for Length
+/// @author Nojukubi
+/// @group math
+$unit-length: 1cm 1mm 1in 1px 1pt 1pc 1em 1ex 1ch 1rem 1vw 1vh 1vmin 1vmax 1%;
+
+/// Units of measurement for CSS
+/// @author Nojukubi
+/// @group math
+$css-unit: list.flatten(($unit-time, $unit-angle, $unit-frequency, $unit-resolution, $unit-length));
+
+/// Determine whether $var is unit
+/// @param {String} $unit - Unit to check
+/// @return {Bool} True in the case of unit; otherwise false
+/// @author Nojukubi
+/// @group math
+/// @example
+///   is-unit(px)
+///   is-unit(dpi)
+@function is-unit($unit) {
+  @return meta.is-number(-get-unit($unit));
+}
+
+/// Add specified $unit to the $number
+/// @param {Number} $number - Number to convert
+/// @param {String} $unit - Name of the unit
+/// @return {Number} Number with the unit
+/// @author Nojukubi
+/// @group math
+/// @example
+///   add-unit(1, px)
+///   add-unit(1, dpi)
+@function add-unit($number, $unit) {
+  @if not is-unit($unit) {
+    @error '`#{$unit}` is unknown unit';
+  }
+  // To add unit to number need to multiply by 1<unit>.
+  @return $number * -get-unit($unit);
+}
+
+/// Parse string and create the number
+/// @param {Any} $value - Value to parse
+/// @return {Number} Number; null in case not parsed
+/// @author Nojukubi
+/// @group math
+/// @example
+///   parse('10')
+///   parse('1px')
+///   parse('20dpi')
+@function parse($value) {
+  @if (meta.is-list($value)) {
+    @return $value;
+  } @else if (not meta.is-string($value)) {
+    @error 'Can be parsed only string type (Param: #{meta.type-of($value)})';
+  }
+
+  $result: null;
+  $divider: 0;
+  $operator: string.slice($value, 1, 1);
+  $negative: ($operator == '-');
+
+  // Remove operator character from value.
+  $value: if($operator == '+' or $operator == '-', string.slice($value, 2), $value);
+
+  @for $i from 1 through string.length($value) {
+    $char-str: string.slice($value, $i, $i);
+    $char-num: -get-number($char-str);
+
+    @if not(meta.is-number($char-num) or $char-str == '.') {
+      @if (meta.is-number($result)) {
+        $unit: string.slice($value, $i);
+        $result: if($negative, $result * -1, $result);
+        $result: if(is-unit($unit), add-unit($result, $unit), $result);
+      }
+
+      @return $result;
+    }
+
+    $result: if(meta.is-number($result), $result, 0);
+    @if $char-str == '.' {
+      $divider: 1;
+    } @else if $divider == 0 {
+      $result: $result * 10 + $char-num;
+    } @else {
+      $divider: $divider * 10;
+      $result: $result + ($char-num / $divider);
+    }
+  }
+
+  @return if($negative, $result * -1, $result);
+}
+
+/// Get unit in the numeric type (1<unit>) by the name (px, dpi)
+/// @ignore
+@function -get-unit($unit) {
+  @return map.get(-get-var('units', meta.get-function(-create-units-mapping)), $unit);
+}
+
+/// Get number in the numeric type (1, 2, 3) by the string ('1', '2')
+/// @ignore
+@function -get-number($num-str) {
+  @return map.get(-get-var('numbers', meta.get-function(-create-numbers-mapping)), $num-str);
+}
+
+/// Get variable from internal cache
+/// @ignore
+@function -get-var($name, $setFunction) {
+  // In case cache do not have var need to create it
+  @if (not map.has-key($-cache, $name)) {
+    // Set variable under global internal cache
+    $-cache: map.set($-cache, $name, meta.call($setFunction)) !global;
+  }
+
+  @return map.get($-cache, $name);
+}
+
+/// Create mapping between units in string and numeric type
+/// @ignore
+@function -create-units-mapping() {
+  $mapping: ();
+
+  @each $unit in $css-unit {
+    $mapping: map.set($mapping, string.quote(string.slice(meta.inspect($unit), 2)), $unit);
+  }
+
+  // Returns mapping with convert result
+  @return $mapping;
+}
+
+/// Create mapping between numbers in string and numeric type
+/// @ignore
+@function -create-numbers-mapping() {
+  $mapping: ();
+
+  @for $number from 0 through 9 {
+    $mapping: map.set($mapping, string.quote(#{$number}), $number);
+  }
+
+  // Returns mapping with convert result
+  @return $mapping;
+}

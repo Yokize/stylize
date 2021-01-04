@@ -1,0 +1,17 @@
+{
+  "name": "@stylize/sass-func",
+  "version": "0.0.1-rc.1",
+  "license": "MIT",
+  "scripts": {
+    "doc": "sasstool doc",
+    "test": "sasstool test"
+  },
+  "devDependencies": {
+    "@stylize/sass-tool": "^0.0.1"
+  },
+  "peerDependencies": {
+    "jest": "^26.x",
+    "sass": "^1.27.0",
+    "sass-true": "^6.x"
+  }
+}

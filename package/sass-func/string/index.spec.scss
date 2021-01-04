@@ -1,0 +1,54 @@
+@use '~sass-true' as test;
+@use './index' as string;
+
+@include test.describe('String') {
+  @include test.describe('replace') {
+    @include test.it('should replace the part of string with default replacement') {
+      @include test.assert-equal(string.replace(str1-str2, -str2), str1);
+    }
+
+    @include test.it('should replace the part of string with defined replacement') {
+      @include test.assert-equal(string.replace(str1-str2, str2, str3), str1-str3);
+    }
+  }
+
+  @include test.describe('split') {
+    @include test.it('should split string with separator into substrings') {
+      @include test.assert-equal(string.split(str1-str2, '-'), (str1 str2));
+    }
+
+    @include test.it('should split complex string with separator into substrings') {
+      @include test.assert-equal(string.split(-str1-str2-, '-'), ('' str1 str2 ''));
+    }
+  }
+
+  @include test.describe('trim') {
+    @include test.it('should remove leading and trailing character from string') {
+      @include test.assert-equal(string.trim('-str-', '-'), str);
+    }
+
+    @include test.it('should remove leading and trailing default whitespace from string') {
+      @include test.assert-equal(string.trim(' str '), str);
+    }
+  }
+
+  @include test.describe('trim-end') {
+    @include test.it('should remove trailing character from string') {
+      @include test.assert-equal(string.trim-end('-str-', '-'), '-str');
+    }
+
+    @include test.it('should remove trailing default whitespace from string') {
+      @include test.assert-equal(string.trim-end(' str '), ' str');
+    }
+  }
+
+  @include test.describe('trim-start') {
+    @include test.it('should remove leading character from string') {
+      @include test.assert-equal(string.trim-start('-str-', '-'), 'str-');
+    }
+
+    @include test.it('should remove leading default whitespace from string') {
+      @include test.assert-equal(string.trim-start(' str '), 'str ');
+    }
+  }
+}

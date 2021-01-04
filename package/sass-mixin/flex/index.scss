@@ -1,0 +1,79 @@
+@use '~@stylize/sass-func/list';
+
+/// Shorthand mixin for flex
+/// @param {List} $props - Flex Props
+/// @author Nojukubi
+/// @group flex
+/// @example
+///   @include flex
+///   @include flex(row)
+///   @include flex(row center)
+///   @include flex(row center stretch)
+///   @include flex(row center stretch wrap)
+@mixin flex($props...) {
+  // Autocomplete purpose
+}
+
+/// Shorthand mixin for flex
+/// @param {String} $direction [null] - Flex Direction
+/// @param {String} $justify [null] - Justify Content
+/// @param {String} $align [null] - Align Items
+/// @param {String} $wrap [null] - Flex Wrap
+/// @author Nojukubi
+/// @group flex
+/// @example
+///   @include flex
+///   @include flex(row)
+///   @include flex(row, center)
+///   @include flex(row, center, stretch)
+///   @include flex(row, center, stretch, wrap)
+///   @include flex($justify: center, $align: stretch)
+@mixin flex($direction: null, $justify: null, $align: null, $wrap: null) {
+  @include -flex-(flex, $direction, $justify, $align, $wrap);
+}
+
+/// Shorthand mixin for inline-flex
+/// @param {List} $props - Flex Props
+/// @author Nojukubi
+/// @group flex
+/// @example
+///   @include inline-flex
+///   @include inline-flex(row)
+///   @include inline-flex(row center)
+///   @include inline-flex(row center stretch)
+///   @include inline-flex(row center stretch wrap)
+@mixin inline-flex($props: []) {
+  // Autocomplete purpose
+}
+
+/// Shorthand mixin for inline-flex
+/// @param {String} $direction [null] - Flex Direction
+/// @param {String} $justify [null] - Justify Content
+/// @param {String} $align [null] - Align Items
+/// @param {String} $wrap [null] - Flex Wrap
+/// @author Nojukubi
+/// @group flex
+/// @example
+///   @include inline-flex
+///   @include inline-flex(row)
+///   @include inline-flex(row, center)
+///   @include inline-flex(row, center, stretch)
+///   @include inline-flex(row, center, stretch, wrap)
+///   @include inline-flex($justify: center, $align: stretch)
+@mixin inline-flex($direction: null, $justify: null, $align: null, $wrap: null) {
+  @include -flex-(inline-flex, $direction, $justify, $align, $wrap);
+}
+
+/// Internal mixin to generate flex properties
+/// @ignore
+@mixin -flex-($display, $direction: null, $justify: null, $align: null, $wrap: null) {
+  @if list.has-multiple($direction) {
+    @include -flex-($display, $direction...);
+  } @else {
+    display: $display;
+    flex-direction: $direction;
+    justify-content: $justify;
+    align-items: $align;
+    flex-wrap: $wrap;
+  }
+}

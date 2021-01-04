@@ -1,9 +1,5 @@
 sassdoc
-*.spec.*
 
-# Rush
-.rush
 *.log
-
-# OS
+*.spec.*
 .DS_Store

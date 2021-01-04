@@ -1,0 +1,53 @@
+@use '~sass-true' as test;
+@use './index' as css;
+
+// Mixin to create triangle with css border
+@include test.describe('Triangle mixin') {
+  @include test.it('should create triangle with css border (top)') {
+    @include test.assert {
+      @include test.output {
+        @include css.triangle(top #fff 10px 10px);
+      }
+
+      @include test.expect {
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-color: transparent transparent #fff transparent;
+        border-width: 0 5px 10px 5px;
+      }
+    }
+  }
+
+  @include test.it('should create triangle with css border (down)') {
+    @include test.assert {
+      @include test.output {
+        @include css.triangle(top, #fff, 10px, 10px);
+      }
+
+      @include test.expect {
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-color: transparent transparent #fff transparent;
+        border-width: 0 5px 10px 5px;
+      }
+    }
+  }
+
+  @include test.it('should create triangle with css border (top-left)') {
+    @include test.assert {
+      @include test.output {
+        @include css.triangle($direction: top-left, $color: #fff, $width: 10px, $height: 10px);
+      }
+
+      @include test.expect {
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-color: #fff transparent transparent transparent;
+        border-width: 10px 10px 0 0;
+      }
+    }
+  }
+}
