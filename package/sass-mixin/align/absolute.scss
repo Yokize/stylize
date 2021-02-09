@@ -1,0 +1,22 @@
+@use '../position' as p;
+
+/// Shorthand to cover parent container.
+/// @param {Length} $offset [0] - Offset
+/// @author Nojukubi
+/// @group align
+/// @example
+///   @include cover
+///   @include cover(10px)
+@mixin cover($offset: 0) {
+  @include p.absolute($offset $offset $offset $offset);
+}
+
+/// Shorthand to center in parent container.
+/// @author Nojukubi
+/// @group align
+/// @example
+///   @include center
+@mixin center() {
+  transform: translate(-50%, -50%);
+  @include p.absolute($top: 50%, $left: 50%);
+}
