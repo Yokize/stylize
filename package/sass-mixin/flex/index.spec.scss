@@ -1,9 +1,9 @@
 @use '~sass-true' as test;
 @use './index' as mixin;
 
-// Shorthand mixin for flex
+// Shorthand mixin for flex.
 @include test.describe('Flex mixin') {
-  @include test.it('should create flex properties with list param') {
+  @include test.it('should create flex properties with list') {
     @include test.assert {
       @include test.output {
         @include mixin.flex(column flex-end stretch nowrap);
@@ -19,7 +19,7 @@
     }
   }
 
-  @include test.it('should create flex properties with diff params') {
+  @include test.it('should create flex properties with params') {
     @include test.assert {
       @include test.output {
         @include mixin.flex(column, flex-end, stretch, nowrap);
@@ -62,7 +62,7 @@
 }
 
 @include test.describe('Inline Flex mixin') {
-  @include test.it('should create flex properties with list param') {
+  @include test.it('should create flex properties with list') {
     @include test.assert {
       @include test.output {
         @include mixin.inline-flex(row flex-start flex-end nowrap);
@@ -78,7 +78,7 @@
     }
   }
 
-  @include test.it('should create flex properties with diff params') {
+  @include test.it('should create flex properties with params') {
     @include test.assert {
       @include test.output {
         @include mixin.inline-flex(row, flex-start, flex-end, nowrap);

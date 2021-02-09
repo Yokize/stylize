@@ -1,6 +1,6 @@
 {
   "name": "@stylize/sass-mixin",
-  "version": "0.0.1-rc.2",
+  "version": "0.0.1-rc.3",
   "license": "MIT",
   "scripts": {
     "doc": "sasstool doc",
@@ -10,7 +10,7 @@
     "@stylize/sass-func": "0.0.1-rc.1"
   },
   "devDependencies": {
-    "@stylize/sass-tool": "^0.0.1"
+    "@stylize/sass-tool": "0.0.1"
   },
   "peerDependencies": {
     "jest": "^26.x",

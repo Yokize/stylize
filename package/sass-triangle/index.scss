@@ -1,36 +1,46 @@
 @use '~@stylize/sass-func/list';
-@use '~@stylize/sass-mixin/size' as s;
+@use '~@stylize/sass-mixin/size' as mixin;
 
-/// Mixin to create triangle with css border
-/// @param {List} $props - Props
-/// @author Nojukubi
+////
 /// @group triangle
+/// @author Nojukubi
+////
+
+/// Default triangle color.
+/// @type Color
+$color: #000 !default;
+
+/// Default triangle width.
+/// @type Length
+$width: 10px !default;
+
+/// Default triangle height.
+/// @type Length
+$height: 10px !default;
+
+/// Mixin to create css triangle.
+/// @param {List} $props - Triangle Props
 /// @example
 ///   @include triangle(top #fff 5px 10px)
 @mixin triangle($props: []) {
   // Autocomplete purpose.
 }
 
-/// Mixin to create triangle with css border
+/// Mixin to create css triangle.
+/// @require $color - Default color
+/// @require $width - Default width
+/// @require $height - Default height
 /// @param {String} $direction - Direction
-/// @param {String} $color - Color
+/// @param {Color} $color - Color
 /// @param {Length} $width - Width
 /// @param {Length} $height - Height
-/// @author Nojukubi
-/// @group triangle
 /// @example
 ///   @include triangle(top, #fff, 5px, 10px)
-@mixin triangle($direction, $color: #fff, $width: 10px, $height: 10px) {
-  @include -triangle-($direction, $color, $width, $height);
-}
-
-/// Internal mixin to create triangle with css border
-/// @ignore
-@mixin -triangle-($direction, $color, $width, $height) {
+@mixin triangle($direction, $color: $color, $width: $width, $height: $height) {
   @if list.has-multiple($direction) {
-    @include -triangle-($direction...);
+    @include triangle($direction...);
   } @else {
-    @include s.size(0);
+    @include mixin.size(0);
     border-style: solid;
 
     @if $direction == 'top' {
@@ -57,6 +67,8 @@
     } @else if $direction == 'bottom-right' {
       border-color: transparent transparent $color transparent;
       border-width: 0 0 $height $width;
+    } @else {
+      @error 'Direction `#{$direction}` is not supported';
     }
   }
 }

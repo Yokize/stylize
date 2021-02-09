@@ -4,6 +4,11 @@
 @use '~@stylize/sass-func/meta';
 @use '~@stylize/sass-func/string';
 
+////
+/// @group media
+/// @author Nojukubi
+////
+
 /// Media queries are useful to modify the site or application depending
 /// on the general type of device (e.g., print vs screen) or specific
 /// characteristics and parameters (e.g., screen resolution or browser
@@ -11,11 +16,6 @@
 /// and any number of media feature expressions. Multiple queries can
 /// be combined in various ways by using logical operators.
 /// © MDN web docs <https://developer.mozilla.org/en-US/docs/Web/CSS/Media_Queries/>
-
-/// Syntax:
-/// @media [not|only] type [and] (expr) {
-///   rules;
-/// }
 
 /// Operator `equal to`
 /// @ignore
@@ -55,8 +55,6 @@ $-operator-group: (
 );
 
 /// Offsets to be used with lt and gt operators
-/// @author Nojukubi
-/// @group media
 $unit-offset: (
   '': 0,
   'px': 1,
@@ -65,8 +63,6 @@ $unit-offset: (
 ) !default;
 
 /// Predefined media conditions with unique keyword
-/// @author Nojukubi
-/// @group media
 $keywords: (
   'landscape': '(orientation: landscape)',
   'portrait': '(orientation: portrait)',
@@ -75,9 +71,7 @@ $keywords: (
 ) !default;
 
 /// Media features describe specific characteristics of the
-// user agent, output device, or environment.
-/// @author Nojukubi
-/// @group media
+/// user agent, output device, or environment.
 $features: (
   'w': 'width',
   'h': 'height',
@@ -85,9 +79,8 @@ $features: (
 ) !default;
 
 /// Predefined breakpoints used with width media feature
-/// @author Nojukubi
-/// @group media
 $breakpoints: (
+  mc: 360px,
   xs: 480px,
   sm: 768px,
   md: 1024px,
@@ -96,8 +89,6 @@ $breakpoints: (
 
 /// Shorthand flexible mixin for media query
 /// @param {ArgList} $conditions - Conditions
-/// @author Nojukubi
-/// @group media
 @mixin media($conditions...) {
   @if list.is-empty($conditions) {
     @content;

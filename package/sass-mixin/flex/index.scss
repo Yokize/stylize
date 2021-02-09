@@ -1,9 +1,12 @@
 @use '~@stylize/sass-func/list';
 
-/// Shorthand mixin for flex
-/// @param {List} $props - Flex Props
-/// @author Nojukubi
+////
 /// @group flex
+/// @author Nojukubi
+////
+
+/// Shorthand mixin for flex.
+/// @param {List} $props - Flex Props
 /// @example
 ///   @include flex
 ///   @include flex(row)
@@ -11,16 +14,14 @@
 ///   @include flex(row center stretch)
 ///   @include flex(row center stretch wrap)
 @mixin flex($props...) {
-  // Autocomplete purpose
+  // Autocomplete purpose.
 }
 
-/// Shorthand mixin for flex
+/// Shorthand mixin for flex.
 /// @param {String} $direction [null] - Flex Direction
 /// @param {String} $justify [null] - Justify Content
 /// @param {String} $align [null] - Align Items
 /// @param {String} $wrap [null] - Flex Wrap
-/// @author Nojukubi
-/// @group flex
 /// @example
 ///   @include flex
 ///   @include flex(row)
@@ -32,10 +33,8 @@
   @include -flex-(flex, $direction, $justify, $align, $wrap);
 }
 
-/// Shorthand mixin for inline-flex
+/// Shorthand mixin for inline-flex.
 /// @param {List} $props - Flex Props
-/// @author Nojukubi
-/// @group flex
 /// @example
 ///   @include inline-flex
 ///   @include inline-flex(row)
@@ -43,16 +42,14 @@
 ///   @include inline-flex(row center stretch)
 ///   @include inline-flex(row center stretch wrap)
 @mixin inline-flex($props: []) {
-  // Autocomplete purpose
+  // Autocomplete purpose.
 }
 
-/// Shorthand mixin for inline-flex
+/// Shorthand mixin for inline-flex.
 /// @param {String} $direction [null] - Flex Direction
 /// @param {String} $justify [null] - Justify Content
 /// @param {String} $align [null] - Align Items
 /// @param {String} $wrap [null] - Flex Wrap
-/// @author Nojukubi
-/// @group flex
 /// @example
 ///   @include inline-flex
 ///   @include inline-flex(row)

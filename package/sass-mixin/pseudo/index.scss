@@ -1,7 +1,10 @@
-/// Shorthand mixin for before pseudo
-/// @param {String} $content - Content
-/// @author Nojukubi
+////
 /// @group pseudo
+/// @author Nojukubi
+////
+
+/// Shorthand mixin for before pseudo.
+/// @param {String} $content - Content
 /// @content
 /// @example
 ///    @include before {}
@@ -13,10 +16,8 @@
   }
 }
 
-/// Shorthand mixin for after pseudo
+/// Shorthand mixin for after pseudo.
 /// @param {String} $content - Content
-/// @author Nojukubi
-/// @group pseudo
 /// @content
 /// @example
 ///    @include after {}
