@@ -3,8 +3,8 @@
 # reprinting the parsed AST with its own rules.
 # © Prettier <https://prettier.io>
 
-# Single quotes for string literal
+# Single quotes for string literal.
 singleQuote: true
 
-# No trailing commas on multi-line
+# No trailing commas on multi-line.
 trailingComma: none

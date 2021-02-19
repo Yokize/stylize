@@ -1,39 +1,90 @@
 @use '~@stylize/sass-func/list';
 
-/// Shorthand to define width and height
-/// @param {List} $size - Width and height
-/// @author Nojukubi
+////
 /// @group size
+/// @author Nojukubi
+////
+
+/// Shorthand to define width and height.
+/// @param {List} $size - Width and height
 /// @example
 ///   @include size(10px)
 ///   @include size(10px 20px)
 @mixin size($size: []) {
-  @include -size-($size);
+  // Autocomplete purpose.
 }
 
-/// Shorthand to define width and height
+/// Shorthand to define width and height.
 /// @param {Length} $width - Width
 /// @param {Length} $height [null] - Height
-/// @author Nojukubi
-/// @group size
 /// @example
 ///   @include size(10px)
 ///   @include size(10px, 20px)
 @mixin size($width, $height: null) {
-  @include -size-($width, $height);
-}
-
-/// Internal mixin to generate width and height property
-/// @ignore
-@mixin -size-($width: null, $height: null) {
-  @if (list.length($width) == 2) {
-    @include -size-($width...);
+  @if list.has-multiple($width) {
+    @include size($width...);
   } @else {
-    @if ($height == null) {
+    @if $height == null {
       $height: $width;
     }
 
     width: $width;
     height: $height;
+  }
+}
+
+/// Shorthand to define min-width and min-height.
+/// @param {List} $size - Min width and height
+/// @example
+///   @include min-size(10px)
+///   @include min-size(10px 20px)
+@mixin min-size($size: []) {
+  // Autocomplete purpose.
+}
+
+/// Shorthand to define min-width and min-height.
+/// @param {Length} $min-width - Min width
+/// @param {Length} $min-height [null] - Min height
+/// @example
+///   @include min-size(10px)
+///   @include min-size(10px, 20px)
+@mixin min-size($min-width, $min-height: null) {
+  @if list.has-multiple($min-width) {
+    @include min-size($min-width...);
+  } @else {
+    @if $min-height == null {
+      $min-height: $min-width;
+    }
+
+    min-width: $min-width;
+    min-height: $min-height;
+  }
+}
+
+/// Shorthand to define max-width and max-height.
+/// @param {List} $size - Max width and height
+/// @example
+///   @include max-size(10px)
+///   @include max-size(10px 20px)
+@mixin max-size($size: []) {
+  // Autocomplete purpose.
+}
+
+/// Shorthand to define max-width and max-height.
+/// @param {Length} $max-width - Max width
+/// @param {Length} $max-height [null] - Max height
+/// @example
+///   @include max-size(10px)
+///   @include max-size(10px, 20px)
+@mixin max-size($max-width, $max-height: null) {
+  @if list.has-multiple($max-width) {
+    @include max-size($max-width...);
+  } @else {
+    @if $max-height == null {
+      $max-height: $max-width;
+    }
+
+    max-width: $max-width;
+    max-height: $max-height;
   }
 }

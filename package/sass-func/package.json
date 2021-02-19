@@ -7,7 +7,7 @@
     "test": "sasstool test"
   },
   "devDependencies": {
-    "@stylize/sass-tool": "^0.0.1"
+    "@stylize/sass-tool": "0.0.1"
   },
   "peerDependencies": {
     "jest": "^26.x",

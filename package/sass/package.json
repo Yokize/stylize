@@ -1,9 +1,0 @@
-{
-  "name": "@stylize/sass",
-  "version": "0.0.1-rc.3",
-  "license": "MIT",
-  "dependencies": {
-    "@stylize/sass-func": "0.0.1-rc.1",
-    "@stylize/sass-mixin": "0.0.1-rc.1"
-  }
-}

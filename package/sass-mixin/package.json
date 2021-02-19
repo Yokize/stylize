@@ -10,7 +10,7 @@
     "@stylize/sass-func": "0.0.1-rc.1"
   },
   "devDependencies": {
-    "@stylize/sass-tool": "^0.0.1"
+    "@stylize/sass-tool": "0.0.1"
   },
   "peerDependencies": {
     "jest": "^26.x",

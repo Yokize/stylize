@@ -1,7 +1,7 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush.schema.json",
-  "rushVersion": "5.35.2",
-  "pnpmVersion": "5.14.3",
+  "rushVersion": "5.39.1",
+  "pnpmVersion": "5.17.2",
   "projectFolderMaxDepth": 3,
   "suppressNodeLtsWarning": true,
   "ensureConsistentVersions": true,
@@ -9,11 +9,6 @@
     "url": "https://github.com/Yokize/stylize.git"
   },
   "projects": [
-    {
-      "packageName": "@stylize/sass",
-      "projectFolder": "package/sass",
-      "shouldPublish": true
-    },
     {
       "packageName": "@stylize/sass-tool",
       "projectFolder": "common/tools/sass",

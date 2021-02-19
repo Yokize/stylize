@@ -1,15 +1,17 @@
 @use '~@stylize/sass-func/css/font' as func;
 
-/// Base safe font
+////
+/// @group font
 /// @author Nojukubi
-/// @group flex
+////
+
+/// Base safe font.
+/// @type Length
 $base-font: func.$base-font !default;
 
-/// Shorthand mixin for font property
-/// @require {function} font
+/// Shorthand mixin for font property.
+/// @require {function} func.font
 /// @param {List} $props - Font Props
-/// @author Nojukubi
-/// @group flex
 /// @example
 ///   @include font(10px)
 ///   @include font(10px 16px)
@@ -20,14 +22,12 @@ $base-font: func.$base-font !default;
   // Autocomplete purpose
 }
 
-/// Shorthand mixin for font property
-/// @require {function} font
+/// Shorthand mixin for font property.
+/// @require {function} func.font
 /// @param {String | Length} $size [inherit] - Font Size
 /// @param {String | Length} $line [normal] - Line Height
 /// @param {String | Number} $weight [normal] - Font Weight
 /// @param {String | List} $family [$base-font] - Font Family
-/// @author Nojukubi
-/// @group flex
 /// @example
 ///   @include font(10px)
 ///   @include font(10px, 16px)

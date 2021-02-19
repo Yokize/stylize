@@ -1,99 +1,9 @@
 @use '~sass-true' as test;
 @use './index' as mixin;
 
-// Shorthand mixin for absolute position
-@include test.describe('Absolute mixin') {
-  @include test.it('should define absolute position with list param') {
-    @include test.assert {
-      @include test.output {
-        @include mixin.absolute(0 null 0 null 1);
-      }
-
-      @include test.expect {
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        z-index: 1;
-      }
-    }
-  }
-
-  @include test.it('should define absolute position with named params') {
-    @include test.assert {
-      @include test.output {
-        @include mixin.absolute($top: 0, $bottom: 0, $z-index: 1);
-      }
-
-      @include test.expect {
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        z-index: 1;
-      }
-    }
-  }
-
-  @include test.it('should define absolute position with default params') {
-    @include test.assert {
-      @include test.output {
-        @include mixin.absolute;
-      }
-
-      @include test.expect {
-        position: absolute;
-      }
-    }
-  }
-}
-
-// Shorthand mixin for fixed position
-@include test.describe('Fixed mixin') {
-  @include test.it('should define fixed position with list param') {
-    @include test.assert {
-      @include test.output {
-        @include mixin.fixed(0 null 0 null 1);
-      }
-
-      @include test.expect {
-        position: fixed;
-        top: 0;
-        bottom: 0;
-        z-index: 1;
-      }
-    }
-  }
-
-  @include test.it('should define fixed position with named params') {
-    @include test.assert {
-      @include test.output {
-        @include mixin.fixed($top: 0, $bottom: 0, $z-index: 1);
-      }
-
-      @include test.expect {
-        position: fixed;
-        top: 0;
-        bottom: 0;
-        z-index: 1;
-      }
-    }
-  }
-
-  @include test.it('should define fixed position with default param') {
-    @include test.assert {
-      @include test.output {
-        @include mixin.fixed;
-      }
-
-      @include test.expect {
-        position: fixed;
-      }
-    }
-  }
-}
-
-// Shorthand mixin for relative position
+// Shorthand mixin for relative position.
 @include test.describe('Relative mixin') {
-  @include test.it('should define relative position with list param') {
+  @include test.it('should define relative position with list') {
     @include test.assert {
       @include test.output {
         @include mixin.relative(0 null 0 null 1);
@@ -108,10 +18,10 @@
     }
   }
 
-  @include test.it('should define relative position with named params') {
+  @include test.it('should define relative position with params') {
     @include test.assert {
       @include test.output {
-        @include mixin.relative($top: 0, $bottom: 0, $z-index: 1);
+        @include mixin.relative(0, null, 0, null, 1);
       }
 
       @include test.expect {
@@ -119,6 +29,20 @@
         top: 0;
         bottom: 0;
         z-index: 1;
+      }
+    }
+  }
+
+  @include test.it('should define relative position with named params') {
+    @include test.assert {
+      @include test.output {
+        @include mixin.relative($top: 0, $bottom: 0);
+      }
+
+      @include test.expect {
+        position: relative;
+        top: 0;
+        bottom: 0;
       }
     }
   }
@@ -136,9 +60,127 @@
   }
 }
 
-// Shorthand mixin for sticky position
+// Shorthand mixin for absolute position.
+@include test.describe('Absolute mixin') {
+  @include test.it('should define absolute position with list') {
+    @include test.assert {
+      @include test.output {
+        @include mixin.absolute(0 null 0 null 1);
+      }
+
+      @include test.expect {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        z-index: 1;
+      }
+    }
+  }
+
+  @include test.it('should define absolute position with params') {
+    @include test.assert {
+      @include test.output {
+        @include mixin.absolute(0, null, 0, null, 1);
+      }
+
+      @include test.expect {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        z-index: 1;
+      }
+    }
+  }
+
+  @include test.it('should define absolute position with named params') {
+    @include test.assert {
+      @include test.output {
+        @include mixin.absolute($top: 0, $bottom: 0);
+      }
+
+      @include test.expect {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+      }
+    }
+  }
+
+  @include test.it('should define absolute position with default params') {
+    @include test.assert {
+      @include test.output {
+        @include mixin.absolute;
+      }
+
+      @include test.expect {
+        position: absolute;
+      }
+    }
+  }
+}
+
+// Shorthand mixin for fixed position.
+@include test.describe('Fixed mixin') {
+  @include test.it('should define fixed position with list') {
+    @include test.assert {
+      @include test.output {
+        @include mixin.fixed(0 null 0 null 1);
+      }
+
+      @include test.expect {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        z-index: 1;
+      }
+    }
+  }
+
+  @include test.it('should define fixed position with params') {
+    @include test.assert {
+      @include test.output {
+        @include mixin.fixed(0, null, 0, null, 1);
+      }
+
+      @include test.expect {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        z-index: 1;
+      }
+    }
+  }
+
+  @include test.it('should define fixed position with named params') {
+    @include test.assert {
+      @include test.output {
+        @include mixin.fixed($top: 0, $bottom: 0);
+      }
+
+      @include test.expect {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+      }
+    }
+  }
+
+  @include test.it('should define fixed position with default param') {
+    @include test.assert {
+      @include test.output {
+        @include mixin.fixed;
+      }
+
+      @include test.expect {
+        position: fixed;
+      }
+    }
+  }
+}
+
+// Shorthand mixin for sticky position.
 @include test.describe('Sticky mixin') {
-  @include test.it('should define sticky position with list param') {
+  @include test.it('should define sticky position with list') {
     @include test.assert {
       @include test.output {
         @include mixin.sticky(0 null 0 null 1);
@@ -153,10 +195,10 @@
     }
   }
 
-  @include test.it('should define sticky position with named params') {
+  @include test.it('should define sticky position with params') {
     @include test.assert {
       @include test.output {
-        @include mixin.sticky($top: 0, $bottom: 0, $z-index: 1);
+        @include mixin.sticky(0, null, 0, null, 1);
       }
 
       @include test.expect {
@@ -164,6 +206,20 @@
         top: 0;
         bottom: 0;
         z-index: 1;
+      }
+    }
+  }
+
+  @include test.it('should define sticky position with named params') {
+    @include test.assert {
+      @include test.output {
+        @include mixin.sticky($top: 0, $bottom: 0);
+      }
+
+      @include test.expect {
+        position: sticky;
+        top: 0;
+        bottom: 0;
       }
     }
   }
