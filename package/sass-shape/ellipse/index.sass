@@ -1,0 +1,25 @@
+@use '../rectangle' as shape
+
+////
+/// @group ellipse
+/// @author Nojukubi
+////
+
+/// Mixin to create the ellipse shape.
+/// @param {List|Length} $width [null] - Width.
+/// @param {List|Length} $height [null] - Height.
+/// @param {List|Color} $background [null] - Background.
+/// @example
+///   Simple examples:
+///   @include ellipse
+///   @include ellipse(20px)
+///   @include ellipse(min 20px)
+///   @include ellipse($background: #fff)
+///   @include ellipse(min 10px, max 20px, #fff)
+///
+///   Complex examples:
+///   @include ellipse([auto, min 20px], max 20px, #fff)
+///   @include ellipse([40px, min 20px], [20px, max 10px], #fff)
+///   @include ellipse([40px, min 20px], [20px, max 10px], linear-gradient(#e66465, #9198e5))
+@mixin ellipse($width: null, $height: null, $background: null)
+  @include shape.rectangle($width, $height, 50%, $background)

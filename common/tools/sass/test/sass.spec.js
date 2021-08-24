@@ -1,12 +1,23 @@
-const glob = require('glob');
-const path = require('path');
-const sassTrue = require('sass-true');
+// Match files using the patterns the shell uses.
+const { sync } = require('glob');
 
-// Find Sass files by glob pattern.
-const sassTestFiles = glob.sync(path.resolve(process.cwd(), '**/*.spec.scss'), { ignore: '**/node_modules/**' });
+// Utilities for working with file and directory paths, which vary
+// depending on the operating system where Node.js is running.
+const { resolve } = require('path');
 
-// Create importer to resolve external libraries.
-const importer = (url) => ({ file: url[0] === '~' ? path.resolve(process.cwd(), 'node_modules', url.substr(1)) : url });
+// True is a unit-testing tool for Sass code. All of the tests are
+// written in plain Sass, and can be used with JavaScript test runners.
+const { runSass } = require('sass-true');
 
-// Run SassTrue on every file found with the describe and it methods.
-sassTestFiles.forEach((file) => sassTrue.runSass({ file, importer }, { describe, it }));
+// Current working directory.
+const cwd = process.cwd();
+
+// Importer to resolve libraries.
+const importer = (path) => ({
+  file: path[0] === '~' ? resolve(cwd, 'node_modules', path.substr(1)) : path
+});
+
+// Find Sass spec files and run SassTrue.
+sync(resolve(cwd, '**/*.spec.sass'), { ignore: '**/node_modules/**' }).forEach((file) =>
+  runSass({ file, importer }, { describe, it })
+);

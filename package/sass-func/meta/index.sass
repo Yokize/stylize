@@ -1,0 +1,40 @@
+@use 'sass:meta'
+@forward 'sass:meta'
+
+////
+/// @group meta
+/// @author Nojukubi
+////
+
+/// Determine whether $var is list type.
+/// @param {Any} $var - Var to check.
+/// @return {Bool} True in the case of list; otherwise false.
+/// @example
+///   is-list(item1 item2)
+@function is-list($var)
+  @return meta.type-of($var) == 'list'
+
+/// Determine whether $var is map type.
+/// @param {Any} $var - Var to check.
+/// @return {Bool} True in the case of map; otherwise false.
+/// @example
+///   is-map((1: item1, 2: item2))
+@function is-map($var)
+  @return meta.type-of($var) == 'map'
+
+/// Determine whether $var is number type.
+/// @param {Any} $var - Var to check.
+/// @return {Bool} True in the case of number; otherwise false.
+/// @example
+///   is-number(1px)
+///   is-number(1000)
+@function is-number($var)
+  @return meta.type-of($var) == 'number'
+
+/// Determine whether $var is string type.
+/// @param {Any} $var - Var to check.
+/// @return {Bool} True in the case of string; otherwise false.
+/// @example
+///   is-string(str)
+@function is-string($var)
+  @return meta.type-of($var) == 'string'

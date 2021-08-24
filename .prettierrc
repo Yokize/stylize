@@ -3,8 +3,33 @@
 # reprinting the parsed AST with its own rules.
 # © Prettier <https://prettier.io>
 
-# Single quotes for string literal.
+# Consistent quotes.
+quoteProps: consistent
+
+# Single quotes for string.
 singleQuote: true
 
-# No trailing commas on multi-line.
+# No commas on multi-line.
 trailingComma: none
+
+# Indent script and style.
+vueIndentScriptAndStyle: true
+
+# Framework within project.
+pugFramework: vue
+
+# Pug attributes single quote.
+pugSingleQuote: false
+
+# Pug wrap attribute threshold.
+pugWrapAttributesThreshold: 1
+
+# Pug closing bracket position.
+pugClosingBracketPosition: 'last-line'
+
+# Pug single file component indent.
+pugSingleFileComponentIndentation: true
+
+# Plugins to be used during formatting.
+plugins:
+  - ./common/temp/node_modules/@prettier/plugin-pug

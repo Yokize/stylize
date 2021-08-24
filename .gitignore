@@ -2,9 +2,6 @@
 .idea
 .vscode
 
-# Sass
-sassdoc
-
 # Rush
 common/temp
 node_modules

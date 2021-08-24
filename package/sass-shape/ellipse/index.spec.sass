@@ -1,0 +1,63 @@
+@use '~sass-true' as test
+@use './index' as mixin
+
+// Input: width.
+$width: 20px
+
+// Input: height.
+$height: 30px
+
+// Input: background.
+$background: #fff
+
+// Output: css.
+@mixin output-css
+  width: $width
+  height: $height
+  background: $background
+  border-radius: 50%
+
+// Mixin to create the ellipse shape.
+@include test.describe('Ellipse mixin')
+  @include test.it('should create the ellipse with args')
+    @include test.assert
+      @include test.output
+        @include mixin.ellipse($width, $height, $background)
+      @include test.expect
+        @include output-css
+
+  @include test.it('should create the ellipse with keyword args')
+    @include test.assert
+      @include test.output
+        @include mixin.ellipse($background: $background)
+      @include test.expect
+        background: $background
+        border-radius: 50%
+
+  @include test.it('should create the ellipse with default args')
+    @include test.assert
+      @include test.output
+        @include mixin.ellipse
+      @include test.expect
+        border-radius: 50%
+
+  @include test.it('should create the ellipse with complex width × height args')
+    @include test.assert
+      @include test.output
+        @include mixin.ellipse([$width, min $width], min $height * 2, #fff)
+      @include test.expect
+        width: $width
+        min-width: $width
+        min-height: $height * 2
+        background: #fff
+        border-radius: 50%
+
+  @include test.it('should create the ellipse with complex background arg')
+    @include test.assert
+      @include test.output
+        @include mixin.ellipse($width, $height, linear-gradient(#e66465, #9198e5))
+      @include test.expect
+        width: $width
+        height: $height
+        background: linear-gradient(#e66465, #9198e5)
+        border-radius: 50%

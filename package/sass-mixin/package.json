@@ -1,20 +1,40 @@
 {
   "name": "@stylize/sass-mixin",
-  "version": "0.0.1-rc.3",
+  "version": "0.0.1-rc.4",
   "license": "MIT",
+  "description": "Sass mixins for general usage",
+  "author": "Nojukubi <nojukubi@yokize.com>",
+  "homepage": "https://github.com/Yokize/stylize",
+  "main": "index.sass",
+  "keywords": [
+    "sass",
+    "mixin",
+    "flex",
+    "font",
+    "size",
+    "media",
+    "position"
+  ],
+  "repository": {
+    "type": "git",
+    "directory": "package/sass-mixin",
+    "url": "https://github.com/Yokize/stylize.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Yokize/stylize/issues",
+    "email": "nojukubi@yokize.com"
+  },
   "scripts": {
-    "doc": "sasstool doc",
     "test": "sasstool test"
   },
   "dependencies": {
-    "@stylize/sass-func": "0.0.1-rc.1"
+    "@stylize/sass-func": "0.0.1-rc.2"
   },
   "devDependencies": {
-    "@stylize/sass-tool": "0.0.1"
+    "@stylize/sass-tool": "0.0.0",
+    "sass-true": "^6.0.1"
   },
   "peerDependencies": {
-    "jest": "^26.x",
-    "sass": "^1.27.0",
-    "sass-true": "^6.x"
+    "sass": "^1.38.0"
   }
 }

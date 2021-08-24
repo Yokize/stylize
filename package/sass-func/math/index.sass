@@ -1,0 +1,41 @@
+@use 'sass:math'
+@use '../meta'
+@use '../unit'
+
+@forward 'sass:math'
+
+////
+/// @author Nojukubi
+/// @group math
+////
+
+/// Raises $base to the power of $exponent.
+/// @param {Number} $base - Base to raise.
+/// @param {Number} $exponent - Power.
+/// @return Base which raised to the power.
+@function pow($base, $exponent)
+  @return -unit-friendly-(meta.get-function('pow', false, 'math'), $base, $exponent)
+
+/// Get the number to power [2] of $number.
+/// @param {Number} $number - Number.
+@function sqr($number)
+  @return pow($number, 2)
+
+/// Get the square root of $number.
+/// @param {Number} $number - Number.
+@function sqrt($number)
+  @return -unit-friendly-(meta.get-function('sqrt', false, 'math'), $number)
+
+/// Format number to fixed amount of decimals.
+/// @param {Number} $float - Number to format.
+/// @param {Number} $digits [2] - Number of digits.
+/// @return {Number} Formatted number.
+@function to-fixed($float, $digits: 2)
+  $pow: pow(10, $digits)
+  @return math.div(round($float * $pow), $pow)
+
+@function -unit-friendly-($func, $base, $otherArgs...)
+  @if (math.is-unitless($base))
+    @return meta.call($func, $base, $otherArgs...)
+  @else
+    @return unit.add(meta.call($func, unit.strip($base), $otherArgs...), math.unit($base))

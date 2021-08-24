@@ -1,0 +1,74 @@
+@use '~sass-true' as test
+@use './index' as mixin
+
+// Input: width.
+$width: 20px
+
+// Input: height.
+$height: 30px
+
+// Input: radius.
+$radius: 4px
+
+// Input: background.
+$background: #fff
+
+// Output: css.
+@mixin output-css
+  width: $width
+  height: $height
+  background: $background
+  border-radius: $radius
+
+// Mixin to create the rectangle shape.
+@include test.describe('Rectangle mixin')
+  @include test.it('should create the rectangle with args')
+    @include test.assert
+      @include test.output
+        @include mixin.rectangle($width, $height, $radius, $background)
+      @include test.expect
+        @include output-css
+
+  @include test.it('should create the rectangle with keyword args')
+    @include test.assert
+      @include test.output
+        @include mixin.rectangle($background: $background)
+      @include test.expect
+        background: $background
+
+  @include test.it('should create the rectangle with default args')
+    @include test.assert
+      @include test.output
+        @include mixin.rectangle
+      @include test.expect
+
+  @include test.it('should create the rectangle with complex width × height args')
+    @include test.assert
+      @include test.output
+        @include mixin.rectangle([$width, min $width], min $height * 2, 4px, #fff)
+      @include test.expect
+        width: $width
+        min-width: $width
+        min-height: $height * 2
+        background: #fff
+        border-radius: 4px
+
+  @include test.it('should create the rectangle with complex radius arg')
+    @include test.assert
+      @include test.output
+        @include mixin.rectangle($width, $height, (4px 3px), #fff)
+      @include test.expect
+        width: $width
+        height: $height
+        background: #fff
+        border-radius: 4px 3px
+
+  @include test.it('should create the rectangle with complex background arg')
+    @include test.assert
+      @include test.output
+        @include mixin.rectangle($width, $height, $radius, linear-gradient(#e66465, #9198e5))
+      @include test.expect
+        width: $width
+        height: $height
+        background: linear-gradient(#e66465, #9198e5)
+        border-radius: $radius

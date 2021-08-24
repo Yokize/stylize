@@ -1,0 +1,96 @@
+@use 'sass:math'
+@use '../map'
+@use '../meta'
+@use '../string'
+
+////
+/// @author Nojukubi
+/// @group unit
+////
+
+/// Base size for units.
+$base-size: 16px !default
+
+/// Units of measurement for Time.
+$unit-time: 1s 1ms 1%
+
+/// Units of measurement for Angle.
+$unit-angle: 1deg 1grad 1rad 1turn 1%
+
+/// Units of measurement for Frequency.
+$unit-frequency: 1hz 1khz 1%
+
+/// Units of measurement for Resolution.
+$unit-resolution: 1dpi 1dpcm 1dppx 1x
+
+/// Units of measurement for Length.
+$unit-length: 1cm 1mm 1in 1px 1pt 1pc 1em 1ex 1ch 1rem 1vw 1vh 1vmin 1vmax 1%
+
+/// Convert the units to the rem.
+/// @param {Number} $number - Number to convert.
+/// @return {Number} Number with rem units.
+/// @example
+///   rem(16px)
+@function rem($number)
+  $unit: math.unit($number)
+  @if $unit == 'px'
+    @return $number / $base-size
+
+/// Determine whether $var is unit.
+/// @param {String} $unit - Unit to check.
+/// @return {Bool} True in the case of unit; otherwise false.
+/// @example
+///   is-unit(px)
+///   is-unit(dpi)
+@function is($unit)
+  @return meta.is-number(-get-unit-($unit))
+
+/// Add specified $unit to the $number.
+/// @param {Number} $number - Number to convert.
+/// @param {String} $unit - Name of the unit.
+/// @return {Number} Number with the unit.
+/// @example
+///   add-unit(1, px)
+///   add-unit(1, dpi)
+@function add($number, $unit)
+  @if not is($unit)
+    @error '`#{$unit}` is unknown unit'
+  // To add unit to number need to multiply by 1<unit>.
+  @return $number * -get-unit-($unit)
+
+
+/// Remove the unit from the number.
+/// @param {Number} $number - Number to remove unit from.
+/// @return {Number} - Unitless number.
+@function strip($number)
+  @if meta.is-number($number) and not math.is-unitless($number)
+    @return math.div($number, ($number * 0 + 1))
+  @return $number
+
+/// Internal variables cache.
+/// @ignore
+$-cache-: []
+
+/// Get unit in the numeric type (1<unit>) by the name (px, dpi)
+/// @ignore
+@function -get-unit-($unit)
+  @return map.get(-get-var-('units', meta.get-function(-create-units-mapping-)), $unit)
+
+/// Get variable from internal cache
+/// @ignore
+@function -get-var-($name, $setFunction)
+  // In case cache do not have var need to create it
+  @if (not map.has-key($-cache-, $name))
+    // Set variable under global internal cache
+    $-cache-: map.set($-cache-, $name, meta.call($setFunction)) !global
+  @return map.get($-cache-, $name)
+
+/// Create mapping between units in string and numeric type.
+/// @ignore
+@function -create-units-mapping-()
+  $mapping: ()
+  @each $unit-block in ($unit-time, $unit-angle, $unit-frequency, $unit-resolution, $unit-length)
+    @each $unit in $unit-block
+      $mapping: map.set($mapping, string.quote(string.slice(meta.inspect($unit), 2)), $unit)
+  // Returns mapping with convert result.
+  @return $mapping

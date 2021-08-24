@@ -1,0 +1,16 @@
+@use '~sass-true' as test
+@use './index' as unit
+
+@include test.describe('Unit')
+  @include test.describe('is')
+    @include test.it('should determine whether value is unit')
+      @include test.assert-equal(unit.is(px), true)
+      @include test.assert-equal(unit.is(kj), false)
+
+  @include test.describe('add')
+    @include test.it('should add unit to the number')
+      @include test.assert-equal(unit.add(1, px), 1px)
+
+  @include test.describe('strip')
+    @include test.it('should strip unit from the number')
+      @include test.assert-equal(unit.strip(2px), 2)

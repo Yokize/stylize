@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "importHelpers": true,
+    "esModuleInterop": true,
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "baseUrl": ".",
+    "paths": { "@*": ["*"] }
+  },
+  "ts-node": { "files": true },
+  "include": ["**/*.ts", "**/*.vue"],
+  "exclude": ["./node_modules"]
+}

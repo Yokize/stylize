@@ -1,0 +1,7 @@
+@use '~sass-true' as test
+@use './index' as math
+
+@include test.describe('Math')
+  @include test.describe('pow')
+    @include test.it('should raises $ase to the power of exponent')
+      @include test.assert-equal(math.pow(5px, 2), 25px)

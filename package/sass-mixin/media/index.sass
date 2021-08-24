@@ -1,0 +1,213 @@
+@use '~@stylize/sass-func/list'
+@use '~@stylize/sass-func/map'
+@use '~@stylize/sass-func/math'
+@use '~@stylize/sass-func/meta'
+@use '~@stylize/sass-func/string'
+@use '~@stylize/sass-func/number'
+
+////
+/// @group media
+/// @author Nojukubi
+////
+
+/// Media queries are useful to modify the site or application depending
+/// on the general type of device (e.g., print vs screen) or specific
+/// characteristics and parameters (e.g., screen resolution or browser
+/// viewport width). Media query is composed of an optional media type
+/// and any number of media feature expressions. Multiple queries can
+/// be combined in various ways by using logical operators.
+/// © MDN web docs <https://developer.mozilla.org/en-US/docs/Web/CSS/Media_Queries/>
+
+/// Conditions cache.
+$-cache-: ()
+
+/// Operator `equal to`.
+$-operator-eq-: '='
+
+/// Operator `less than`.
+$-operator-lt-: '<'
+
+/// Operator `greater than`.
+$-operator-gt-: '>'
+
+/// Operators `less than` or `equal to`.
+$-operator-lte-: [ '<=', '≤', $-operator-lt-]
+
+/// Operators `greater than` or `equal to`.
+$-operator-gte-: [ '>=', '≥', $-operator-gt-]
+
+/// Operators groups with additional metadata.
+$-operator-group-: [ [$-operator-lte-, max], [$-operator-gte-, min], [$-operator-eq-, null] ]
+
+/// Offsets to be used with lt and gt operators.
+$unit-offset: ('': 0, 'px': 1, 'em': 0.01, 'rem': 0.1) !default
+
+/// Media features describe specific characteristics
+/// of the user agent, output device or environment.
+$features: ('w': 'width', 'h': 'height', 'o': 'orientation') !default
+
+/// Predefined breakpoints used with media feature.
+$breakpoints: (mc: 360px, xs: 480px, sm: 768px, md: 1024px, lg: 1200px) !default
+
+/// Predefined media conditions with unique keyword.
+$keywords: () !default
+
+// Define the default keywords for media conditions.
+$keywords: map.set($keywords, 'portrait', '(orientation: portrait)')
+$keywords: map.set($keywords, 'landscape', '(orientation: landscape)')
+$keywords: map.set($keywords, 'retina2x', '(-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi), (min-resolution: 2dppx)')
+$keywords: map.set($keywords, 'retina3x', '(-webkit-min-device-pixel-ratio: 3), (min-resolution: 350dpi), (min-resolution: 3dppx)')
+
+/// Shorthand mixin for media queries.
+/// @param {ArgList} $conditions - Conditions.
+/// @example
+///    @include media('w>sm')
+///    @include media('w>sm', 'h<=sm')
+///    @include media('w>sm', 'h<=sm', 'portrait')
+///    @include media((sc1: screen, sc2: 'portrait'))
+@mixin media($conditions...)
+  @if list.is-empty($conditions)
+    @content
+  @else
+    $raw-data: list.first($conditions)
+    // Create media condition based on raw data.
+    $condition: string.unquote(-create-condition-($raw-data))
+    // Native media `at-rule` with media condition.
+    @media #{$condition}
+      $other: list.slice($conditions, 2)
+      // Nested native media with other conditions.
+      @include media($other...)
+        @content
+
+/// Create media query condition based on raw data.
+/// @param {Map|List|String} $raw - Raw data.
+/// @return {String} Native media condition.
+@function -create-condition-($raw)
+  $query: []
+
+  @if meta.is-map($raw)
+    // Create native media conditions from raw map data.
+    $query: list.join($query, -create-map-condition-($raw))
+  @else if (meta.is-list($raw))
+    // Create native media conditions from raw list data.
+    $query: list.join($query, -create-list-condition-($raw))
+  @else if (meta.is-string($raw))
+    @if map.has-key($keywords, $raw)
+      // Get condition from the hardcoded keywords.
+      $query: list.append($query, map.get($keywords, $raw))
+    @else if map.has-key($-cache-, $raw)
+      // Get condition from already existing cache.
+      $query: list.append($query, map.get($-cache-, $raw))
+    @else
+      // Create native media conditions from raw string data.
+      $query: list.append($query, -create-str-condition-($raw))
+  @else
+    @error 'Uknown media condition: #{$raw}'
+  @return list.to-string($query, ', ')
+
+/// Create media query based on raw string data.
+/// @param {String} $raw - Raw data.
+/// @return {String} Native media condition.
+@function -create-str-condition-($raw)
+  // Find operator in raw string data.
+  $found-operator: -find-operator-($raw)
+
+  @if map.has-key($found-operator, index)
+    // Find name of media feature.
+    $feature: -find-feature-($raw, $found-operator)
+    // Find value related to feature.
+    $value: -find-value-($raw, $found-operator)
+    // Get feature prefix based on operator.
+    $prefix: map.get($found-operator, prefix)
+
+    @if $prefix
+      $-cache-: map.set($-cache-, $raw, '(#{$prefix}-#{$feature}: #{$value})') !global
+    @else
+      $-cache-: map.set($-cache-, $raw, '(#{$feature}: #{$value})') !global
+
+    // Get condition based on specified raw data.
+    @return map.get($-cache-, $raw)
+  @return $raw
+
+/// Create media query based on raw map data.
+/// @param {String} $raw - Raw data.
+/// @return {String} Native media condition.
+@function -create-map-condition-($raw)
+  $query: []
+  @each $chunk in map.values($raw)
+    $query: list.append($query, -create-condition-($chunk))
+  @return list.to-string($query, ', ')
+
+/// Create media query based on raw list data.
+/// @param {String} $raw - Raw data.
+/// @return {String} Native media condition.
+@function -create-list-condition-($raw)
+  $query: []
+  @each $chunk in $raw
+    $query: list.append($query, -create-condition-($chunk))
+  @return list.to-string($query, ' and ')
+
+/// Find operator specified in condition.
+/// @param {String} $condition - Condition.
+/// @return {Map} Operator meta.
+/// @ignore
+@function -find-operator-($condition)
+  $operator: ()
+  @each $group in $-operator-group-
+    $found: -find-operator-by-group-($condition, $group)
+    @if not map.has-key($operator, index) and map.has-key($found, index)
+      $operator: $found
+  @return $operator
+
+/// Find operator by group specified in condition.
+/// @param {String} $condition - Condition.
+/// @return {Map} Operator meta.
+/// @ignore
+@function -find-operator-by-group-($condition, $group)
+  $found: ()
+  @each $operator in list.first($group)
+    @if not map.has-key($found, index)
+      $index: string.index($condition, $operator)
+
+      @if $index != null
+        $found: map.set($found, index, $index)
+        $found: map.set($found, symbol, $operator)
+        $found: map.set($found, prefix, list.nth($group, 2))
+        $found: map.set($found, length, string.length($operator))
+  @return $found
+
+/// Find media feature specified in condition.
+/// @param {String} $condition - Condition.
+/// @param {Map} $operator - Operator meta.
+/// @return {String} Feature name.
+/// @ignore
+@function -find-feature-($condition, $operator)
+  $feature: 'width'
+  @if map.get($operator, index) > 1
+    $parsed: string.trim(string.slice($condition, 1, map.get($operator, index) - 1))
+    $feature: if(string.length($parsed), $parsed, $feature)
+  @return if(map.has-key($features, $feature), map.get($features, $feature), $feature)
+
+/// Find media value specified in condition.
+/// @param {String} $condition - Condition.
+/// @param {Map} $operator - Operator meta.
+/// @return {String} Feature value.
+/// @ignore
+@function -find-value-($condition, $operator)
+  $value: string.trim(string.slice($condition, map.get($operator, index) + map.get($operator, length)))
+
+  @if map.has-key($breakpoints, $value)
+    $value: map.get($breakpoints, $value)
+  @else
+    $parsed: number.parse($value)
+    $value: if($parsed, $parsed, $value)
+
+  @if meta.is-number($value)
+    $unit: math.unit($value)
+    $offset: if(map.has-key($unit-offset, $unit), map.get($unit-offset, $unit), 1)
+
+    @if map.get($operator, symbol) == $-operator-gt-
+      $value: $value + $offset
+    @else if map.get($operator, symbol) == $-operator-lt-
+      $value: $value - $offset
+  @return $value

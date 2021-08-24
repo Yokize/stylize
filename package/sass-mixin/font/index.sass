@@ -1,0 +1,38 @@
+@use '~@stylize/sass-func/list'
+@use '~@stylize/sass-func/font' as func
+
+////
+/// @group font
+/// @author Nojukubi
+////
+
+/// Base safe font.
+/// @type Length
+$base-font: func.$base-font !default
+
+/// Shorthand mixin for font.
+/// @param {List} $props - Font Props.
+/// @example
+///   @include font(10px)
+///   @include font(10px 16px)
+///   @include font(10px normal 300)
+///   @include font(10px normal 300 Arial)
+///   @include font(10px normal 300 (Arial, sans-serif))
+@mixin font($props: [])
+
+/// Shorthand mixin for font.
+/// @param {String|Length} $size [inherit] - Font Size.
+/// @param {String|Length} $line [normal] - Line Height.
+/// @param {String|Number} $weight [normal] - Font Weight.
+/// @param {String|List} $family [$base-font] - Font Family.
+/// @example
+///   @include font(10px)
+///   @include font(10px, 16px)
+///   @include font(10px, normal, 300)
+///   @include font(10px, normal, 300, Arial)
+///   @include font(10px, normal, 300, (Arial, sans-serif))
+@mixin font($size: inherit, $line: normal, $weight: normal, $family: $base-font)
+  @if list.has-multiple($size)
+    font: func.font($size...)
+  @else
+    font: func.font($size, $line, $weight, $family)

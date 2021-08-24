@@ -1,0 +1,72 @@
+@use '~sass-true' as test
+@use './index' as mixin
+
+// Input: size.
+$size: 20px
+
+// Input: radius.
+$radius: 2px
+
+// Input: background.
+$background: #fff
+
+// Output: css.
+@mixin output-css
+  width: $size
+  height: $size
+  background: $background
+  border-radius: $radius
+
+// Mixin to create the square shape.
+@include test.describe('Square mixin')
+  @include test.it('should create the square with args')
+    @include test.assert
+      @include test.output
+        @include mixin.square($size, $radius, $background)
+      @include test.expect
+        @include output-css
+
+  @include test.it('should create the square with keyword args')
+    @include test.assert
+      @include test.output
+        @include mixin.square($background: $background)
+      @include test.expect
+        background: $background
+
+  @include test.it('should create the square with default args')
+    @include test.assert
+      @include test.output
+        @include mixin.square
+      @include test.expect
+
+  @include test.it('should create the square with complex size arg')
+    @include test.assert
+      @include test.output
+        @include mixin.square([$size, min $size], 5px, #fff)
+      @include test.expect
+        width: $size
+        min-width: $size
+        height: $size
+        min-height: $size
+        background: #fff
+        border-radius: 5px
+
+  @include test.it('should create the square with complex radius arg')
+    @include test.assert
+      @include test.output
+        @include mixin.square(min $size, [5px, 4px], #fff)
+      @include test.expect
+        min-width: $size
+        min-height: $size
+        background: #fff
+        border-radius: 5px 4px
+
+  @include test.it('should create the square with complex background arg')
+    @include test.assert
+      @include test.output
+        @include mixin.square($size, $radius, linear-gradient(#e66465, #9198e5))
+      @include test.expect
+        width: $size
+        height: $size
+        background: linear-gradient(#e66465, #9198e5)
+        border-radius: $radius

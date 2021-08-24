@@ -1,0 +1,63 @@
+@use '~sass-true' as test
+@use './index' as mixin
+
+// Input: size.
+$size: 20px
+
+// Input: background.
+$background: #fff
+
+// Output: css.
+@mixin output-css
+  width: $size
+  height: $size
+  background: $background
+  border-radius: 50%
+
+// Mixin to create the circle shape.
+@include test.describe('Circle mixin')
+  @include test.it('should create the circle with args')
+    @include test.assert
+      @include test.output
+        @include mixin.circle($size, $background)
+      @include test.expect
+        @include output-css
+
+  @include test.it('should create the circle with keyword args')
+    @include test.assert
+      @include test.output
+        @include mixin.circle($background: $background)
+      @include test.expect
+        background: $background
+        border-radius: 50%
+
+  @include test.it('should create the circle with default args')
+    @include test.assert
+      @include test.output
+        @include mixin.circle
+      @include test.expect
+        border-radius: 50%
+
+  @include test.it('should create the circle with complex size arg')
+    @include test.assert
+      @include test.output
+        @include mixin.circle([$size, min $size, max $size * 2], #fff)
+      @include test.expect
+        width: $size
+        min-width: $size
+        max-width: $size * 2
+        height: $size
+        min-height: $size
+        max-height: $size * 2
+        background: #fff
+        border-radius: 50%
+
+  @include test.it('should create the circle with complex background arg')
+    @include test.assert
+      @include test.output
+        @include mixin.circle($size, linear-gradient(#e66465, #9198e5))
+      @include test.expect
+        width: $size
+        height: $size
+        background: linear-gradient(#e66465, #9198e5)
+        border-radius: 50%

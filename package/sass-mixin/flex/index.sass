@@ -1,0 +1,85 @@
+@use '~@stylize/sass-func/list'
+
+////
+/// @group flex
+/// @author Nojukubi
+////
+
+/// Shorthand mixin for flex.
+/// @param {List} $props - Flex Props.
+/// @link https://css-tricks.com/snippets/css/a-guide-to-flexbox
+/// @example
+///   @include flex
+///   @include flex(row)
+///   @include flex(row center)
+///   @include flex(row center stretch)
+///   @include flex(row center stretch wrap)
+///   @include flex(row center stretch wrap space-evenly)
+@mixin flex($props: [])
+
+/// Shorthand mixin for flex.
+/// @param {String} $direction [null] - Direction.
+/// @param {String} $main [null] - Main Axis.
+/// @param {String} $cross [null] - Cross Axis.
+/// @param {String} $wrap [null] - Wrap Items.
+/// @param {String} $content [null] - Align Content.
+/// @link https://css-tricks.com/snippets/css/a-guide-to-flexbox
+/// @example
+///   @include flex
+///   @include flex(row)
+///   @include flex(row, center)
+///   @include flex(row, center, stretch)
+///   @include flex(row, center, stretch, wrap)
+///   @include flex(row, center, stretch, wrap, space-evenly)
+///   @include flex($justify: center, $align: stretch)
+@mixin flex($direction: null, $main: null, $cross: null, $wrap: null, $content: null)
+  @include -flexbox-(flex, $direction, $main, $cross, $wrap, $content)
+
+/// Shorthand mixin for inline-flex.
+/// @param {List} $props - Flex Props.
+/// @link https://css-tricks.com/snippets/css/a-guide-to-flexbox
+/// @example
+///   @include inline-flex
+///   @include inline-flex(row)
+///   @include inline-flex(row center)
+///   @include inline-flex(row center stretch)
+///   @include inline-flex(row center stretch wrap)
+///   @include inline-flex(row center stretch wrap space-evenly)
+@mixin inline-flex($props: [])
+
+/// Shorthand mixin for inline-flex.
+/// @param {String} $direction [null] - Direction.
+/// @param {String} $main [null] - Main Axis.
+/// @param {String} $cross [null] - Cross Axis.
+/// @param {String} $wrap [null] - Wrap Items.
+/// @param {String} $content [null] - Align Content.
+/// @link https://css-tricks.com/snippets/css/a-guide-to-flexbox
+/// @example
+///   @include inline-flex
+///   @include inline-flex(row)
+///   @include inline-flex(row, center)
+///   @include inline-flex(row, center, stretch)
+///   @include inline-flex(row, center, stretch, wrap)
+///   @include inline-flex(row, center, stretch, wrap, space-evenly)
+///   @include inline-flex($main: center, $cross: stretch)
+@mixin inline-flex($direction: null, $main: null, $cross: null, $wrap: null, $content: null)
+  @include -flexbox-(inline-flex, $direction, $main, $cross, $wrap, $content)
+
+/// Internal mixin to generate flex properties.
+/// @param $display - Row or column (reverse).
+/// @param $direction [null] - Direction.
+/// @param $main [null] - Main Axis.
+/// @param $cross [null] - Cross Axis.
+/// @param $wrap [null] - Wrap Items.
+/// @param $content [null] - Align Content.
+/// @ignore
+@mixin -flexbox-($display, $direction: null, $main: null, $cross: null, $wrap: null, $content: null)
+  @if list.has-multiple($direction)
+    @include -flexbox-($display, $direction...)
+  @else
+    display: $display
+    flex-direction: $direction
+    justify-content: $main
+    align-items: $cross
+    flex-wrap: $wrap
+    align-content: $content

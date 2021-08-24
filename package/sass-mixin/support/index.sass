@@ -1,0 +1,8 @@
+/// Determine whether hover is supported.
+/// @example
+///   @include support-hover
+///     &:hover
+///       text-transform: uppercase
+@mixin support-hover
+  @media (hover: hover), screen and (-ms-high-contrast: active), (-ms-high-contrast: none)
+    @content

@@ -1,6 +1,5 @@
 // Utilities for working with file and directory paths,
-// which vary depending on the operating system where
-// Node.js is running.
+// which vary depending on the operating system.
 const { resolve } = require('path');
 
 // Utilities to create and execute commands.

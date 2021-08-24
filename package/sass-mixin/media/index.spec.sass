@@ -1,0 +1,59 @@
+@use '~sass-true' as test
+@use './index' as mixin
+
+// Shorthand mixin for media.
+@include test.describe('Media mixin')
+  @include test.it('should create media query')
+    @include test.assert
+      @include test.output
+        @include mixin.media('>=xs')
+          font-weight: normal
+      @include test.expect
+        @media (min-width: 480px)
+          font-weight: normal
+
+  @include test.it('should create media query with gt operator')
+    @include test.assert
+      @include test.output
+        @include mixin.media('>xs')
+          font-weight: normal
+      @include test.expect
+        @media (min-width: 481px)
+          font-weight: normal
+
+  @include test.it('should create media query with equal operator')
+    @include test.assert
+      @include test.output
+        @include mixin.media('o=portrait')
+          font-weight: normal
+      @include test.expect
+        @media (orientation: portrait)
+          font-weight: normal
+
+  @include test.it('should create media query with media type')
+    @include test.assert
+      @include test.output
+        @include mixin.media((sc1: screen '>=xs', sc2: print))
+          font-weight: normal
+      @include test.expect
+        @media screen and (min-width: 480px), print
+          font-weight: normal
+
+  @include test.it('should create media query with keyword')
+    @include test.assert
+      @include test.output
+        @include mixin.media('portrait')
+          font-weight: normal
+      @include test.expect
+        @media (orientation: portrait)
+          font-weight: normal
+
+  @include test.it('should create media query with multiple conditions')
+    @include test.assert
+      @include test.output
+        @include mixin.media(screen, '>200px')
+          font-weight: normal
+      @include test.expect
+        @media screen
+          @media (min-width: 201px)
+            font-weight: normal

@@ -1,0 +1,72 @@
+@use '~sass-true' as test
+@use './index' as mixin
+
+// Output: css.
+@mixin output-css($display: null)
+  display: $display
+  flex-direction: column
+  justify-content: flex-end
+  align-items: stretch
+  flex-wrap: nowrap
+  align-content: flex-start
+
+// Shorthand mixin for flex.
+@include test.describe('Flex mixin')
+  @include test.it('should create flex properties with list')
+    @include test.assert
+      @include test.output
+        @include mixin.flex(column flex-end stretch nowrap flex-start)
+      @include test.expect
+        @include output-css(flex)
+
+  @include test.it('should create flex properties with args')
+    @include test.assert
+      @include test.output
+        @include mixin.flex(column, flex-end, stretch, nowrap, flex-start)
+      @include test.expect
+        @include output-css(flex)
+
+  @include test.it('should create flex properties with keyword args')
+    @include test.assert
+      @include test.output
+        @include mixin.flex($main: flex-end)
+      @include test.expect
+        display: flex
+        justify-content: flex-end
+
+  @include test.it('should create flex properties with default args')
+    @include test.assert
+      @include test.output
+        @include mixin.flex
+      @include test.expect
+        display: flex
+
+@include test.describe('Inline Flex mixin')
+  @include test.it('should create flex properties with list')
+    @include test.assert
+      @include test.output
+        @include mixin.inline-flex(column flex-end stretch nowrap flex-start)
+      @include test.expect
+        @include output-css(inline-flex)
+
+  @include test.it('should create flex properties with args')
+    @include test.assert
+      @include test.output
+        @include mixin.inline-flex(column, flex-end, stretch, nowrap, flex-start)
+      @include test.expect
+        @include output-css(inline-flex)
+
+  @include test.it('should create flex properties with keyword args')
+    @include test.assert
+      @include test.output
+        @include mixin.inline-flex($main: flex-end)
+      @include test.expect
+        display: inline-flex
+        justify-content: flex-end
+
+  @include test.it('should create flex properties with default args')
+    @include test.assert
+      @include test.output
+        @include mixin.inline-flex
+      @include test.expect
+        display: inline-flex

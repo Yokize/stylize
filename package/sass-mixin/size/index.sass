@@ -1,0 +1,60 @@
+@use '~@stylize/sass-func/list'
+
+////
+/// @group size
+/// @author Nojukubi
+////
+
+/// Shorthand to define max, min and eq width.
+/// @param {Length} $width [null] - Width.
+/// @example
+///   @include width(10px)
+///   @include width(min 10px)
+///   @include width(min 10px, max 30px)
+@mixin width($props...)
+  @if (list.is-single($props))
+    @include -unpack-(width, list.first($props))
+  @else
+    @include -unpack-(width, $props)
+
+/// Shorthand to define max, min and eq height.
+/// @param {Length} $height [null] - Height.
+/// @example
+///   @include height(10px)
+///   @include height(min 10px)
+///   @include height(min 10px, max 30px)
+@mixin height($props...)
+  @if (list.is-single($props))
+    @include -unpack-(height, list.first($props))
+  @else
+    @include -unpack-(height, $props)
+
+/// Shorthand to define width and height.
+/// @param {Length} $width [null] - Width.
+/// @param {Length} $height [null] - Height.
+/// @example
+///   @include size(10px)
+///   @include size(min 10px)
+///   @include size(min 10px, max 20px)
+///   @include size([30px, min 10px], max 20px)
+///   @include size([30px, min 10px], [min 10px, max 20px])
+@mixin size($width: null, $height: null)
+  @include width($width)
+  @include height($height)
+
+/// Unpack property value with prefix support.
+/// @param {String} $prop - Prop name.
+/// @param {List|String} $value - Value.
+/// @ignore
+@mixin -unpack-($prop, $value)
+  // In case it's single value.
+  @if (list.is-single($value))
+    #{$prop}: $value
+  @else
+    $prefix: list.first($value)
+
+    @if ($prefix == min or $prefix == max)
+      #{$prefix}-#{$prop}: list.nth($value, 2)
+    @else
+      @each $chunk in $value
+        @include -unpack-($prop, $chunk)
