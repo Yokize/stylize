@@ -34,7 +34,7 @@ $unit-length: 1cm 1mm 1in 1px 1pt 1pc 1em 1ex 1ch 1rem 1vw 1vh 1vmin 1vmax 1%
 @function rem($number)
   $unit: math.unit($number)
   @if $unit == 'px'
-    @return $number / $base-size
+    @return math.div($number, $base-size) * 1rem
 
 /// Determine whether $var is unit.
 /// @param {String} $unit - Unit to check.

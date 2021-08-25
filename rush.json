@@ -21,15 +21,18 @@
     },
     {
       "packageName": "@stylize/sass-func",
-      "projectFolder": "package/sass-func"
+      "projectFolder": "package/sass-func",
+      "shouldPublish": true
     },
     {
       "packageName": "@stylize/sass-mixin",
-      "projectFolder": "package/sass-mixin"
+      "projectFolder": "package/sass-mixin",
+      "shouldPublish": true
     },
     {
       "packageName": "@stylize/sass-shape",
-      "projectFolder": "package/sass-shape"
+      "projectFolder": "package/sass-shape",
+      "shouldPublish": true
     }
   ]
 }
