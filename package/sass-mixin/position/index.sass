@@ -1,330 +1,386 @@
 @use '~@stylize/sass-func/meta'
 @use '~@stylize/sass-func/list'
+@use '../z-index' as *
 
 ////
 /// @group position
 /// @author Nojukubi
+/// @source https://developer.mozilla.org/en-US/docs/Web/CSS/position
 ////
 
 /// Shorthand mixin for position property.
-/// @param {List} $props - Position Props.
+/// @param {List} $props Position Props.
 /// @example
-///   @include position(relative)
-///   @include position(absolute null 0)
-///   @include position(absolute 0 1px 0)
-///   @include position(absolute 0 1px null 0)
-///   @include position(absolute 0 1px null 1px 1)
-@mixin position($props: [])
+///   position(absolute)
+///   position(absolute null 0)
+///   position(absolute 0 1px 0)
+///   position(absolute 0 1px null 0)
+///   position(absolute 0 1px null 1px 1)
+///   position(absolute 0 1px null 1px header)
+=position($props: [])
 
 /// Shorthand mixin for position property.
-/// @param {String} $position - Position.
-/// @param {Length} $top [null] - Top offset.
-/// @param {Length} $right [null] - Right offset.
-/// @param {Length} $bottom [null] - Bottom offset.
-/// @param {Length} $left [null] - Left offset.
-/// @param {String|Number} $z [null] - Stack order.
+/// @param {String} $position Position.
+/// @param {Length} $top [null] Top offset.
+/// @param {Length} $right [null] Right offset.
+/// @param {Length} $bottom [null] Bottom offset.
+/// @param {Length} $left [null] Left offset.
+/// @param {String|Number} $z [null] Stack order.
 /// @example
-///   @include position(relative)
-///   @include position(absolute, null, 0)
-///   @include position(absolute, 0, 1px, 0)
-///   @include position(absolute, 0, 1px, null, 0)
-///   @include position(absolute, 0, 1px, null, 1px, 1)
-///   @include position($position: absolute, $top: 0, $z: 1)
-@mixin position($position, $top: null, $right: null, $bottom: null, $left: null, $z: null)
-  @if list.has-multiple($position)
-    @include position($position...)
-  @else if list.has-multiple($top)
-    @include position($position, $top...)
+///   position(absolute)
+///   position(absolute, null, 0)
+///   position(absolute, 0, 1px, 0)
+///   position(absolute, 0, 1px, null, 0)
+///   position(absolute, 0, 1px, null, 1px, 1)
+///   position(absolute, 0, 1px, null, 1px, header)
+///   position($position: absolute, $top: 0, $z: 1)
+=position($position, $top: null, $right: null, $bottom: null, $left: null, $z: null)
+  @if list.has-single($position)
+    +-position-($position, $top, $right, $bottom, $left, $z)
   @else
-    position: $position
-    top: $top
-    right: $right
-    bottom: $bottom
-    left: $left
-
-    @if meta.is-number($z)
-      z-index: $z
+    +-position-($position...)
 
 /// Shorthand mixin for relative position.
-/// @param {List} $props - Position Props.
+/// @param {List} $props Position Props.
 /// @example
-///   @include relative
-///   @include relative(0 null)
-///   @include relative(0 1px 0)
-///   @include relative(0 1px 0 null)
-///   @include relative(0 1px 0 1px 1)
-@mixin relative($props: [])
+///   relative
+///   relative(0 null)
+///   relative(0 1px 0)
+///   relative(0 1px null 1px)
+///   relative(0 1px null 1px 1)
+///   relative(0 1px null 1px header)
+=relative($props: [])
 
 /// Shorthand mixin for relative position.
-/// @param {Length} $top [null] - Top offset.
-/// @param {Length} $right [null] - Right offset.
-/// @param {Length} $bottom [null] - Bottom offset.
-/// @param {Length} $left [null] - Left offset.
-/// @param {String|Number} $z [null] - Stack order.
+/// @param {Length} $top [null] Top offset.
+/// @param {Length} $right [null] Right offset.
+/// @param {Length} $bottom [null] Bottom offset.
+/// @param {Length} $left [null] Left offset.
+/// @param {String|Number} $z [null] Stack order.
 /// @example
-///   @include relative
-///   @include relative(null, 0)
-///   @include relative(0, 1px, 0)
-///   @include relative(0, 1px, null, 0)
-///   @include relative(0, 1px, null, 1px, 1)
-///   @include relative($top: 0, $left: 0, $z: 1)
-@mixin relative($top: null, $right: null, $bottom: null, $left: null, $z: null)
-  @include position(relative, $top, $right, $bottom, $left, $z)
-
-/// Shorthand mixin for absolute position.
-/// @param {List} $props - Position Props.
-/// @example
-///   @include absolute
-///   @include absolute(null 0)
-///   @include absolute(0 1px 0)
-///   @include absolute(0 1px 0 null)
-///   @include absolute(0 1px 0 1px 1)
-@mixin absolute($props: [])
-
-/// Shorthand mixin for absolute position.
-/// @param {Length} $top [null] - Top offset.
-/// @param {Length} $right [null] - Right offset.
-/// @param {Length} $bottom [null] - Bottom offset.
-/// @param {Length} $left [null] - Left offset.
-/// @param {String|Number} $z [null] - Stack order.
-/// @example
-///   @include absolute
-///   @include absolute(null, 0)
-///   @include absolute(0, 1px, 0)
-///   @include absolute(0, 1px, null, 0)
-///   @include absolute(0, 1px, null, 1px, 1)
-///   @include absolute($top: 0, $left: 0, $z: 1)
-@mixin absolute($top: null, $right: null, $bottom: null, $left: null, $z: null)
-  @include position(absolute, $top, $right, $bottom, $left, $z)
-
-/// Shorthand to cover the parent container using absolute.
-/// @param {List} $props - Cover Props.
-/// @example
-///   @include absolute-cover(10px 2)
-@mixin absolute-cover($props: [])
-
-/// Shorthand to cover the parent container using absolute.
-/// @param {Length} $offset [0] - Offset.
-/// @param {String|Number} $z [null] - Stack order.
-/// @example
-///   @include absolute-cover
-///   @include absolute-cover(10px)
-///   @include absolute-cover(10px, 2)
-@mixin absolute-cover($offset: 0, $z: null)
-  @if list.has-multiple($offset)
-    @include absolute-cover($offset...)
+///   relative
+///   relative(null, 0)
+///   relative(0, 1px, 0)
+///   relative(0, 1px, null, 0)
+///   relative(0, 1px, null, 1px, 1)
+///   relative(0, 1px, null, 1px, header)
+///   relative($top: 0, $left: 0, $z: header)
+=relative($top: null, $right: null, $bottom: null, $left: null, $z: null)
+  @if list.has-single($top)
+    +-position-(relative, $top, $right, $bottom, $left, $z)
   @else
-    @include absolute($offset, $offset, $offset, $offset, $z)
+    +-position-(relative, $top...)
+
+/// Shorthand mixin for absolute position.
+/// @param {List} $props Position Props.
+/// @example
+///   absolute
+///   absolute(null 0)
+///   absolute(0 1px 0)
+///   absolute(0 1px null 1px)
+///   absolute(0 1px null 1px 1)
+///   absolute(0 1px null 1px header)
+=absolute($props: [])
+
+/// Shorthand mixin for absolute position.
+/// @param {Length} $top [null] Top offset.
+/// @param {Length} $right [null] Right offset.
+/// @param {Length} $bottom [null] Bottom offset.
+/// @param {Length} $left [null] Left offset.
+/// @param {String|Number} $z [null] Stack order.
+/// @example
+///   absolute
+///   absolute(null, 0)
+///   absolute(0, 1px, 0)
+///   absolute(0, 1px, null, 0)
+///   absolute(0, 1px, null, 1px, 1)
+///   absolute(0, 1px, null, 1px, header)
+///   absolute($top: 0, $left: 0, $z: header)
+=absolute($top: null, $right: null, $bottom: null, $left: null, $z: null)
+  @if list.has-single($top)
+    +-position-(absolute, $top, $right, $bottom, $left, $z)
+  @else
+    +-position-(absolute, $top...)
+
+/// Shorthand to cover the parent container using absolute.
+/// @param {List} $props Cover Props.
+/// @example
+///   absolute-cover(10px 2)
+///   absolute-cover(10px header)
+=absolute-cover($props: [])
+
+/// Shorthand to cover the parent container using absolute.
+/// @param {Length} $offset [0] Offset.
+/// @param {String|Number} $z [null] Stack order.
+/// @example
+///   absolute-cover
+///   absolute-cover(10px)
+///   absolute-cover(10px, 2)
+///   absolute-cover(10px, header)
+=absolute-cover($offset: 0, $z: null)
+  @if list.has-single($offset)
+    +-position-(absolute, $offset, $offset, $offset, $offset, $z)
+  @else
+    +absolute-cover($offset...)
 
 /// Shorthand to align at center in parent container using absolute.
-/// @param {String|Number} $z [null] - Stack order.
+/// @param {String|Number} $z [null] Stack order.
 /// @example
-///   @include absolute-center
-///   @include absolute-center(1)
-@mixin absolute-center($z: null)
+///   absolute-center
+///   absolute-center(1)
+///   absolute-center(header)
+=absolute-center($z: null)
   transform: translate(-50%, -50%)
-  @include absolute($top: 50%, $left: 50%, $z: $z)
+  +-position-(absolute, $top: 50%, $left: 50%, $z: $z)
 
 /// Shorthand to align at top-left in parent container using absolute.
-/// @param {String|Number} $z [null] - Stack order.
+/// @param {String|Number} $z [null] Stack order.
 /// @example
-///   @include absolute-top-left
-///   @include absolute-top-left(1)
-@mixin absolute-top-left($z: null)
-  @include absolute($top: 0, $left: 0, $z: $z)
+///   absolute-top-left
+///   absolute-top-left(1)
+///   absolute-top-left(header)
+=absolute-top-left($z: null)
+  +-position-(absolute, $top: 0, $left: 0, $z: $z)
 
 /// Shorthand to align at top-right in parent container using absolute.
-/// @param {String|Number} $z [null] - Stack order.
+/// @param {String|Number} $z [null] Stack order.
 /// @example
-///   @include absolute-top-right
-///   @include absolute-top-right(1)
-@mixin absolute-top-right($z: null)
-  @include absolute($top: 0, $right: 0, $z: $z)
+///   absolute-top-right
+///   absolute-top-right(1)
+///   absolute-top-right(header)
+=absolute-top-right($z: null)
+  +-position-(absolute, $top: 0, $right: 0, $z: $z)
 
 /// Shorthand to align at bottom-left in parent container using absolute.
-/// @param {String|Number} $z [null] - Stack order.
+/// @param {String|Number} $z [null] Stack order.
 /// @example
-///   @include absolute-bottom-left
-///   @include absolute-bottom-left(1)
-@mixin absolute-bottom-left($z: null)
-  @include absolute($bottom: 0, $left: 0, $z: $z)
+///   absolute-bottom-left
+///   absolute-bottom-left(1)
+///   absolute-bottom-left(header)
+=absolute-bottom-left($z: null)
+  +-position-(absolute, $bottom: 0, $left: 0, $z: $z)
 
 /// Shorthand to align at bottom-right in parent container using absolute.
-/// @param {String|Number} $z [null] - Stack order.
+/// @param {String|Number} $z [null] Stack order.
 /// @example
-///   @include absolute-bottom-right
-///   @include absolute-bottom-right(1)
-@mixin absolute-bottom-right($z: null)
-  @include absolute($bottom: 0, $right: 0, $z: $z)
+///   absolute-bottom-right
+///   absolute-bottom-right(1)
+///   absolute-bottom-right(header)
+=absolute-bottom-right($z: null)
+  +-position-(absolute, $bottom: 0, $right: 0, $z: $z)
 
 /// Shorthand mixin for fixed position.
-/// @param {List} $props - Position Props.
+/// @param {List} $props Position Props.
 /// @example
-///   @include fixed
-///   @include fixed(null 0)
-///   @include fixed(0 1px 0)
-///   @include fixed(0 1px null 0)
-///   @include fixed(0 1px null 1px 1)
-@mixin fixed($props: [])
+///   fixed
+///   fixed(null 0)
+///   fixed(0 1px 0)
+///   fixed(0 1px null 0)
+///   fixed(0 1px null 1px 1)
+///   fixed(0 1px null 1px header)
+=fixed($props: [])
 
 /// Shorthand mixin for fixed position.
-/// @param {Length} $top [null] - Top offset.
-/// @param {Length} $right [null] - Right offset.
-/// @param {Length} $bottom [null] - Bottom offset.
-/// @param {Length} $left [null] - Left offset.
-/// @param {String|Number} $z [null] - Stack order.
+/// @param {Length} $top [null] Top offset.
+/// @param {Length} $right [null] Right offset.
+/// @param {Length} $bottom [null] Bottom offset.
+/// @param {Length} $left [null] Left offset.
+/// @param {String|Number} $z [null] Stack order.
 /// @example
-///   @include fixed
-///   @include fixed(null, 0)
-///   @include fixed(0, 1px, 0)
-///   @include fixed(0, 1px, null, 0)
-///   @include fixed(0, 1px, null, 1px, 1)
-///   @include fixed($top: 0, $left: 0, $z: 1)
-@mixin fixed($top: null, $right: null, $bottom: null, $left: null, $z: null)
-  @include position(fixed, $top, $right, $bottom, $left, $z)
-
-/// Shorthand to cover the parent container using fixed.
-/// @param {List} $props - Cover Props.
-/// @example
-///   @include fixed-cover(10px 2)
-@mixin fixed-cover($props: [])
-
-/// Shorthand to cover the parent container using fixed.
-/// @param {Length} $offset [0] - Offset.
-/// @param {String|Number} $z [null] - Stack order.
-/// @example
-///   @include fixed-cover
-///   @include fixed-cover(10px)
-///   @include fixed-cover(10px, 2)
-@mixin fixed-cover($offset: 0, $z: null)
-  @if list.has-multiple($offset)
-    @include fixed-cover($offset...)
+///   fixed
+///   fixed(null, 0)
+///   fixed(0, 1px, 0)
+///   fixed(0, 1px, null, 0)
+///   fixed(0, 1px, null, 1px, 1)
+///   fixed(0, 1px, null, 1px, header)
+///   fixed($top: 0, $left: 0, $z: header)
+=fixed($top: null, $right: null, $bottom: null, $left: null, $z: null)
+  @if list.has-single($top)
+    +-position-(fixed, $top, $right, $bottom, $left, $z)
   @else
-    @include fixed($offset, $offset, $offset, $offset, $z)
+    +-position-(fixed, $top...)
+
+/// Shorthand to cover the parent container using fixed.
+/// @param {List} $props Cover Props.
+/// @example
+///   fixed-cover(10px 2)
+///   fixed-cover(10px header)
+=fixed-cover($props: [])
+
+/// Shorthand to cover the parent container using fixed.
+/// @param {Length} $offset [0] Offset.
+/// @param {String|Number} $z [null] Stack order.
+/// @example
+///   fixed-cover
+///   fixed-cover(10px)
+///   fixed-cover(10px, 2)
+///   fixed-cover(10px, header)
+=fixed-cover($offset: 0, $z: null)
+  @if list.has-single($offset)
+    +-position-(fixed, $offset, $offset, $offset, $offset, $z)
+  @else
+    +fixed-cover($offset...)
 
 /// Shorthand to align at center in parent container using fixed.
-/// @param {String|Number} $z [null] - Stack order.
+/// @param {String|Number} $z [null] Stack order.
 /// @example
-///   @include fixed-center
-///   @include fixed-center(1)
-@mixin fixed-center($z: null)
+///   fixed-center
+///   fixed-center(1)
+///   fixed-center(header)
+=fixed-center($z: null)
   transform: translate(-50%, -50%)
-  @include fixed($top: 50%, $left: 50%, $z: $z)
+  +-position-(fixed, $top: 50%, $left: 50%, $z: $z)
 
 /// Shorthand to align at top-left in parent container using fixed.
-/// @param {String|Number} $z [null] - Stack order.
+/// @param {String|Number} $z [null] Stack order.
 /// @example
-///   @include fixed-top-left
-///   @include fixed-top-left(1)
-@mixin fixed-top-left($z: null)
-  @include fixed($top: 0, $left: 0, $z: $z)
+///   fixed-top-left
+///   fixed-top-left(1)
+///   fixed-top-left(header)
+=fixed-top-left($z: null)
+  +-position-(fixed, $top: 0, $left: 0, $z: $z)
 
 /// Shorthand to align at top-right in parent container using fixed.
-/// @param {String|Number} $z [null] - Stack order.
+/// @param {String|Number} $z [null] Stack order.
 /// @example
-///   @include fixed-top-right
-///   @include fixed-top-right(1)
-@mixin fixed-top-right($z: null)
-  @include fixed($top: 0, $right: 0, $z: $z)
+///   fixed-top-right
+///   fixed-top-right(1)
+///   fixed-top-right(header)
+=fixed-top-right($z: null)
+  +-position-(fixed, $top: 0, $right: 0, $z: $z)
 
 /// Shorthand to align at bottom-left in parent container using fixed.
-/// @param {String|Number} $z [null] - Stack order.
+/// @param {String|Number} $z [null] Stack order.
 /// @example
-///   @include fixed-bottom-left
-///   @include fixed-bottom-left(1)
-@mixin fixed-bottom-left($z: null)
-  @include fixed($bottom: 0, $left: 0, $z: $z)
+///   fixed-bottom-left
+///   fixed-bottom-left(1)
+///   fixed-bottom-left(header)
+=fixed-bottom-left($z: null)
+  +-position-(fixed, $bottom: 0, $left: 0, $z: $z)
 
 /// Shorthand to align at bottom-right in parent container using fixed.
-/// @param {String|Number} $z [null] - Stack order.
+/// @param {String|Number} $z [null] Stack order.
 /// @example
-///   @include fixed-bottom-right
-///   @include fixed-bottom-right(1)
-@mixin fixed-bottom-right($z: null)
-  @include fixed($bottom: 0, $right: 0, $z: $z)
+///   fixed-bottom-right
+///   fixed-bottom-right(1)
+///   fixed-bottom-right(header)
+=fixed-bottom-right($z: null)
+  +-position-(fixed, $bottom: 0, $right: 0, $z: $z)
 
 /// Shorthand mixin for sticky position.
-/// @param {List} $props - Position Props.
+/// @param {List} $props Position Props.
 /// @example
-///   @include sticky
-///   @include sticky(null 0)
-///   @include sticky(0 1px 0)
-///   @include sticky(0 1px null 0)
-///   @include sticky(0 1px null 1px 1)
-@mixin sticky($props: [])
+///   sticky
+///   sticky(null 0)
+///   sticky(0 1px 0)
+///   sticky(0 1px null 0)
+///   sticky(0 1px null 1px 1)
+///   sticky(0 1px null 1px header)
+=sticky($props: [])
 
 /// Shorthand mixin for sticky position.
-/// @param {Length} $top [null] - Top offset.
-/// @param {Length} $right [null] - Right offset.
-/// @param {Length} $bottom [null] - Bottom offset.
-/// @param {Length} $left [null] - Left offset.
-/// @param {String|Number} $z [null] - Stack order.
+/// @param {Length} $top [null] Top offset.
+/// @param {Length} $right [null] Right offset.
+/// @param {Length} $bottom [null] Bottom offset.
+/// @param {Length} $left [null] Left offset.
+/// @param {String|Number} $z [null] Stack order.
 /// @example
-///   @include sticky
-///   @include sticky(null, 0)
-///   @include sticky(0, 1px, 0)
-///   @include sticky(0, 1px, null, 0)
-///   @include sticky(0, 1px, null, 1px, 1)
-///   @include sticky($top: 0, $left: 0, $z: 1)
-@mixin sticky($top: null, $right: null, $bottom: null, $left: null, $z: null)
-  @include position(sticky, $top, $right, $bottom, $left, $z)
-
-/// Shorthand to cover the parent container using sticky.
-/// @param {List} $props - Cover Props.
-/// @example
-///   @include sticky-cover(10px 2)
-@mixin sticky-cover($props: [])
-
-/// Shorthand to cover the parent container using sticky.
-/// @param {Length} $offset [0] - Offset.
-/// @param {String|Number} $z [null] - Stack order.
-/// @example
-///   @include sticky-cover
-///   @include sticky-cover(10px)
-///   @include sticky-cover(10px, 2)
-@mixin sticky-cover($offset: 0, $z: null)
-  @if list.has-multiple($offset)
-    @include sticky-cover($offset...)
+///   sticky
+///   sticky(null, 0)
+///   sticky(0, 1px, 0)
+///   sticky(0, 1px, null, 0)
+///   sticky(0, 1px, null, 1px, 1)
+///   sticky(0, 1px, null, 1px, header)
+///   sticky($top: 0, $left: 0, $z: header)
+=sticky($top: null, $right: null, $bottom: null, $left: null, $z: null)
+  @if list.has-single($top)
+    +-position-(sticky, $top, $right, $bottom, $left, $z)
   @else
-    @include sticky($offset, $offset, $offset, $offset, $z)
+    +-position-(sticky, $top...)
+
+/// Shorthand to cover the parent container using sticky.
+/// @param {List} $props Cover Props.
+/// @example
+///   sticky-cover(10px 2)
+///   sticky-cover(10px header)
+=sticky-cover($props: [])
+
+/// Shorthand to cover the parent container using sticky.
+/// @param {Length} $offset [0] Offset.
+/// @param {String|Number} $z [null] Stack order.
+/// @example
+///   sticky-cover
+///   sticky-cover(10px)
+///   sticky-cover(10px, 2)
+///   sticky-cover(10px, header)
+=sticky-cover($offset: 0, $z: null)
+  @if list.has-single($offset)
+    +-position-(sticky, $offset, $offset, $offset, $offset, $z)
+  @else
+    +sticky-cover($offset...)
 
 /// Shorthand to align at center in parent container using sticky.
-/// @param {String|Number} $z [null] - Stack order.
+/// @param {String|Number} $z [null] Stack order.
 /// @example
-///   @include sticky-center
-///   @include sticky-center(1)
-@mixin sticky-center($z: null)
+///   sticky-center
+///   sticky-center(1)
+///   sticky-center(header)
+=sticky-center($z: null)
   transform: translate(-50%, -50%)
-  @include sticky($top: 50%, $left: 50%, $z: $z)
+  +-position-(sticky, $top: 50%, $left: 50%, $z: $z)
 
 /// Shorthand to align at top-left in parent container using sticky.
-/// @param {String|Number} $z [null] - Stack order.
+/// @param {String|Number} $z [null] Stack order.
 /// @example
-///   @include sticky-top-left
-///   @include sticky-top-left(1)
-@mixin sticky-top-left($z: null)
-  @include sticky($top: 0, $left: 0, $z: $z)
+///   sticky-top-left
+///   sticky-top-left(1)
+///   sticky-top-left(header)
+=sticky-top-left($z: null)
+  +-position-(sticky, $top: 0, $left: 0, $z: $z)
 
 /// Shorthand to align at top-right in parent container using sticky.
-/// @param {String|Number} $z [null] - Stack order.
+/// @param {String|Number} $z [null] Stack order.
 /// @example
-///   @include sticky-top-right
-///   @include sticky-top-right(1)
-@mixin sticky-top-right($z: null)
-  @include sticky($top: 0, $right: 0, $z: $z)
+///   sticky-top-right
+///   sticky-top-right(1)
+///   sticky-top-right(header)
+=sticky-top-right($z: null)
+  +-position-(sticky, $top: 0, $right: 0, $z: $z)
 
 /// Shorthand to align at bottom-left in parent container using sticky.
-/// @param {String|Number} $z [null] - Stack order.
+/// @param {String|Number} $z [null] Stack order.
 /// @example
-///   @include sticky-bottom-left
-///   @include sticky-bottom-left(1)
-@mixin sticky-bottom-left($z: null)
-  @include sticky($bottom: 0, $left: 0, $z: $z)
+///   sticky-bottom-left
+///   sticky-bottom-left(1)
+///   sticky-bottom-left(header)
+=sticky-bottom-left($z: null)
+  +-position-(sticky, $bottom: 0, $left: 0, $z: $z)
 
 /// Shorthand to align at bottom-right in parent container using sticky.
-/// @param {String|Number} $z [null] - Stack order.
+/// @param {String|Number} $z [null] Stack order.
 /// @example
-///   @include sticky-bottom-right
-///   @include sticky-bottom-right(1)
-@mixin sticky-bottom-right($z: null)
-  @include sticky($bottom: 0, $right: 0, $z: $z)
+///   sticky-bottom-right
+///   sticky-bottom-right(1)
+///   sticky-bottom-right(header)
+=sticky-bottom-right($z: null)
+  +-position-(sticky, $bottom: 0, $right: 0, $z: $z)
+
+/// Internal mixin to generate position properties.
+/// @param {String} $position Position.
+/// @param {Length} $top [null] Top offset.
+/// @param {Length} $right [null] Right offset.
+/// @param {Length} $bottom [null] Bottom offset.
+/// @param {Length} $left [null] Left offset.
+/// @param {String|Number} $z [null] Stack order.
+=-position-($position, $top: null, $right: null, $bottom: null, $left: null, $z: null)
+  position: $position
+  top: $top
+  right: $right
+  bottom: $bottom
+  left: $left
+
+  @if meta.is-number($z)
+    z-index: $z
+
+  @else if meta.is-string($z)
+    +z-index($z)

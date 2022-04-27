@@ -1,32 +1,49 @@
 @use '~sass-true' as test
 @use './index' as mixin
 
+// Expect: result.
+=expect-result($size: null, $line: null, $weight: null, $family: null)
+  font-size: $size
+  line-height: $line
+  font-weight: $weight
+  font-family: $family
+
 // Shorthand mixin for font.
-@include test.describe('Font mixin')
-  @include test.it('should create font property with list')
-    @include test.assert
-      @include test.output
-        @include mixin.font(10px 10px 300 (Arial, san-sarif))
-      @include test.expect
-        font: normal normal 300 10px / 10px Arial, san-sarif
++test.describe('Font mixin')
+  +test.it('should add font properties with args')
+    +test.assert
+      +test.output
+        +mixin.font(10px, 10px, 300, (Arial, san-sarif))
+      +test.expect
+        +expect-result(10px, 10px, 300, (Arial, san-sarif))
 
-  @include test.it('should create font property with args')
-    @include test.assert
-      @include test.output
-        @include mixin.font(10px, 10px, 300, (Arial, san-sarif))
-      @include test.expect
-        font: normal normal 300 10px / 10px Arial, san-sarif
+  +test.it('should add font properties with list arg')
+    +test.assert
+      +test.output
+        +mixin.font(10px 10px 300 (Arial, san-sarif))
+      +test.expect
+        +expect-result(10px, 10px, 300, (Arial, san-sarif))
 
-  @include test.it('should create font property with keyword args')
-    @include test.assert
-      @include test.output
-        @include mixin.font($size: 1px, $weight: bold)
-      @include test.expect
-        font: normal normal bold 1px / normal mixin.$base-font
+  +test.it('should add font properties with default args')
+    +test.assert
+      +test.output
+        +mixin.font
+      +test.expect
 
-  @include test.it('should create font property with default args')
-    @include test.assert
-      @include test.output
-        @include mixin.font
-      @include test.expect
-        font: normal normal normal inherit / normal mixin.$base-font
+  +test.it('should add font properties with keyword args')
+    +test.assert
+      +test.output
+        +mixin.font($size: 1px, $weight: bold)
+      +test.expect
+        +expect-result(1px, null, bold)
+
+// Shorthand mixin for font smoothing.
++test.describe('Font Smoothing mixin')
+  +test.it('should define smooth font rendering')
+    +test.assert
+      +test.output
+        +mixin.font-smoothing
+      +test.expect
+        &, &::after, &::before
+          -webkit-font-smoothing: antialiased
+          -moz-osx-font-smoothing: grayscale

@@ -1,213 +1,288 @@
 @use '~@stylize/sass-func/list'
 @use '~@stylize/sass-func/map'
-@use '~@stylize/sass-func/math'
 @use '~@stylize/sass-func/meta'
-@use '~@stylize/sass-func/string'
+@use '~@stylize/sass-func/math'
 @use '~@stylize/sass-func/number'
+@use '~@stylize/sass-func/string'
+@use '~@stylize/sass-func/unit'
 
 ////
 /// @group media
 /// @author Nojukubi
+/// @source https://developer.mozilla.org/en-US/docs/Web/CSS/Media_Queries
 ////
 
-/// Media queries are useful to modify the site or application depending
+/// Media queries are useful to modify site or application depending
 /// on the general type of device (e.g., print vs screen) or specific
 /// characteristics and parameters (e.g., screen resolution or browser
 /// viewport width). Media query is composed of an optional media type
 /// and any number of media feature expressions. Multiple queries can
 /// be combined in various ways by using logical operators.
-/// © MDN web docs <https://developer.mozilla.org/en-US/docs/Web/CSS/Media_Queries/>
 
-/// Conditions cache.
+/// Internal cache.
+/// @type Map
 $-cache-: ()
 
-/// Operator `equal to`.
-$-operator-eq-: '='
+/// Symbol `less than`.
+/// @type String
+$-symbol-lt-: '<'
 
-/// Operator `less than`.
-$-operator-lt-: '<'
+/// Symbol `greater than`.
+/// @type String
+$-symbol-gt-: '>'
 
-/// Operator `greater than`.
-$-operator-gt-: '>'
+/// Config `equals to`.
+/// @type Map
+$-config-eq-: (ops: ['=' ':'], prefix: null)
 
-/// Operators `less than` or `equal to`.
-$-operator-lte-: [ '<=', '≤', $-operator-lt-]
+/// Config `less than or equal to`.
+/// @type Map
+$-config-lt-: (ops: ['<=' '≤' $-symbol-lt-], prefix: max)
 
-/// Operators `greater than` or `equal to`.
-$-operator-gte-: [ '>=', '≥', $-operator-gt-]
+/// Config `greater than or equal to`.
+/// @type Map
+$-config-gt-: (ops: ['>=' '≥' $-symbol-gt-], prefix: min)
 
-/// Operators groups with additional metadata.
-$-operator-group-: [ [$-operator-lte-, max], [$-operator-gte-, min], [$-operator-eq-, null] ]
-
-/// Offsets to be used with lt and gt operators.
-$unit-offset: ('': 0, 'px': 1, 'em': 0.01, 'rem': 0.1) !default
-
-/// Media features describe specific characteristics
-/// of the user agent, output device or environment.
-$features: ('w': 'width', 'h': 'height', 'o': 'orientation') !default
-
-/// Predefined breakpoints used with media feature.
-$breakpoints: (mc: 360px, xs: 480px, sm: 768px, md: 1024px, lg: 1200px) !default
-
-/// Predefined media conditions with unique keyword.
-$keywords: () !default
-
-// Define the default keywords for media conditions.
-$keywords: map.set($keywords, 'portrait', '(orientation: portrait)')
-$keywords: map.set($keywords, 'landscape', '(orientation: landscape)')
-$keywords: map.set($keywords, 'retina2x', '(-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi), (min-resolution: 2dppx)')
-$keywords: map.set($keywords, 'retina3x', '(-webkit-min-device-pixel-ratio: 3), (min-resolution: 350dpi), (min-resolution: 3dppx)')
-
-/// Shorthand mixin for media queries.
-/// @param {ArgList} $conditions - Conditions.
-/// @example
-///    @include media('w>sm')
-///    @include media('w>sm', 'h<=sm')
-///    @include media('w>sm', 'h<=sm', 'portrait')
-///    @include media((sc1: screen, sc2: 'portrait'))
-@mixin media($conditions...)
-  @if list.is-empty($conditions)
-    @content
-  @else
-    $raw-data: list.first($conditions)
-    // Create media condition based on raw data.
-    $condition: string.unquote(-create-condition-($raw-data))
-    // Native media `at-rule` with media condition.
-    @media #{$condition}
-      $other: list.slice($conditions, 2)
-      // Nested native media with other conditions.
-      @include media($other...)
-        @content
-
-/// Create media query condition based on raw data.
-/// @param {Map|List|String} $raw - Raw data.
-/// @return {String} Native media condition.
-@function -create-condition-($raw)
-  $query: []
-
-  @if meta.is-map($raw)
-    // Create native media conditions from raw map data.
-    $query: list.join($query, -create-map-condition-($raw))
-  @else if (meta.is-list($raw))
-    // Create native media conditions from raw list data.
-    $query: list.join($query, -create-list-condition-($raw))
-  @else if (meta.is-string($raw))
-    @if map.has-key($keywords, $raw)
-      // Get condition from the hardcoded keywords.
-      $query: list.append($query, map.get($keywords, $raw))
-    @else if map.has-key($-cache-, $raw)
-      // Get condition from already existing cache.
-      $query: list.append($query, map.get($-cache-, $raw))
+/// Create the media query based on the raw data.
+/// @param {Map|List|String} $data Raw data.
+/// @return {String} Native media query.
+/// @throws Unknown media condition.
+@function -create-query-($data)
+  @if meta.is-map($data)
+    // Create the media query from the map.
+    @return -create-query-map-($data)
+  @else if meta.is-list($data)
+    // Create the media query from the list.
+    @return -create-query-list-($data)
+  @else if meta.is-string($data)
+    @if map.has-key($-cache-, $data)
+      // Media query from cache with results.
+      @return map.get($-cache-, $data)
+    @else if map.has-key($shortcuts, $data)
+      // Media query from hardcoded shortcuts.
+      @return map.get($shortcuts, $data)
     @else
-      // Create native media conditions from raw string data.
-      $query: list.append($query, -create-str-condition-($raw))
+      // Parse media query from specified string.
+      @return -create-query-str-($data)
   @else
-    @error 'Uknown media condition: #{$raw}'
+    @error 'Unknown media condition: `#{$data}`'
+
+/// Create the media query based on the raw map.
+/// @param {Map} $data Raw data.
+/// @return {String} Native media query.
+@function -create-query-map-($data)
+  $query: []
+  @each $chunk in map.values($data)
+    $query: list.append($query, -create-query-($chunk))
   @return list.to-string($query, ', ')
 
-/// Create media query based on raw string data.
-/// @param {String} $raw - Raw data.
-/// @return {String} Native media condition.
-@function -create-str-condition-($raw)
-  // Find operator in raw string data.
-  $found-operator: -find-operator-($raw)
-
-  @if map.has-key($found-operator, index)
-    // Find name of media feature.
-    $feature: -find-feature-($raw, $found-operator)
-    // Find value related to feature.
-    $value: -find-value-($raw, $found-operator)
-    // Get feature prefix based on operator.
-    $prefix: map.get($found-operator, prefix)
-
-    @if $prefix
-      $-cache-: map.set($-cache-, $raw, '(#{$prefix}-#{$feature}: #{$value})') !global
-    @else
-      $-cache-: map.set($-cache-, $raw, '(#{$feature}: #{$value})') !global
-
-    // Get condition based on specified raw data.
-    @return map.get($-cache-, $raw)
-  @return $raw
-
-/// Create media query based on raw map data.
-/// @param {String} $raw - Raw data.
-/// @return {String} Native media condition.
-@function -create-map-condition-($raw)
+/// Create the media query based on the raw list.
+/// @param {List} $data Raw data.
+/// @return {String} Native media query.
+@function -create-query-list-($data)
   $query: []
-  @each $chunk in map.values($raw)
-    $query: list.append($query, -create-condition-($chunk))
-  @return list.to-string($query, ', ')
-
-/// Create media query based on raw list data.
-/// @param {String} $raw - Raw data.
-/// @return {String} Native media condition.
-@function -create-list-condition-($raw)
-  $query: []
-  @each $chunk in $raw
-    $query: list.append($query, -create-condition-($chunk))
+  @each $chunk in $data
+    $query: list.append($query, -create-query-($chunk))
   @return list.to-string($query, ' and ')
 
-/// Find operator specified in condition.
-/// @param {String} $condition - Condition.
-/// @return {Map} Operator meta.
-/// @ignore
-@function -find-operator-($condition)
-  $operator: ()
-  @each $group in $-operator-group-
-    $found: -find-operator-by-group-($condition, $group)
-    @if not map.has-key($operator, index) and map.has-key($found, index)
-      $operator: $found
-  @return $operator
+/// Create the media query based on the raw string.
+/// @param {String} $data Raw data.
+/// @return {String} Native media query.
+@function -create-query-str-($data)
+  // Unquote string for correct parse.
+  $data: string.quote($data)
+  // Get the operator from raw string.
+  $operator: -get-operator-($data)
+  // Further parse in case operator exist.
+  @if map.has-key($operator, index)
+    // Get the prefix for media condition.
+    $prefix: map.get($operator, prefix)
+    // Get the value of the media feature.
+    $value: -get-value-($data, $operator)
+    // Get the name of the supported media feature.
+    $feature: -get-feature-($data, $operator)
+    // Create the native media condition based on args.
+    $condition: -create-condition-($prefix, $feature, $value)
+    // Add media condition to cache to improve performance.
+    $-cache-: map.set($-cache-, $data, $condition) !global
+    // Returns the newly created native media query condition.
+    @return $condition
+  // In case the operator not found just return string as is.
+  @return $data
 
-/// Find operator by group specified in condition.
-/// @param {String} $condition - Condition.
+/// Create the media condition based on args.
+/// @param {String} $prefix Feature prefix.
+/// @param {String} $feature Feature name.
+/// @param {String} $value Feature value.
+/// @return {String} Native media condition.
+@function -create-condition-($prefix, $feature, $value)
+  // Create the base media condition.
+  $condition: '#{$feature}: #{$value}'
+  // Returns condition based on the prefix.
+  @if $prefix != null
+    @return '(#{$prefix}-#{$condition})'
+  @return '(#{$condition})'
+
+/// Get the operator defined in the condition.
+/// @param {String} $condition Condition.
 /// @return {Map} Operator meta.
-/// @ignore
-@function -find-operator-by-group-($condition, $group)
+@function -get-operator-($condition)
   $found: ()
-  @each $operator in list.first($group)
-    @if not map.has-key($found, index)
+  @each $config in $-config-lt-, $-config-gt-, $-config-eq-
+    @each $operator in map.get($config, ops)
+      // In case already found break the loop.
+      @if map.has-key($found, index)
+        @return $found
+      // Try to find the index of the operator.
       $index: string.index($condition, $operator)
-
+      // In case found the operator gather data.
       @if $index != null
         $found: map.set($found, index, $index)
         $found: map.set($found, symbol, $operator)
-        $found: map.set($found, prefix, list.nth($group, 2))
+        $found: map.set($found, prefix, map.get($config, prefix))
         $found: map.set($found, length, string.length($operator))
+  // In case not found just return the empty map.
   @return $found
 
-/// Find media feature specified in condition.
-/// @param {String} $condition - Condition.
-/// @param {Map} $operator - Operator meta.
+/// Get the media feature defined in the condition.
+/// @param {String} $condition Condition.
+/// @param {Map} $operator Operator meta.
 /// @return {String} Feature name.
-/// @ignore
-@function -find-feature-($condition, $operator)
-  $feature: 'width'
+@function -get-feature-($condition, $operator)
+  $feature: width
   @if map.get($operator, index) > 1
-    $parsed: string.trim(string.slice($condition, 1, map.get($operator, index) - 1))
+    // Start index of the first feature character.
+    $index: map.get($operator, index) - 1
+    // Sliced and trimmed $keyword or native feature.
+    $parsed: string.trim(string.slice($condition, 1, $index))
+    // In case the feature is not found use the default.
     $feature: if(string.length($parsed), $parsed, $feature)
-  @return if(map.has-key($features, $feature), map.get($features, $feature), $feature)
+  @if map.has-key($keywords, $feature)
+    @return map.get($keywords, $feature)
+  @return $feature
 
-/// Find media value specified in condition.
-/// @param {String} $condition - Condition.
-/// @param {Map} $operator - Operator meta.
+/// Get media value defined in the condition.
+/// @param {String} $condition Condition.
+/// @param {Map} $operator Operator meta.
 /// @return {String} Feature value.
-/// @ignore
-@function -find-value-($condition, $operator)
-  $value: string.trim(string.slice($condition, map.get($operator, index) + map.get($operator, length)))
-
+@function -get-value-($condition, $operator)
+  // Start index of the first value character.
+  $index: map.get($operator, index) + map.get($operator, length)
+  // Retrieved value by slicing out operator.
+  $value: string.trim(string.slice($condition, $index))
+  // Try to find the value in breakpoints map.
   @if map.has-key($breakpoints, $value)
     $value: map.get($breakpoints, $value)
   @else
     $parsed: number.parse($value)
     $value: if($parsed, $parsed, $value)
-
+  // If value number need define the offset.
   @if meta.is-number($value)
+    $offset: 1
     $unit: math.unit($value)
-    $offset: if(map.has-key($unit-offset, $unit), map.get($unit-offset, $unit), 1)
-
-    @if map.get($operator, symbol) == $-operator-gt-
+    // Predefined offsets based on the unit.
+    @if map.has-key($offsets, $unit)
+      $offset: map.get($offsets, $unit)
+    // Offset must be applied based on operator.
+    @if map.get($operator, symbol) == $-symbol-gt-
       $value: $value + $offset
-    @else if map.get($operator, symbol) == $-operator-lt-
+    @else if map.get($operator, symbol) == $-symbol-lt-
       $value: $value - $offset
   @return $value
+
+/// Create the media query for retina display.
+/// @param {Number} $scale Retina scale.
+/// @param {Number} $dpi Dpi resolution.
+/// @return {String} Native media query.
+@function -retina-($scale, $dpi)
+  // Represents the number of dots per inch.
+  $dpi: 'resolution>=#{$dpi}dpi'
+  // Represents the number of dots per px unit.
+  $dppx: 'resolution>=#{$scale}dppx'
+  // Webkit specific device pixel ratio by scale.
+  $ratio: '-webkit-min-device-pixel-ratio=#{$scale}'
+  // Returns the complex media query for the retina.
+  @return -create-query-((ratio: $ratio, dpi: $dpi, dppx: $dppx))
+
+/// Create the media query for display orientation.
+/// @param {Number} $orientation Orientation.
+/// @return {String} Native media query.
+@function -orientation-($orientation)
+  // Returns the media query for orientation.
+  @return -create-condition-(null, orientation, $orientation)
+
+/// Offsets used with the lt and gt operators.
+/// @type Map
+$offsets: (px: 1, em: 0.01) !default
+
+/// Predefined shortcuts for media conditions.
+/// @type Map
+$shortcuts: () !default
+
+/// Predefined keywords for supported features.
+/// @type Map
+$keywords: (w: 'width', h: 'height') !default
+
+/// Predefined breakpoints used with features.
+/// @type Map
+$breakpoints: (mc: 360px, xs: 480px, sm: 768px, md: 1024px, lg: 1200px, xl: 1440px) !default
+
+/// Use em instead of px for defined breakpoints.
+/// @param {Length} $base [16px] Base size.
+/// @example
+///   use-em(16px)
+=use-em($base: unit.$base-size)
+  @each $name, $value in $breakpoints
+    @if unit.get($value) == px
+      +add-breakpoint($name, unit.em($value, $base))
+
+/// Add new keyword to already existing map.
+/// @param {String} $keyword Keyword name.
+/// @param {String} $feature Supported media feature.
+/// @example
+///   add-keyword(ar, aspect-ratio)
+=add-keyword($keyword, $feature)
+  $keywords: map.set($keywords, $keyword, $feature) !global
+
+/// Add new shortcut to already existing map.
+/// @param {String} $name Shortcut name.
+/// @param {String} $condition Raw media query.
+/// @example
+///   add-shortcut(hover, '(hover: any-hover)')
+=add-shortcut($name, $condition)
+  $shortcuts: map.set($shortcuts, $name, $condition) !global
+
+/// Add new breakpoint to already existing map.
+/// @param {String} $name Breakpoint name.
+/// @param {Number} $value Breakpoint value.
+/// @example
+///   add-breakpoint(tv, 4000px)
+=add-breakpoint($name, $value)
+  $breakpoints: map.set($breakpoints, $name, $value) !global
+
+// Defines default shortcuts for media queries.
++add-shortcut(retina2x, -retina-(2, 192))
++add-shortcut(retina3x, -retina-(3, 350))
++add-shortcut(portrait, -orientation-(portrait))
++add-shortcut(landscape, -orientation-(landscape))
+
+/// Shorthand mixin for media queries.
+/// @param {ArgList} $conditions Conditions.
+/// @content
+/// @example
+///    media('w>sm')
+///    media('w>sm', 'h<=sm')
+///    media('w>sm', 'h<=sm', portrait)
+///    media((group1: screen, group2: portrait))
+=media($conditions...)
+  @if list.is-empty($conditions)
+    @content
+  @else
+    // Create media query based on raw data.
+    $query: -create-query-(list.first($conditions))
+    // Native media `at-rule` with media query.
+    @media #{$query}
+      $other: list.slice($conditions, 2)
+      // Nested native media with other conditions.
+      +media($other...)
+        @content

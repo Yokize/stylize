@@ -1,47 +1,59 @@
 @use '../map'
-@use '../meta'
 @use '../math'
+@use '../meta'
 @use '../unit'
 @use '../string'
 
 ////
-/// @author Nojukubi
 /// @group number
+/// @author Nojukubi
 ////
 
-/// Parse string and create the number
-/// @param {Any} $value - Value to parse
-/// @return {Number} Number; null in case not parsed
+/// Internal cache.
+/// @type Map
+$-cache-: ()
+
+/// Parse string and create the number.
+/// @param {Anything} $value Value to parse.
+/// @return {Number} Number; otherwise null.
+/// @throws Value is not valid string type.
 /// @example
 ///   parse('10')
 ///   parse('1px')
 ///   parse('20dpi')
 @function parse($value)
-  @if (meta.is-list($value))
-    @return $value
-  @else if (not meta.is-string($value))
-    @error 'Can be parsed only string type (Param: #{$value})'
+  @if not meta.is-string($value)
+    @error 'Can be parsed only string (#{$value})'
+  // Clear value from redundant spaces.
+  $value: string.trim($value)
+  // Check if value have been in cache.
+  @if map.has-key($-cache-, $value)
+    @return map.get($-cache-, $value)
 
   $result: null
   $divider: 0
-  $operator: string.slice($value, 1, 1)
+  $operator: string.take($value, 1)
   $negative: ($operator == '-')
-
   // Remove operator character from value.
-  $value: if($operator == '+' or $operator == '-', string.slice($value, 2), $value)
-
+  @if $operator == '+' or $operator == '-'
+    $value: string.slice($value, 2)
+  // Iterate each character and parse it.
   @for $i from 1 through string.length($value)
     $char-str: string.slice($value, $i, $i)
     $char-num: -get-number-($char-str)
-
+    // In case the char is not a number stop parse.
     @if not (meta.is-number($char-num) or $char-str == '.')
-      @if (meta.is-number($result))
+      // If result is number add unit and operator.
+      @if meta.is-number($result)
         $unit: string.slice($value, $i)
-        $result: if($negative, $result * -1, $result)
-        $result: if(unit.is($unit), unit.add($result, $unit), $result)
+        @if $negative
+          $result: $result * -1
+        @if unit.is($unit)
+          $result: unit.add($result, $unit)
       @return $result
 
-    $result: if(meta.is-number($result), $result, 0)
+    @if $result == null
+      $result: 0
 
     @if $char-str == '.'
       $divider: 1
@@ -50,31 +62,19 @@
     @else
       $divider: $divider * 10
       $result: $result + math.div($char-num, $divider)
-  @return if($negative, $result * -1, $result)
+  $result: if($negative, $result * -1, $result)
+  $-cache-: map.set($-cache-, $value, $result)
+  @return $result
 
-/// Internal variables cache.
-/// @ignore
-$-cache-: []
-
-/// Get number in the numeric type (1, 2, 3) by the string ('1', '2')
-/// @ignore
+/// Get the number in the numeric type by the string.
+/// @param {String} $num-str Digit in string type.
+/// @return {String} Digit in numeric type.
 @function -get-number-($num-str)
-  @return map.get(-get-var-('numbers', meta.get-function(-create-numbers-mapping-)), $num-str)
-
-/// Get variable from internal cache
-/// @ignore
-@function -get-var-($name, $setFunction)
-  // In case cache do not have var need to create it
-  @if (not map.has-key($-cache-, $name))
-    // Set variable under global internal cache
-    $-cache-: map.set($-cache-, $name, meta.call($setFunction)) !global
-  @return map.get($-cache-, $name)
-
-/// Create mapping between numbers in string and numeric type
-/// @ignore
-@function -create-numbers-mapping-()
   $mapping: ()
-  @for $number from 0 through 9
-    $mapping: map.set($mapping, string.quote(#{$number}), $number)
-  // Returns mapping with convert result
-  @return $mapping
+  // In case cache do not have it need to create it.
+  @if not map.has-key($-cache-, $num-str)
+    @for $num from 0 through 9
+      $mapping: map.set($mapping, string.quote(#{$num}), $num)
+    // Set variable under global internal cache.
+    $-cache-: map.merge($-cache-, $mapping) !global
+  @return map.get($-cache-, $num-str)

@@ -4,23 +4,23 @@
 ////
 
 /// Shorthand mixin for before pseudo.
-/// @param {String} $content - Content.
+/// @param {String} $content Content.
 /// @content
 /// @example
-///    @include before
-///    @include before('↺')
-@mixin before($content: '')
+///    before
+///    before('↺')
+=before($content: '')
   &::before
     content: $content
     @content
 
 /// Shorthand mixin for after pseudo.
-/// @param {String} $content - Content.
+/// @param {String} $content Content.
 /// @content
 /// @example
-///    @include after
-///    @include after('↺')
-@mixin after($content: '')
+///    after
+///    after('↺')
+=after($content: '')
   &::after
     content: $content
     @content

@@ -6,20 +6,19 @@
 ////
 
 /// Mixin to create the square shape.
-/// @param {List|Length} $size [null] - Size.
-/// @param {List|Length} $radius [null] - Radius.
-/// @param {List|Color} $background [null] - Background.
+/// @param {List|Length} $size [null] Size.
+/// @param {List|Length} $radius [null] Radius.
+/// @param {List|Color} $background [null] Background.
 /// @example
-///   Simple examples:
-///   @include square(20px)
-///   @include square(min 20px, 5px)
-///   @include square(max 20px, 5px, #fff)
-///   @include square($background: #fff)
+///   square(20px)
+///   square(min 20px, 5px)
+///   square(max 20px, 5px, #fff)
+///   square($background: #fff)
 ///
 ///   Complex examples:
-///   @include square([auto, min 20px], 5px, #fff)
-///   @include square([40px, min 20px, max 50px], 5px 4px, #fff)
-///   @include square([40px, min 20px, max 50px], [5px, 4px], #fff)
-///   @include square([40px, min 20px, max 50px], [5px, 4px], linear-gradient(#e66465, #9198e5))
-@mixin square($size: null, $radius: null, $background: null)
-  @include shape.rectangle($size, $size, $radius, $background)
+///   square([auto, min 20px], 5px, #fff)
+///   square([40px, min 20px, max 50px], 5px 4px, #fff)
+///   square([40px, min 20px, max 50px], [5px, 4px], #fff)
+///   square([40px, min 20px, max 50px], [5px, 4px], linear-gradient(#e66465, #9198e5))
+=square($size: null, $radius: null, $background: null)
+  +shape.rectangle($size, $size, $radius, $background)

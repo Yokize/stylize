@@ -11,64 +11,57 @@ $height: 30px
 $radius: 4px
 
 // Input: background.
-$background: #fff
-
-// Output: css.
-@mixin output-css
-  width: $width
-  height: $height
-  background: $background
-  border-radius: $radius
+$background: linear-gradient(#fff, #000)
 
 // Mixin to create the rectangle shape.
-@include test.describe('Rectangle mixin')
-  @include test.it('should create the rectangle with args')
-    @include test.assert
-      @include test.output
-        @include mixin.rectangle($width, $height, $radius, $background)
-      @include test.expect
-        @include output-css
-
-  @include test.it('should create the rectangle with keyword args')
-    @include test.assert
-      @include test.output
-        @include mixin.rectangle($background: $background)
-      @include test.expect
++test.describe('Rectangle mixin')
+  +test.it('should create the rectangle with args')
+    +test.assert
+      +test.output
+        +mixin.rectangle($width, $height, $radius, $background)
+      +test.expect
+        width: $width
+        height: $height
         background: $background
+        border-radius: $radius
 
-  @include test.it('should create the rectangle with default args')
-    @include test.assert
-      @include test.output
-        @include mixin.rectangle
-      @include test.expect
+  +test.it('should create the rectangle with default args')
+    +test.assert
+      +test.output
+        +mixin.rectangle
+      +test.expect
 
-  @include test.it('should create the rectangle with complex width × height args')
-    @include test.assert
-      @include test.output
-        @include mixin.rectangle([$width, min $width], min $height * 2, 4px, #fff)
-      @include test.expect
+  +test.it('should create the rectangle with keyword args')
+    +test.assert
+      +test.output
+        +mixin.rectangle($width: $width, $height: $height)
+      +test.expect
+        width: $width
+        height: $height
+
+  +test.it('should create the rectangle with complex size args')
+    +test.assert
+      +test.output
+        +mixin.rectangle([$width, min $width], max $height * 2)
+      +test.expect
         width: $width
         min-width: $width
-        min-height: $height * 2
-        background: #fff
-        border-radius: 4px
+        max-height: $height * 2
 
-  @include test.it('should create the rectangle with complex radius arg')
-    @include test.assert
-      @include test.output
-        @include mixin.rectangle($width, $height, (4px 3px), #fff)
-      @include test.expect
+  +test.it('should create the rectangle with complex radius arg')
+    +test.assert
+      +test.output
+        +mixin.rectangle($width, $height, (4px 3px))
+      +test.expect
         width: $width
         height: $height
-        background: #fff
         border-radius: 4px 3px
 
-  @include test.it('should create the rectangle with complex background arg')
-    @include test.assert
-      @include test.output
-        @include mixin.rectangle($width, $height, $radius, linear-gradient(#e66465, #9198e5))
-      @include test.expect
+  +test.it('should create the rectangle with complex background arg')
+    +test.assert
+      +test.output
+        +mixin.rectangle($width, $height, null, [$background, $background])
+      +test.expect
         width: $width
         height: $height
-        background: linear-gradient(#e66465, #9198e5)
-        border-radius: $radius
+        background: $background, $background

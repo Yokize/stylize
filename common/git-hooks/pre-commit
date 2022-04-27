@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# The pre-commit hook is run first, before you even type in a commit message.
+# It’s used to inspect the snapshot that’s about to be committed, to see if
+# you’ve forgotten something, to make sure tests run, or to examine whatever
+# need to inspect the code. Exiting non-zero from this hook aborts the commit.
+
+# Invoke the "rush prettier-quick" custom command to format files whenever they
+# are committed. The command is defined in common/config/rush/command-line.json
+# and uses the "prettier" autoinstaller.
+node common/scripts/install-run-rush.js prettier-quick || exit $?

@@ -1,0 +1,5 @@
+.rush
+.npmrc
+*.log
+*.spec.*
+.DS_Store

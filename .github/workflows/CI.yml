@@ -1,0 +1,100 @@
+# Unique identifier of the github workflow.
+name: CI
+
+# Events used by GitHub to trigger workflow.
+on:
+  push:
+    branches: [master]
+
+  pull_request:
+    branches: [master]
+
+jobs:
+  build:
+    # Type of machine to run the job on.
+    runs-on: ubuntu-latest
+
+    # A job contains a sequence of steps.
+    steps:
+      # Fetch the repository.
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      # Install default Node.js.
+      - name: Environment
+        uses: actions/setup-node@v3
+
+      # Change script permissions.
+      - name: Permissions
+        run: chmod -R 777 common/scripts
+
+      # Verify the change file.
+      - name: Change file
+        run: common/scripts/install-run-rush.js change -v --no-fetch
+        if: github.event_name == 'pull_request'
+
+      # Install the dependencies.
+      - name: Dependencies
+        run: common/scripts/install-run-rush.js install
+
+      # Test registered packages.
+      - name: Testing packages
+        run: common/scripts/install-run-rush.js test
+
+  # Job to release prepared packages.
+  release:
+    # Depends on the success of build.
+    needs: build
+
+    # Run the job only on push event.
+    if: github.event_name == 'push'
+
+    # Type of machine to run the job on.
+    runs-on: ubuntu-latest
+
+    # A job contains a sequence of steps.
+    steps:
+      # Fetch the master branch.
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      # Install the default Node.js.
+      - name: Environment
+        uses: actions/setup-node@v3
+
+      # Configure username and email.
+      - name: Configure Git
+        run: |
+          git config --local user.name '${{github.workflow}}'
+          git config --local user.email '${{github.workflow}}@yokize.com'
+
+      # Bump version and create changelog.
+      - name: Version and changelog
+        run: |
+          node common/scripts/install-run-rush.js version --bump
+
+          if ! git diff --no-ext-diff --quiet --exit-code; then
+            git add .
+            git commit -a -m 'ci: release'
+            git push
+          fi
+
+      # Prepare packages needed for the release.
+      - name: Create artifact
+        run: >
+          ls ./package | xargs -I % echo '
+            cp -v LICENSE ./package/%;
+            cp -v .npmignore ./package/%;
+          ' | bash
+
+      # Release packages to public registry.
+      - name: Release packages
+        run: >-
+          node common/scripts/install-run-rush.js publish
+          --apply
+          --publish
+          --include-all
+          --set-access-level public
+          --npm-auth-token ${{secrets.NPM_AUTH_TOKEN}}

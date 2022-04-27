@@ -1,17 +1,21 @@
+@use 'sass:string'
 @use '~sass-true' as test
 @use './index' as func
 
-$base-font: func.$base-font
+// Base family.
+$family: func.$base-family
 
 @include test.describe('Font')
-  @include test.it('should create property value with default params')
-    @include test.assert-equal(func.font(), normal normal normal inherit / normal #{$base-font})
+  @include test.it('should create the value with args')
+    $output: 'normal normal bold 1px / 1 Arial, Helvetica'
+    @include test.assert-equal(func.font(1px, 1, bold, Arial Helvetica), string.unquote($output))
 
-  @include test.it('should create font property value with list param')
-    @include test.assert-equal(func.font(1px normal bold), normal normal bold 1px / normal #{$base-font})
+  @include test.it('should create the value with list arg')
+    $output: 'normal normal bold 1px / 1 Arial, Helvetica'
+    @include test.assert-equal(func.font(1px 1 bold [Arial Helvetica]), string.unquote($output))
 
-  @include test.it('should create font property value with named params')
-    @include test.assert-equal(func.font($weight: bold), normal normal bold inherit / normal #{$base-font})
+  @include test.it('should create the value with default args')
+    @include test.assert-equal(func.font(), string.unquote('normal normal normal medium / normal #{$family}'))
 
-  @include test.it('should create font property value with defined font-family')
-    @include test.assert-equal(func.font(1px, normal, bold, Arial), normal normal bold 1px / normal Arial)
+  @include test.it('should create the value with keyword args')
+    @include test.assert-equal(func.font($weight: bold), string.unquote('normal normal bold medium / normal #{$family}'))

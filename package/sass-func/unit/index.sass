@@ -4,93 +4,125 @@
 @use '../string'
 
 ////
-/// @author Nojukubi
 /// @group unit
+/// @author Nojukubi
 ////
 
+/// Internal cache.
+/// @type Map
+$-cache-: ()
+
 /// Base size for units.
+/// @type Number
 $base-size: 16px !default
 
 /// Units of measurement for Time.
+/// @type List
 $unit-time: 1s 1ms 1%
 
 /// Units of measurement for Angle.
+/// @type List
 $unit-angle: 1deg 1grad 1rad 1turn 1%
 
 /// Units of measurement for Frequency.
+/// @type List
 $unit-frequency: 1hz 1khz 1%
 
 /// Units of measurement for Resolution.
+/// @type List
 $unit-resolution: 1dpi 1dpcm 1dppx 1x
 
 /// Units of measurement for Length.
-$unit-length: 1cm 1mm 1in 1px 1pt 1pc 1em 1ex 1ch 1rem 1vw 1vh 1vmin 1vmax 1%
+/// @type List
+$unit-length: 1mm 1cm 1in 1px 1pt 1pc 1em 1ex 1ch 1rem 1vw 1vh 1vmin 1vmax 1%
 
-/// Convert the units to the rem.
-/// @param {Number} $number - Number to convert.
-/// @return {Number} Number with rem units.
-/// @example
-///   rem(16px)
-@function rem($number)
-  $unit: math.unit($number)
-  @if $unit == 'px'
-    @return math.div($number, $base-size) * 1rem
+/// All supported unit of measurements.
+/// @type List
+$units: $unit-time, $unit-angle, $unit-frequency, $unit-resolution, $unit-length
 
-/// Determine whether $var is unit.
-/// @param {String} $unit - Unit to check.
-/// @return {Bool} True in the case of unit; otherwise false.
+/// Determine whether valid unit.
+/// @param {String} $unit Unit to check.
+/// @return {Boolean} Is valid unit.
 /// @example
-///   is-unit(px)
-///   is-unit(dpi)
+///   is(px)
 @function is($unit)
   @return meta.is-number(-get-unit-($unit))
 
-/// Add specified $unit to the $number.
-/// @param {Number} $number - Number to convert.
-/// @param {String} $unit - Name of the unit.
-/// @return {Number} Number with the unit.
+/// Get the unit from the $number.
+/// @param {Number} $number Number.
+/// @return {String} Number unit.
 /// @example
-///   add-unit(1, px)
-///   add-unit(1, dpi)
+///   get(1px)
+@function get($number)
+  @return math.unit($number)
+
+/// Add the $unit to the $number.
+/// @param {Number} $number Number.
+/// @param {String} $unit Name of the unit.
+/// @return {Number} Number with the unit.
+/// @throws Unknown unit parameter.
+/// @example
+///   add(1, px)
+///   add(1, dpi)
 @function add($number, $unit)
   @if not is($unit)
     @error '`#{$unit}` is unknown unit'
   // To add unit to number need to multiply by 1<unit>.
   @return $number * -get-unit-($unit)
 
-
 /// Remove the unit from the number.
-/// @param {Number} $number - Number to remove unit from.
-/// @return {Number} - Unitless number.
+/// @param {Number} $number Number to strip.
+/// @return {Number} Unitless number.
+/// @example
+///   strip(1px)
 @function strip($number)
   @if meta.is-number($number) and not math.is-unitless($number)
     @return math.div($number, ($number * 0 + 1))
   @return $number
 
-/// Internal variables cache.
-/// @ignore
-$-cache-: []
+/// Convert the units to the em.
+/// @param {Number} $number Number to convert.
+/// @return {Number} Number with em units.
+/// @throws Number parameter has not valid unit.
+/// @example
+///   em(16px)
+///   em(16px, 12px)
+@function em($number, $base: $base-size)
+  $unit: math.unit($number)
+  @if $unit == 'px'
+    @return math.div($number, $base) * 1em
+  @else if $unit == 'em'
+    @return $number
+  @else
+    @error 'Unit `#{$unit}` is not supported'
 
-/// Get unit in the numeric type (1<unit>) by the name (px, dpi)
-/// @ignore
+/// Convert the units to the rem.
+/// @param {Number} $number Number to convert.
+/// @return {Number} Number with rem units.
+/// @throws Number parameter has not valid unit.
+/// @example
+///   rem(16px)
+///   rem(16px, 12px)
+@function rem($number, $base: $base-size)
+  $unit: math.unit($number)
+  @if $unit == 'px'
+    @return math.div($number, $base) * 1rem
+  @else if $unit == 'rem'
+    @return $number
+  @else
+    @error 'Unit `#{$unit}` is not supported'
+
+/// Get unit in the numeric type by the name.
+/// @param {String} $unit Unit name.
+/// @return {String} Unit numeric type.
 @function -get-unit-($unit)
-  @return map.get(-get-var-('units', meta.get-function(-create-units-mapping-)), $unit)
-
-/// Get variable from internal cache
-/// @ignore
-@function -get-var-($name, $setFunction)
-  // In case cache do not have var need to create it
-  @if (not map.has-key($-cache-, $name))
-    // Set variable under global internal cache
-    $-cache-: map.set($-cache-, $name, meta.call($setFunction)) !global
-  @return map.get($-cache-, $name)
-
-/// Create mapping between units in string and numeric type.
-/// @ignore
-@function -create-units-mapping-()
   $mapping: ()
-  @each $unit-block in ($unit-time, $unit-angle, $unit-frequency, $unit-resolution, $unit-length)
-    @each $unit in $unit-block
-      $mapping: map.set($mapping, string.quote(string.slice(meta.inspect($unit), 2)), $unit)
-  // Returns mapping with convert result.
-  @return $mapping
+  // In case cache do not have it need to create it.
+  @if not map.has-key($-cache-, $unit)
+    @each $block in $units
+      @each $num-unit in $block
+        $unit-str: string.slice(meta.inspect($num-unit), 2)
+        $mapping: map.set($mapping, string.quote($unit-str), $num-unit)
+    // Set variable under global internal cache.
+    $-cache-: map.merge($-cache-, $mapping) !global
+  @return map.get($-cache-, $unit)

@@ -1,0 +1,24 @@
+@use '~@stylize/sass-func/z-index' as func
+
+////
+/// @group z-index
+/// @author Nojukubi
+////
+
+/// Configure order to be used by z-index.
+/// @param {List|Map|String} $config Config.
+/// @param {Number} $base [0] Base index.
+/// @example
+///   set-order(footer header)
+///   set-order(footer header, 100)
+///   set-order((footer: 10, header: 20))
+=set-order($config, $base: 0)
+  $_: func.set-order($config, $base)
+
+/// Define the z-index based on the $path.
+/// @param {ArgList} $path Complex path.
+/// @example
+///   z-index(modal)
+///   z-index(page, header)
+=z-index($path...)
+  z-index: func.z-index($path...)

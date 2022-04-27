@@ -3,9 +3,9 @@
   "version": "0.0.1-rc.1",
   "license": "MIT",
   "description": "Sass mixins for creating shapes",
-  "author": "Nojukubi <nojukubi@yokize.com>",
   "homepage": "https://github.com/Yokize/stylize",
   "main": "index.sass",
+  "module": "index.sass",
   "keywords": [
     "sass",
     "mixin",
@@ -16,27 +16,31 @@
     "triangle",
     "rectangle"
   ],
-  "repository": {
-    "type": "git",
-    "directory": "package/sass-shape",
-    "url": "https://github.com/Yokize/stylize.git"
+  "author": {
+    "name": "Nojukubi",
+    "email": "nojukubi@yokize.com"
   },
   "bugs": {
     "url": "https://github.com/Yokize/stylize/issues",
     "email": "nojukubi@yokize.com"
   },
+  "repository": {
+    "type": "git",
+    "directory": "package/sass-shape",
+    "url": "https://github.com/Yokize/stylize.git"
+  },
   "scripts": {
     "test": "sasstool test"
   },
   "dependencies": {
-    "@stylize/sass-func": "0.0.1-rc.2",
+    "@stylize/sass-func": "0.0.1-rc.3",
     "@stylize/sass-mixin": "0.0.1-rc.4"
   },
   "devDependencies": {
     "@stylize/sass-tool": "0.0.0",
-    "sass-true": "^6.0.1"
+    "sass-true": "^6.1.0"
   },
   "peerDependencies": {
-    "sass": "^1.38.0"
+    "sass": ">=1.33.0"
   }
 }

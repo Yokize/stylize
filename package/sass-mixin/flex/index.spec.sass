@@ -1,72 +1,310 @@
 @use '~sass-true' as test
 @use './index' as mixin
 
-// Output: css.
-@mixin output-css($display: null)
-  display: $display
-  flex-direction: column
-  justify-content: flex-end
-  align-items: stretch
-  flex-wrap: nowrap
-  align-content: flex-start
+// Expect: result.
+=expect-result($flex, $dir: null, $main: null, $cross: null, $wrap: null, $align: null)
+  display: $flex
+  flex-direction: $dir
+  justify-content: $main
+  align-items: $cross
+  flex-wrap: $wrap
+  align-content: $align
 
 // Shorthand mixin for flex.
-@include test.describe('Flex mixin')
-  @include test.it('should create flex properties with list')
-    @include test.assert
-      @include test.output
-        @include mixin.flex(column flex-end stretch nowrap flex-start)
-      @include test.expect
-        @include output-css(flex)
++test.describe('Flex mixin')
+  +test.it('should create flex properties with list')
+    +test.assert
+      +test.output
+        +mixin.flex(column flex-end stretch nowrap flex-start)
+      +test.expect
+        +expect-result(flex, column, flex-end, stretch, nowrap, flex-start)
 
-  @include test.it('should create flex properties with args')
-    @include test.assert
-      @include test.output
-        @include mixin.flex(column, flex-end, stretch, nowrap, flex-start)
-      @include test.expect
-        @include output-css(flex)
+  +test.it('should create flex properties with args')
+    +test.assert
+      +test.output
+        +mixin.flex(column, flex-end, stretch, nowrap, flex-start)
+      +test.expect
+        +expect-result(flex, column, flex-end, stretch, nowrap, flex-start)
 
-  @include test.it('should create flex properties with keyword args')
-    @include test.assert
-      @include test.output
-        @include mixin.flex($main: flex-end)
-      @include test.expect
-        display: flex
-        justify-content: flex-end
+  +test.it('should create flex properties with default args')
+    +test.assert
+      +test.output
+        +mixin.flex
+      +test.expect
+        +expect-result(flex)
 
-  @include test.it('should create flex properties with default args')
-    @include test.assert
-      @include test.output
-        @include mixin.flex
-      @include test.expect
-        display: flex
+  +test.it('should create flex properties with keyword args')
+    +test.assert
+      +test.output
+        +mixin.flex($main: flex-end)
+      +test.expect
+        +expect-result(flex, $main: flex-end)
 
-@include test.describe('Inline Flex mixin')
-  @include test.it('should create flex properties with list')
-    @include test.assert
-      @include test.output
-        @include mixin.inline-flex(column flex-end stretch nowrap flex-start)
-      @include test.expect
-        @include output-css(inline-flex)
+// Shorthand mixin for flex row.
++test.describe('Flex Row mixin')
+  +test.it('should create flex properties with list')
+    +test.assert
+      +test.output
+        +mixin.flex-row(flex-end stretch nowrap flex-start)
+      +test.expect
+        +expect-result(flex, row, flex-end, stretch, nowrap, flex-start)
 
-  @include test.it('should create flex properties with args')
-    @include test.assert
-      @include test.output
-        @include mixin.inline-flex(column, flex-end, stretch, nowrap, flex-start)
-      @include test.expect
-        @include output-css(inline-flex)
+  +test.it('should create flex properties with args')
+    +test.assert
+      +test.output
+        +mixin.flex-row(flex-end, stretch, nowrap, flex-start)
+      +test.expect
+        +expect-result(flex, row, flex-end, stretch, nowrap, flex-start)
 
-  @include test.it('should create flex properties with keyword args')
-    @include test.assert
-      @include test.output
-        @include mixin.inline-flex($main: flex-end)
-      @include test.expect
-        display: inline-flex
-        justify-content: flex-end
+  +test.it('should create flex properties with default args')
+    +test.assert
+      +test.output
+        +mixin.flex-row
+      +test.expect
+        +expect-result(flex, row)
 
-  @include test.it('should create flex properties with default args')
-    @include test.assert
-      @include test.output
-        @include mixin.inline-flex
-      @include test.expect
-        display: inline-flex
+  +test.it('should create flex properties with keyword args')
+    +test.assert
+      +test.output
+        +mixin.flex-row($wrap: nowrap)
+      +test.expect
+        +expect-result(flex, row, $wrap: nowrap)
+
+// Shorthand mixin for flex row center.
++test.describe('Flex Row Center mixin')
+  +test.it('should create flex properties with list')
+    +test.assert
+      +test.output
+        +mixin.flex-row-center(nowrap flex-start)
+      +test.expect
+        +expect-result(flex, row, center, center, nowrap, flex-start)
+
+  +test.it('should create flex properties with args')
+    +test.assert
+      +test.output
+        +mixin.flex-row-center(nowrap, flex-start)
+      +test.expect
+        +expect-result(flex, row, center, center, nowrap, flex-start)
+
+  +test.it('should create flex properties with default args')
+    +test.assert
+      +test.output
+        +mixin.flex-row-center
+      +test.expect
+        +expect-result(flex, row, center, center)
+
+  +test.it('should create flex properties with keyword args')
+    +test.assert
+      +test.output
+        +mixin.flex-row-center($wrap: nowrap)
+      +test.expect
+        +expect-result(flex, row, center, center, nowrap)
+
+// Shorthand mixin for flex col.
++test.describe('Flex Col mixin')
+  +test.it('should create flex properties with list')
+    +test.assert
+      +test.output
+        +mixin.flex-col(flex-end stretch nowrap flex-start)
+      +test.expect
+        +expect-result(flex, column, flex-end, stretch, nowrap, flex-start)
+
+  +test.it('should create flex properties with args')
+    +test.assert
+      +test.output
+        +mixin.flex-col(flex-end, stretch, nowrap, flex-start)
+      +test.expect
+        +expect-result(flex, column, flex-end, stretch, nowrap, flex-start)
+
+  +test.it('should create flex properties with default args')
+    +test.assert
+      +test.output
+        +mixin.flex-col
+      +test.expect
+        +expect-result(flex, column)
+
+  +test.it('should create flex properties with keyword args')
+    +test.assert
+      +test.output
+        +mixin.flex-col($wrap: nowrap)
+      +test.expect
+        +expect-result(flex, column, $wrap: nowrap)
+
+// Shorthand mixin for flex col center.
++test.describe('Flex Col Center mixin')
+  +test.it('should create flex properties with list')
+    +test.assert
+      +test.output
+        +mixin.flex-col-center(nowrap flex-start)
+      +test.expect
+        +expect-result(flex, column, center, center, nowrap, flex-start)
+
+  +test.it('should create flex properties with args')
+    +test.assert
+      +test.output
+        +mixin.flex-col-center(nowrap, flex-start)
+      +test.expect
+        +expect-result(flex, column, center, center, nowrap, flex-start)
+
+  +test.it('should create flex properties with default args')
+    +test.assert
+      +test.output
+        +mixin.flex-col-center
+      +test.expect
+        +expect-result(flex, column, center, center)
+
+  +test.it('should create flex properties with keyword args')
+    +test.assert
+      +test.output
+        +mixin.flex-col-center($wrap: nowrap)
+      +test.expect
+        +expect-result(flex, column, center, center, nowrap)
+
++test.describe('Inline Flex mixin')
+  +test.it('should create flex properties with list')
+    +test.assert
+      +test.output
+        +mixin.inline-flex(column flex-end stretch nowrap flex-start)
+      +test.expect
+        +expect-result(inline-flex, column, flex-end, stretch, nowrap, flex-start)
+
+  +test.it('should create flex properties with args')
+    +test.assert
+      +test.output
+        +mixin.inline-flex(column, flex-end, stretch, nowrap, flex-start)
+      +test.expect
+        +expect-result(inline-flex, column, flex-end, stretch, nowrap, flex-start)
+
+  +test.it('should create flex properties with default args')
+    +test.assert
+      +test.output
+        +mixin.inline-flex
+      +test.expect
+        +expect-result(inline-flex)
+
+  +test.it('should create flex properties with keyword args')
+    +test.assert
+      +test.output
+        +mixin.inline-flex($main: flex-end)
+      +test.expect
+        +expect-result(inline-flex, $main: flex-end)
+
+// Shorthand mixin for inline-flex row.
++test.describe('Inline Flex Row mixin')
+  +test.it('should create flex properties with list')
+    +test.assert
+      +test.output
+        +mixin.inline-flex-row(flex-end stretch nowrap flex-start)
+      +test.expect
+        +expect-result(inline-flex, row, flex-end, stretch, nowrap, flex-start)
+
+  +test.it('should create flex properties with args')
+    +test.assert
+      +test.output
+        +mixin.inline-flex-row(flex-end, stretch, nowrap, flex-start)
+      +test.expect
+        +expect-result(inline-flex, row, flex-end, stretch, nowrap, flex-start)
+
+  +test.it('should create flex properties with default args')
+    +test.assert
+      +test.output
+        +mixin.inline-flex-row
+      +test.expect
+        +expect-result(inline-flex, row)
+
+  +test.it('should create flex properties with keyword args')
+    +test.assert
+      +test.output
+        +mixin.inline-flex-row($wrap: nowrap)
+      +test.expect
+        +expect-result(inline-flex, row, $wrap: nowrap)
+
+// Shorthand mixin for inline-flex row center.
++test.describe('Inline Flex Row Center mixin')
+  +test.it('should create flex properties with list')
+    +test.assert
+      +test.output
+        +mixin.inline-flex-row-center(nowrap flex-start)
+      +test.expect
+        +expect-result(inline-flex, row, center, center, nowrap, flex-start)
+
+  +test.it('should create flex properties with args')
+    +test.assert
+      +test.output
+        +mixin.inline-flex-row-center(nowrap, flex-start)
+      +test.expect
+        +expect-result(inline-flex, row, center, center, nowrap, flex-start)
+
+  +test.it('should create flex properties with default args')
+    +test.assert
+      +test.output
+        +mixin.inline-flex-row-center
+      +test.expect
+        +expect-result(inline-flex, row, center, center)
+
+  +test.it('should create flex properties with keyword args')
+    +test.assert
+      +test.output
+        +mixin.inline-flex-row-center($wrap: nowrap)
+      +test.expect
+        +expect-result(inline-flex, row, center, center, nowrap)
+
+// Shorthand mixin for inline-flex col.
++test.describe('Inline Flex Col mixin')
+  +test.it('should create flex properties with list')
+    +test.assert
+      +test.output
+        +mixin.inline-flex-col(flex-end stretch nowrap flex-start)
+      +test.expect
+        +expect-result(inline-flex, column, flex-end, stretch, nowrap, flex-start)
+
+  +test.it('should create flex properties with args')
+    +test.assert
+      +test.output
+        +mixin.inline-flex-col(flex-end, stretch, nowrap, flex-start)
+      +test.expect
+        +expect-result(inline-flex, column, flex-end, stretch, nowrap, flex-start)
+
+  +test.it('should create flex properties with default args')
+    +test.assert
+      +test.output
+        +mixin.inline-flex-col
+      +test.expect
+        +expect-result(inline-flex, column)
+
+  +test.it('should create flex properties with keyword args')
+    +test.assert
+      +test.output
+        +mixin.inline-flex-col($wrap: nowrap)
+      +test.expect
+        +expect-result(inline-flex, column, $wrap: nowrap)
+
+// Shorthand mixin for inline-flex col center.
++test.describe('Inline Flex Col Center mixin')
+  +test.it('should create flex properties with list')
+    +test.assert
+      +test.output
+        +mixin.inline-flex-col-center(nowrap flex-start)
+      +test.expect
+        +expect-result(inline-flex, column, center, center, nowrap, flex-start)
+
+  +test.it('should create flex properties with args')
+    +test.assert
+      +test.output
+        +mixin.inline-flex-col-center(nowrap, flex-start)
+      +test.expect
+        +expect-result(inline-flex, column, center, center, nowrap, flex-start)
+
+  +test.it('should create flex properties with default args')
+    +test.assert
+      +test.output
+        +mixin.inline-flex-col-center
+      +test.expect
+        +expect-result(inline-flex, column, center, center)
+
+  +test.it('should create flex properties with keyword args')
+    +test.assert
+      +test.output
+        +mixin.inline-flex-col-center($wrap: nowrap)
+      +test.expect
+        +expect-result(inline-flex, column, center, center, nowrap)

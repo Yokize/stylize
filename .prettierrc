@@ -9,27 +9,27 @@ quoteProps: consistent
 # Single quotes for string.
 singleQuote: true
 
+# Closing bracket position.
+bracketSameLine: true
+
 # No commas on multi-line.
 trailingComma: none
 
 # Indent script and style.
 vueIndentScriptAndStyle: true
 
-# Framework within project.
+# Framework using pug engine.
 pugFramework: vue
 
-# Pug attributes single quote.
+# Pug attribute single quotes.
 pugSingleQuote: false
 
-# Pug wrap attribute threshold.
+# Pug attribute wrap threshold.
 pugWrapAttributesThreshold: 1
-
-# Pug closing bracket position.
-pugClosingBracketPosition: 'last-line'
 
 # Pug single file component indent.
 pugSingleFileComponentIndentation: true
 
-# Plugins to be used during formatting.
-plugins:
-  - ./common/temp/node_modules/@prettier/plugin-pug
+# Directory to search for external plugins.
+pluginSearchDirs:
+  - common/autoinstallers/prettier
