@@ -3,83 +3,282 @@
 ////
 /// @group flex
 /// @author Nojukubi
+/// @source https://css-tricks.com/snippets/css/a-guide-to-flexbox
 ////
 
 /// Shorthand mixin for flex.
-/// @param {List} $props - Flex Props.
-/// @link https://css-tricks.com/snippets/css/a-guide-to-flexbox
+/// @param {List} $props Flex Props.
 /// @example
-///   @include flex
-///   @include flex(row)
-///   @include flex(row center)
-///   @include flex(row center stretch)
-///   @include flex(row center stretch wrap)
-///   @include flex(row center stretch wrap space-evenly)
-@mixin flex($props: [])
+///   flex
+///   flex(row)
+///   flex(row center)
+///   flex(row center stretch)
+///   flex(row center stretch wrap)
+///   flex(row center stretch wrap space-evenly)
+=flex($props: [])
 
 /// Shorthand mixin for flex.
-/// @param {String} $direction [null] - Direction.
-/// @param {String} $main [null] - Main Axis.
-/// @param {String} $cross [null] - Cross Axis.
-/// @param {String} $wrap [null] - Wrap Items.
-/// @param {String} $content [null] - Align Content.
-/// @link https://css-tricks.com/snippets/css/a-guide-to-flexbox
+/// @param {String} $direction [null] Direction.
+/// @param {String} $main [null] Main Axis.
+/// @param {String} $cross [null] Cross Axis.
+/// @param {String} $wrap [null] Wrap Items.
+/// @param {String} $content [null] Align Content.
 /// @example
-///   @include flex
-///   @include flex(row)
-///   @include flex(row, center)
-///   @include flex(row, center, stretch)
-///   @include flex(row, center, stretch, wrap)
-///   @include flex(row, center, stretch, wrap, space-evenly)
-///   @include flex($justify: center, $align: stretch)
-@mixin flex($direction: null, $main: null, $cross: null, $wrap: null, $content: null)
-  @include -flexbox-(flex, $direction, $main, $cross, $wrap, $content)
+///   flex
+///   flex(row)
+///   flex(row, center)
+///   flex(row, center, stretch)
+///   flex(row, center, stretch, wrap)
+///   flex(row, center, stretch, wrap, space-evenly)
+///   flex($main: center, $cross: stretch, $wrap: nowrap)
+=flex($direction: null, $main: null, $cross: null, $wrap: null, $content: null)
+  @if list.has-single($direction)
+    +-flex-(flex, $direction, $main, $cross, $wrap, $content)
+  @else
+    +-flex-(flex, $direction...)
+
+/// Shorthand mixin for flex row.
+/// @param {List} $props Flex Props.
+/// @example
+///   flex-row
+///   flex-row(center)
+///   flex-row(center stretch)
+///   flex-row(center stretch wrap)
+///   flex-row(center stretch wrap space-evenly)
+=flex-row($props: [])
+
+/// Shorthand mixin for flex row.
+/// @param {String} $main [null] Main Axis.
+/// @param {String} $cross [null] Cross Axis.
+/// @param {String} $wrap [null] Wrap Items.
+/// @param {String} $content [null] Align Content.
+/// @example
+///   flex-row
+///   flex-row(center)
+///   flex-row(center, stretch)
+///   flex-row(center, stretch, wrap)
+///   flex-row(center, stretch, wrap, space-evenly)
+///   flex-row($main: center, $cross: stretch, $wrap: nowrap)
+=flex-row($main: null, $cross: null, $wrap: null, $content: null)
+  @if list.has-single($main)
+    +-flex-(flex, row, $main, $cross, $wrap, $content)
+  @else
+    +-flex-(flex, row, $main...)
+
+/// Shorthand mixin for flex row center.
+/// @param {List} $props Flex Props.
+/// @example
+///   flex-row-center
+///   flex-row-center(wrap)
+///   flex-row-center(wrap space-evenly)
+=flex-row-center($props: [])
+
+/// Shorthand mixin for flex row center.
+/// @param {String} $wrap [null] Wrap Items.
+/// @param {String} $content [null] Align Content.
+/// @example
+///   flex-row-center
+///   flex-row-center(wrap)
+///   flex-row-center(wrap, space-evenly)
+///   flex-row-center($wrap: wrap, $content: center)
+=flex-row-center($wrap: null, $content: null)
+  @if list.has-single($wrap)
+    +-flex-(flex, row, center, center, $wrap, $content)
+  @else
+    +-flex-(flex, row, center, center, $wrap...)
+
+/// Shorthand mixin for flex column.
+/// @param {List} $props Flex Props.
+/// @example
+///   flex-col
+///   flex-col(center)
+///   flex-col(center stretch)
+///   flex-col(center stretch wrap)
+///   flex-col(center stretch wrap space-evenly)
+=flex-col($props: [])
+
+/// Shorthand mixin for flex column.
+/// @param {String} $main [null] Main Axis.
+/// @param {String} $cross [null] Cross Axis.
+/// @param {String} $wrap [null] Wrap Items.
+/// @param {String} $content [null] Align Content.
+/// @example
+///   flex-col
+///   flex-col(center)
+///   flex-col(center, stretch)
+///   flex-col(center, stretch, wrap)
+///   flex-col(center, stretch, wrap, space-evenly)
+///   flex-col($main: center, $cross: stretch, $wrap: nowrap)
+=flex-col($main: null, $cross: null, $wrap: null, $content: null)
+  @if list.has-single($main)
+    +-flex-(flex, column, $main, $cross, $wrap, $content)
+  @else
+    +-flex-(flex, column, $main...)
+
+/// Shorthand mixin for flex column center.
+/// @param {List} $props Flex Props.
+/// @example
+///   flex-col-center
+///   flex-col-center(wrap)
+///   flex-col-center(wrap space-evenly)
+=flex-col-center($props: [])
+
+/// Shorthand mixin for flex column center.
+/// @param {String} $wrap [null] Wrap Items.
+/// @param {String} $content [null] Align Content.
+/// @example
+///   flex-col-center
+///   flex-col-center(wrap)
+///   flex-col-center(wrap, space-evenly)
+///   flex-col-center($wrap: wrap, $content: center)
+=flex-col-center($wrap: null, $content: null)
+  @if list.has-single($wrap)
+    +-flex-(flex, column, center, center, $wrap, $content)
+  @else
+    +-flex-(flex, column, center, center, $wrap...)
 
 /// Shorthand mixin for inline-flex.
-/// @param {List} $props - Flex Props.
-/// @link https://css-tricks.com/snippets/css/a-guide-to-flexbox
+/// @param {List} $props Flex Props.
 /// @example
-///   @include inline-flex
-///   @include inline-flex(row)
-///   @include inline-flex(row center)
-///   @include inline-flex(row center stretch)
-///   @include inline-flex(row center stretch wrap)
-///   @include inline-flex(row center stretch wrap space-evenly)
-@mixin inline-flex($props: [])
+///   inline-flex
+///   inline-flex(row)
+///   inline-flex(row center)
+///   inline-flex(row center stretch)
+///   inline-flex(row center stretch wrap)
+///   inline-flex(row center stretch wrap space-evenly)
+=inline-flex($props: [])
 
 /// Shorthand mixin for inline-flex.
-/// @param {String} $direction [null] - Direction.
-/// @param {String} $main [null] - Main Axis.
-/// @param {String} $cross [null] - Cross Axis.
-/// @param {String} $wrap [null] - Wrap Items.
-/// @param {String} $content [null] - Align Content.
-/// @link https://css-tricks.com/snippets/css/a-guide-to-flexbox
+/// @param {String} $direction [null] Direction.
+/// @param {String} $main [null] Main Axis.
+/// @param {String} $cross [null] Cross Axis.
+/// @param {String} $wrap [null] Wrap Items.
+/// @param {String} $content [null] Align Content.
 /// @example
-///   @include inline-flex
-///   @include inline-flex(row)
-///   @include inline-flex(row, center)
-///   @include inline-flex(row, center, stretch)
-///   @include inline-flex(row, center, stretch, wrap)
-///   @include inline-flex(row, center, stretch, wrap, space-evenly)
-///   @include inline-flex($main: center, $cross: stretch)
-@mixin inline-flex($direction: null, $main: null, $cross: null, $wrap: null, $content: null)
-  @include -flexbox-(inline-flex, $direction, $main, $cross, $wrap, $content)
+///   inline-flex
+///   inline-flex(row)
+///   inline-flex(row, center)
+///   inline-flex(row, center, stretch)
+///   inline-flex(row, center, stretch, wrap)
+///   inline-flex(row, center, stretch, wrap, space-evenly)
+///   inline-flex($main: center, $cross: stretch, $wrap: nowrap)
+=inline-flex($direction: null, $main: null, $cross: null, $wrap: null, $content: null)
+  @if list.has-single($direction)
+    +-flex-(inline-flex, $direction, $main, $cross, $wrap, $content)
+  @else
+    +-flex-(inline-flex, $direction...)
+
+/// Shorthand mixin for inline-flex row.
+/// @param {List} $props Flex Props.
+/// @example
+///   inline-flex-row
+///   inline-flex-row(center)
+///   inline-flex-row(center stretch)
+///   inline-flex-row(center stretch wrap)
+///   inline-flex-row(center stretch wrap space-evenly)
+=inline-flex-row($props: [])
+
+/// Shorthand mixin for inline-flex row.
+/// @param {String} $main [null] Main Axis.
+/// @param {String} $cross [null] Cross Axis.
+/// @param {String} $wrap [null] Wrap Items.
+/// @param {String} $content [null] Align Content.
+/// @example
+///   inline-flex-row
+///   inline-flex-row(center)
+///   inline-flex-row(center, stretch)
+///   inline-flex-row(center, stretch, wrap)
+///   inline-flex-row(center, stretch, wrap, space-evenly)
+///   inline-flex-row($main: center, $cross: stretch, $wrap: nowrap)
+=inline-flex-row($main: null, $cross: null, $wrap: null, $content: null)
+  @if list.has-single($main)
+    +-flex-(inline-flex, row, $main, $cross, $wrap, $content)
+  @else
+    +-flex-(inline-flex, row, $main...)
+
+/// Shorthand mixin for inline-flex row center.
+/// @param {List} $props Flex Props.
+/// @example
+///   inline-flex-row-center
+///   inline-flex-row-center(wrap)
+///   inline-flex-row-center(wrap space-evenly)
+=inline-flex-row-center($props: [])
+
+/// Shorthand mixin for inline-flex row center.
+/// @param {String} $wrap [null] Wrap Items.
+/// @param {String} $content [null] Align Content.
+/// @example
+///   inline-flex-row-center
+///   inline-flex-row-center(wrap)
+///   inline-flex-row-center(wrap, space-evenly)
+///   inline-flex-row-center($wrap: wrap, $content: center)
+=inline-flex-row-center($wrap: null, $content: null)
+  @if list.has-single($wrap)
+    +-flex-(inline-flex, row, center, center, $wrap, $content)
+  @else
+    +-flex-(inline-flex, row, center, center, $wrap...)
+
+/// Shorthand mixin for inline-flex column.
+/// @param {List} $props Flex Props.
+/// @example
+///   inline-flex-col
+///   inline-flex-col(center)
+///   inline-flex-col(center stretch)
+///   inline-flex-col(center stretch wrap)
+///   inline-flex-col(center stretch wrap space-evenly)
+=inline-flex-col($props: [])
+
+/// Shorthand mixin for inline-flex column.
+/// @param {String} $main [null] Main Axis.
+/// @param {String} $cross [null] Cross Axis.
+/// @param {String} $wrap [null] Wrap Items.
+/// @param {String} $content [null] Align Content.
+/// @example
+///   inline-flex-col
+///   inline-flex-col(center)
+///   inline-flex-col(center, stretch)
+///   inline-flex-col(center, stretch, wrap)
+///   inline-flex-col(center, stretch, wrap, space-evenly)
+///   inline-flex-col($main: center, $cross: stretch, $wrap: nowrap)
+=inline-flex-col($main: null, $cross: null, $wrap: null, $content: null)
+  @if list.has-single($main)
+    +-flex-(inline-flex, column, $main, $cross, $wrap, $content)
+  @else
+    +-flex-(inline-flex, column, $main...)
+
+/// Shorthand mixin for inline-flex column center.
+/// @param {List} $props Flex Props.
+/// @example
+///   inline-flex-col-center
+///   inline-flex-col-center(wrap)
+///   inline-flex-col-center(wrap space-evenly)
+=inline-flex-col-center($props: [])
+
+/// Shorthand mixin for inline-flex column center.
+/// @param {String} $wrap [null] Wrap Items.
+/// @param {String} $content [null] Align Content.
+/// @example
+///   inline-flex-col-center
+///   inline-flex-col-center(wrap)
+///   inline-flex-col-center(wrap, space-evenly)
+///   inline-flex-col-center($wrap: wrap, $content: center)
+=inline-flex-col-center($wrap: null, $content: null)
+  @if list.has-single($wrap)
+    +-flex-(inline-flex, column, center, center, $wrap, $content)
+  @else
+    +-flex-(inline-flex, column, center, center, $wrap...)
 
 /// Internal mixin to generate flex properties.
-/// @param $display - Row or column (reverse).
-/// @param $direction [null] - Direction.
-/// @param $main [null] - Main Axis.
-/// @param $cross [null] - Cross Axis.
-/// @param $wrap [null] - Wrap Items.
-/// @param $content [null] - Align Content.
-/// @ignore
-@mixin -flexbox-($display, $direction: null, $main: null, $cross: null, $wrap: null, $content: null)
-  @if list.has-multiple($direction)
-    @include -flexbox-($display, $direction...)
-  @else
-    display: $display
-    flex-direction: $direction
-    justify-content: $main
-    align-items: $cross
-    flex-wrap: $wrap
-    align-content: $content
+/// @param {String} $display Row or column (reverse).
+/// @param {String} $direction [null] Direction.
+/// @param {String} $main [null] Main Axis.
+/// @param {String} $cross [null] Cross Axis.
+/// @param {String} $wrap [null] Wrap Items.
+/// @param {String} $content [null] Align Content.
+=-flex-($display, $direction: null, $main: null, $cross: null, $wrap: null, $content: null)
+  display: $display
+  flex-direction: $direction
+  justify-content: $main
+  align-items: $cross
+  flex-wrap: $wrap
+  align-content: $content

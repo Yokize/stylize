@@ -3,10 +3,9 @@
 .vscode
 
 # Rush
+.rush
 common/temp
 node_modules
-package-deps*
-shrinkwrap*
 
 # Log
 *.log

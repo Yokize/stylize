@@ -6,19 +6,18 @@
 ////
 
 /// Mixin to create the circle shape.
-/// @param {List|Length} $size [null] - Size.
-/// @param {List|Color} $background [null] - Background.
+/// @param {List|Length} $size [null] Size.
+/// @param {List|Color} $background [null] Background.
 /// @example
-///   Simple examples:
-///   @include circle
-///   @include circle(20px)
-///   @include circle(min 20px)
-///   @include circle(max 20px, #fff)
-///   @include circle($background: #fff)
+///   circle
+///   circle(20px)
+///   circle(min 20px)
+///   circle(max 20px, #fff)
+///   circle($background: #fff)
 ///
 ///   Complex examples:
-///   @include circle([auto, min 20px], #fff)
-///   @include circle([40px, min 20px, max 50px], #fff)
-///   @include circle([40px, min 20px, max 50px], linear-gradient(#e66465, #9198e5))
-@mixin circle($size: null, $background: null)
-  @include shape.square($size, 50%, $background)
+///   circle([auto, min 20px], #fff)
+///   circle([40px, min 20px, max 50px], #fff)
+///   circle([40px, min 20px, max 50px], linear-gradient(#e66465, #9198e5))
+=circle($size: null, $background: null)
+  +shape.square($size, 50%, $background)

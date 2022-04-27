@@ -1,59 +1,203 @@
 @use '~sass-true' as test
 @use './index' as mixin
 
-// Shorthand mixin for media.
-@include test.describe('Media mixin')
-  @include test.it('should create media query')
-    @include test.assert
-      @include test.output
-        @include mixin.media('>=xs')
+/// Shorthand mixin for media queries.
++test.describe('Media mixin')
+  +test.it('should create media query with args')
+    +test.assert
+      +test.output
+        +mixin.media(screen, '>200px')
           font-weight: normal
-      @include test.expect
-        @media (min-width: 480px)
-          font-weight: normal
-
-  @include test.it('should create media query with gt operator')
-    @include test.assert
-      @include test.output
-        @include mixin.media('>xs')
-          font-weight: normal
-      @include test.expect
-        @media (min-width: 481px)
-          font-weight: normal
-
-  @include test.it('should create media query with equal operator')
-    @include test.assert
-      @include test.output
-        @include mixin.media('o=portrait')
-          font-weight: normal
-      @include test.expect
-        @media (orientation: portrait)
-          font-weight: normal
-
-  @include test.it('should create media query with media type')
-    @include test.assert
-      @include test.output
-        @include mixin.media((sc1: screen '>=xs', sc2: print))
-          font-weight: normal
-      @include test.expect
-        @media screen and (min-width: 480px), print
-          font-weight: normal
-
-  @include test.it('should create media query with keyword')
-    @include test.assert
-      @include test.output
-        @include mixin.media('portrait')
-          font-weight: normal
-      @include test.expect
-        @media (orientation: portrait)
-          font-weight: normal
-
-  @include test.it('should create media query with multiple conditions')
-    @include test.assert
-      @include test.output
-        @include mixin.media(screen, '>200px')
-          font-weight: normal
-      @include test.expect
+      +test.expect
         @media screen
           @media (min-width: 201px)
             font-weight: normal
+
+  +test.it('should create media query with list')
+    +test.assert
+      +test.output
+        +mixin.media(screen '>200px')
+          font-weight: normal
+      +test.expect
+        @media screen
+          @media (min-width: 201px)
+            font-weight: normal
+
+  +test.it('should create media query with map')
+    +test.assert
+      +test.output
+        +mixin.media((group1: print, group2: '>=xs'))
+          font-weight: normal
+      +test.expect
+        @media print, (min-width: 480px)
+          font-weight: normal
+
+
+  +test.it('should create media query with complex map')
+    +test.assert
+      +test.output
+        +mixin.media((group1: print, group2: screen '>=xs'))
+          font-weight: normal
+      +test.expect
+        @media print, screen and (min-width: 480px)
+          font-weight: normal
+
+  +test.it('should create media query with eq operator')
+    +test.assert
+      +test.output
+        +mixin.media('=200px')
+          font-weight: normal
+      +test.expect
+        @media (width: 200px)
+          font-weight: normal
+
+  +test.it('should create media query with eq alias operator')
+    +test.assert
+      +test.output
+        +mixin.media(':200px')
+          font-weight: normal
+      +test.expect
+        @media (width: 200px)
+          font-weight: normal
+
+  +test.it('should create media query with gt operator')
+    +test.assert
+      +test.output
+        +mixin.media('>xs')
+          font-weight: normal
+      +test.expect
+        @media (min-width: 481px)
+          font-weight: normal
+
+  +test.it('should create media query with gt operator (em)')
+    +test.assert
+      +test.output
+        +mixin.media('>200em')
+          font-weight: normal
+      +test.expect
+        @media (min-width: 200.01em)
+          font-weight: normal
+
+  +test.it('should create media query with gte operator')
+    +test.assert
+      +test.output
+        +mixin.media('>=xs')
+          font-weight: normal
+      +test.expect
+        @media (min-width: 480px)
+          font-weight: normal
+
+  +test.it('should create media query with alias gte operator')
+    +test.assert
+      +test.output
+        +mixin.media('≥xs')
+          font-weight: normal
+      +test.expect
+        @media (min-width: 480px)
+          font-weight: normal
+
+  +test.it('should create media query with lt operator')
+    +test.assert
+      +test.output
+        +mixin.media('<xs')
+          font-weight: normal
+      +test.expect
+        @media (max-width: 479px)
+          font-weight: normal
+
+  +test.it('should create media query with lt operator (em)')
+    +test.assert
+      +test.output
+        +mixin.media('<200em')
+          font-weight: normal
+      +test.expect
+        @media (max-width: 199.99em)
+          font-weight: normal
+
+  +test.it('should create media query with lte operator')
+    +test.assert
+      +test.output
+        +mixin.media('<=xs')
+          font-weight: normal
+      +test.expect
+        @media (max-width: 480px)
+          font-weight: normal
+
+  +test.it('should create media query with alias lte operator')
+    +test.assert
+      +test.output
+        +mixin.media('≤xs')
+          font-weight: normal
+      +test.expect
+        @media (max-width: 480px)
+          font-weight: normal
+
+  +test.it('should create media query with keyword feature')
+    +test.assert
+      +test.output
+        +mixin.media('h<=201px')
+          +mixin.media('w=200px')
+            font-weight: normal
+      +test.expect
+        @media (max-height: 201px)
+          @media (width: 200px)
+            font-weight: normal
+
+  +test.it('should create media query with portrait shorcut')
+    +test.assert
+      +test.output
+        +mixin.media(portrait)
+          font-weight: normal
+      +test.expect
+        @media (orientation: portrait)
+          font-weight: normal
+
+  +test.it('should create media query with retina2x shorcut')
+    +test.assert
+      +test.output
+        +mixin.media(retina2x)
+          font-weight: normal
+      +test.expect
+        @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi), (min-resolution: 2dppx)
+          font-weight: normal
+
+  +test.it('should allow to dynamically add shortcut and use it')
+    +test.assert
+      +test.output
+        +mixin.add-shortcut(test, '(hover: hover)')
+        +mixin.media(test)
+          font-weight: normal
+      +test.expect
+        @media (hover: hover)
+          font-weight: normal
+
+  +test.it('should allow to dynamically add keyword and use it')
+    +test.assert
+      +test.output
+        +mixin.add-keyword(o, orientation)
+        +mixin.media('o=portrait')
+          font-weight: normal
+      +test.expect
+        @media (orientation: portrait)
+          font-weight: normal
+
+  +test.it('should allow to dynamically add breakpoint and use it')
+    +test.assert
+      +test.output
+        +mixin.add-breakpoint(xxl, 2000px)
+        +mixin.media('>=xxl')
+          font-weight: normal
+      +test.expect
+        @media (min-width: 2000px)
+          font-weight: normal
+
+  +test.it('should allow to use breakpoints in the em insted of px')
+    +test.assert
+      +test.output
+        +mixin.add-breakpoint(x, 16px)
+        +mixin.use-em
+        +mixin.media('>=x')
+          font-weight: normal
+      +test.expect
+        @media (min-width: 1em)
+          font-weight: normal

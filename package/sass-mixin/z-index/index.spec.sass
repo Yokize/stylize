@@ -1,0 +1,20 @@
+@use '~sass-true' as test
+@use './index' as mixin
+
+// Mixins to effectively handle z-index.
+@include test.describe('Z-index')
+  @include test.it('should get order based on list config')
+    +test.assert
+      +test.output
+        +mixin.set-order(header footer, 2)
+        +mixin.z-index(footer)
+      +test.expect
+        z-index: 4
+
+  @include test.it('should get order based on map config')
+    +test.assert
+      +test.output
+        +mixin.set-order((layout: (cashier: (toggle: 2))))
+        +mixin.z-index(layout cashier toggle)
+      +test.expect
+        z-index: 2

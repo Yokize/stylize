@@ -1,8 +1,14 @@
+////
+/// @group support
+/// @author Nojukubi
+////
+
 /// Determine whether hover is supported.
+/// @content
 /// @example
-///   @include support-hover
+///   support-hover
 ///     &:hover
 ///       text-transform: uppercase
-@mixin support-hover
+=support-hover
   @media (hover: hover), screen and (-ms-high-contrast: active), (-ms-high-contrast: none)
     @content

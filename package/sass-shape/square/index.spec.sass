@@ -8,65 +8,57 @@ $size: 20px
 $radius: 2px
 
 // Input: background.
-$background: #fff
-
-// Output: css.
-@mixin output-css
-  width: $size
-  height: $size
-  background: $background
-  border-radius: $radius
+$background: linear-gradient(#fff, #000)
 
 // Mixin to create the square shape.
-@include test.describe('Square mixin')
-  @include test.it('should create the square with args')
-    @include test.assert
-      @include test.output
-        @include mixin.square($size, $radius, $background)
-      @include test.expect
-        @include output-css
-
-  @include test.it('should create the square with keyword args')
-    @include test.assert
-      @include test.output
-        @include mixin.square($background: $background)
-      @include test.expect
++test.describe('Square mixin')
+  +test.it('should create the square with args')
+    +test.assert
+      +test.output
+        +mixin.square($size, $radius, $background)
+      +test.expect
+        width: $size
+        height: $size
         background: $background
+        border-radius: $radius
 
-  @include test.it('should create the square with default args')
-    @include test.assert
-      @include test.output
-        @include mixin.square
-      @include test.expect
+  +test.it('should create the square with default args')
+    +test.assert
+      +test.output
+        +mixin.square
+      +test.expect
 
-  @include test.it('should create the square with complex size arg')
-    @include test.assert
-      @include test.output
-        @include mixin.square([$size, min $size], 5px, #fff)
-      @include test.expect
+  +test.it('should create the square with keyword args')
+    +test.assert
+      +test.output
+        +mixin.square($radius: $radius)
+      +test.expect
+        border-radius: $radius
+
+  +test.it('should create the square with complex size arg')
+    +test.assert
+      +test.output
+        +mixin.square([$size, min $size])
+      +test.expect
         width: $size
         min-width: $size
         height: $size
         min-height: $size
-        background: #fff
-        border-radius: 5px
 
-  @include test.it('should create the square with complex radius arg')
-    @include test.assert
-      @include test.output
-        @include mixin.square(min $size, [5px, 4px], #fff)
-      @include test.expect
+  +test.it('should create the square with complex radius arg')
+    +test.assert
+      +test.output
+        +mixin.square(min $size, [5px, 4px])
+      +test.expect
         min-width: $size
         min-height: $size
-        background: #fff
         border-radius: 5px 4px
 
-  @include test.it('should create the square with complex background arg')
-    @include test.assert
-      @include test.output
-        @include mixin.square($size, $radius, linear-gradient(#e66465, #9198e5))
-      @include test.expect
+  +test.it('should create the square with complex background arg')
+    +test.assert
+      +test.output
+        +mixin.square($size, null, [$background, $background])
+      +test.expect
         width: $size
         height: $size
-        background: linear-gradient(#e66465, #9198e5)
-        border-radius: $radius
+        background: $background, $background

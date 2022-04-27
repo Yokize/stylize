@@ -2,6 +2,10 @@
 @use './index' as string
 
 @include test.describe('String')
+  @include test.describe('drop')
+    @include test.it('should drop $n chars from beginning of the string')
+      @include test.assert-equal(string.drop(str1-str2, 5), str2)
+
   @include test.describe('replace')
     @include test.it('should replace the part of string with default replacement')
       @include test.assert-equal(string.replace(str1-str2, -str2), str1)
@@ -15,6 +19,10 @@
 
     @include test.it('should split complex string with separator into substrings')
       @include test.assert-equal(string.split(-str1-str2-, '-'), ('' str1 str2 ''))
+
+  @include test.describe('take')
+    @include test.it('should get $n chars from beginning of the string')
+      @include test.assert-equal(string.take(str1-str2, 4), str1)
 
   @include test.describe('trim')
     @include test.it('should remove leading and trailing character from string')

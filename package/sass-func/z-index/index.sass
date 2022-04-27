@@ -1,0 +1,57 @@
+@use '../map'
+@use '../meta'
+@use '../list'
+
+////
+/// @group z-index
+/// @author Nojukubi
+/// @source https://developer.mozilla.org/en-US/docs/Web/CSS/z-index
+////
+
+/// Configurable z-index order.
+/// @type Map
+$order: () !default
+
+/// Determine whether configs are ready.
+/// @type Boolean
+$-is-ready: null
+
+/// Configure orders to be used by index.
+/// @param {List|Map|String} $config Config.
+/// @param {Number} $base [0] Base index.
+/// @example
+///   set-order(footer header)
+///   set-order(footer header, 100)
+///   set-order((footer: 10, header: 20))
+@function set-order($config, $base: 0)
+  $-is-ready: true !global
+
+  // Convert in case config is list or string.
+  @if meta.is-list($config) or meta.is-string($config)
+    $config: -to-config-($config, $base)
+
+  // Merge $config with already existing configs.
+  $order: map.merge($order, $config) !global
+  @return null
+
+/// Get the z-index by $path namespace.
+/// @param {ArgList} $path Complex path.
+/// @example
+///   z-index(modal)
+///   z-index(page, header)
+@function z-index($path...)
+  $path: list.flatten($path)
+
+  @if not $-is-ready
+    $_: z-configure($order)
+    $-is-ready: true !global
+  @return map.get($order, $path...)
+
+/// Internal function to convert config to proper format.
+/// @param {List|String} $config Config.
+/// @param {Number} $base [0] Base index.
+@function -to-config-($config, $base)
+  $map: ()
+  @for $index from 1 through list.length($config)
+    $map: map.set($map, list.nth($config, $index), $index + $base)
+  @return $map

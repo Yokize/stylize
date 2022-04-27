@@ -1,6 +1,6 @@
 @use '~@stylize/sass-func/meta'
 @use '~@stylize/sass-func/list'
-@use '~@stylize/sass-mixin/size' as *
+@use '~@stylize/sass-mixin/size'
 
 ////
 /// @group rectangle
@@ -8,26 +8,26 @@
 ////
 
 /// Mixin to create the rectangle shape.
-/// @param {List|Length} $width [null] - Width.
-/// @param {List|Length} $height [null] - Height.
-/// @param {List|Length} $radius [null] - Radius.
-/// @param {List|Color} $background [null] - Background.
+/// @param {List|Length} $width [null] Width.
+/// @param {List|Length} $height [null] Height.
+/// @param {List|Length} $radius [null] Radius.
+/// @param {List|Color} $background [null] Background.
 /// @example
-///   Simple examples:
-///   @include rectangle
-///   @include rectangle(min 20px)
-///   @include rectangle(10px, max 20px)
-///   @include rectangle($background: #fff)
-///   @include rectangle(min 10px, 20px, 4px)
-///   @include rectangle(max 10px, max 20px, 4px, #fff)
+///   rectangle
+///   rectangle(min 20px)
+///   rectangle(10px, max 20px)
+///   rectangle($background: #fff)
+///   rectangle(min 10px, 20px, 4px)
+///   rectangle(max 10px, max 20px, 4px, #fff)
 ///
 ///   Complex examples:
-///   @include rectangle([auto, min 20px], max 20px, 4px, #fff)
-///   @include rectangle([40px, min 20px], [20px, max 10px], 4px 3px, #fff)
-///   @include rectangle([40px, min 20px], [20px, max 10px], [4px, 3px], #fff)
-///   @include rectangle([40px, min 20px], [20px, max 10px], [4px, 3px], linear-gradient(#e66465, #9198e5))
-@mixin rectangle($width: null, $height: null, $radius: null, $background: null)
-  @include size($width, $height)
+///   rectangle([auto, min 20px], max 20px, 4px, #fff)
+///   rectangle([40px, min 20px], [20px, max 10px], 4px 3px, #fff)
+///   rectangle([40px, min 20px], [20px, max 10px], [4px, 3px], #fff)
+///   rectangle([40px, min 20px], [20px, max 10px], [4px, 3px], linear-gradient(#e66465, #9198e5))
+=rectangle($width: null, $height: null, $radius: null, $background: null)
+  +size.width($width)
+  +size.height($height)
 
   @if meta.is-list($background)
     background: list.join($background, [], auto, false)
