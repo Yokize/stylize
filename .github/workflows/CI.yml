@@ -60,6 +60,10 @@ jobs:
       - name: Environment
         uses: actions/setup-node@v3
 
+      # Install the dependencies.
+      - name: Dependencies
+        run: node common/scripts/install-run-rush.js install
+
       # Configure username and email.
       - name: Configure Git
         run: |
