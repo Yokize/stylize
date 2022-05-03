@@ -5,59 +5,53 @@
 $size: 20px
 
 // Input: background.
-$background: #fff
-
-// Output: css.
-@mixin output-css
-  width: $size
-  height: $size
-  background: $background
-  border-radius: 50%
+$background: linear-gradient(#fff, #000)
 
 // Mixin to create the circle shape.
-@include test.describe('Circle mixin')
-  @include test.it('should create the circle with args')
-    @include test.assert
-      @include test.output
-        @include mixin.circle($size, $background)
-      @include test.expect
-        @include output-css
-
-  @include test.it('should create the circle with keyword args')
-    @include test.assert
-      @include test.output
-        @include mixin.circle($background: $background)
-      @include test.expect
++test.describe('Circle mixin')
+  +test.it('should create the circle with args')
+    +test.assert
+      +test.output
+        +mixin.circle($size, $background)
+      +test.expect
+        width: $size
+        height: $size
         background: $background
         border-radius: 50%
 
-  @include test.it('should create the circle with default args')
-    @include test.assert
-      @include test.output
-        @include mixin.circle
-      @include test.expect
+  +test.it('should create the circle with default args')
+    +test.assert
+      +test.output
+        +mixin.circle
+      +test.expect
         border-radius: 50%
 
-  @include test.it('should create the circle with complex size arg')
-    @include test.assert
-      @include test.output
-        @include mixin.circle([$size, min $size, max $size * 2], #fff)
-      @include test.expect
+  +test.it('should create the circle with keyword args')
+    +test.assert
+      +test.output
+        +mixin.circle($size: $size)
+      +test.expect
+        width: $size
+        height: $size
+        border-radius: 50%
+
+  +test.it('should create the circle with complex size arg')
+    +test.assert
+      +test.output
+        +mixin.circle([$size, min $size])
+      +test.expect
         width: $size
         min-width: $size
-        max-width: $size * 2
         height: $size
         min-height: $size
-        max-height: $size * 2
-        background: #fff
         border-radius: 50%
 
-  @include test.it('should create the circle with complex background arg')
-    @include test.assert
-      @include test.output
-        @include mixin.circle($size, linear-gradient(#e66465, #9198e5))
-      @include test.expect
+  +test.it('should create the circle with complex background arg')
+    +test.assert
+      +test.output
+        +mixin.circle($size, [$background, $background])
+      +test.expect
         width: $size
         height: $size
-        background: linear-gradient(#e66465, #9198e5)
+        background: $background, $background
         border-radius: 50%

@@ -2,40 +2,54 @@
 @use '../meta'
 @use '../unit'
 
+////
+/// @group math
+/// @author Nojukubi
+/// @source https://sass-lang.com/documentation/modules/math
+////
+
+/// Forward built-in module.
 @forward 'sass:math'
 
-////
-/// @author Nojukubi
-/// @group math
-////
-
-/// Raises $base to the power of $exponent.
-/// @param {Number} $base - Base to raise.
-/// @param {Number} $exponent - Power.
-/// @return Base which raised to the power.
-@function pow($base, $exponent)
-  @return -unit-friendly-(meta.get-function('pow', false, 'math'), $base, $exponent)
-
-/// Get the number to power [2] of $number.
-/// @param {Number} $number - Number.
+/// Raises $number to the power of 2.
+/// @param {Number} $number Number.
+/// @return {Number} Calculated number.
+/// @example
+///   sqr(10)
+///   sqr(10px)
 @function sqr($number)
   @return pow($number, 2)
 
 /// Get the square root of $number.
-/// @param {Number} $number - Number.
+/// @param {Number} $number Number.
+/// @return {Number} Calculated number.
+/// @example
+///   sqrt(10)
+///   sqrt(10px)
 @function sqrt($number)
-  @return -unit-friendly-(meta.get-function('sqrt', false, 'math'), $number)
+  @return pow($number, 0.5)
 
 /// Format number to fixed amount of decimals.
-/// @param {Number} $float - Number to format.
-/// @param {Number} $digits [2] - Number of digits.
+/// @param {Number} $float Number to format.
+/// @param {Number} $digits [2] Number of digits.
 /// @return {Number} Formatted number.
+/// @example
+///   to-fixed(10.222, 2)
 @function to-fixed($float, $digits: 2)
   $pow: pow(10, $digits)
   @return math.div(round($float * $pow), $pow)
 
-@function -unit-friendly-($func, $base, $otherArgs...)
+/// Raises $base to the power of $exponent.
+/// @param {Number} $base Base to raise.
+/// @param {Number} $exponent Exponent.
+/// @return {Number} Number raised to the power.
+/// @example
+///   pow(10, 2)
+///   pow(10px, 2)
+@function pow($base, $exponent)
+  $native: meta.get-function('pow', false, 'math')
   @if (math.is-unitless($base))
-    @return meta.call($func, $base, $otherArgs...)
+    @return meta.call($native, $base, $exponent)
   @else
-    @return unit.add(meta.call($func, unit.strip($base), $otherArgs...), math.unit($base))
+    $result: meta.call($native, unit.strip($base), $exponent)
+    @return unit.add($result, math.unit($base))

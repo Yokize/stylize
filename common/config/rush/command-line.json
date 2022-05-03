@@ -2,11 +2,36 @@
   "$schema": "https://developer.microsoft.com/json-schemas/rush/v5/command-line.schema.json",
   "commands": [
     {
-      "commandKind": "bulk",
       "name": "test",
-      "summary": "Testing projects",
+      "commandKind": "bulk",
+      "summary": "Invokes testing for packages",
       "enableParallelism": true,
-      "ignoreMissingScript": true
+      "ignoreMissingScript": true,
+      "allowWarningsInSuccessfulBuild": true
+    },
+    {
+      "name": "prettier",
+      "commandKind": "global",
+      "summary": "Invokes prettier to format all files",
+      "safeForSimultaneousRushProcesses": true,
+      "autoinstallerName": "prettier",
+      "shellCommand": "prettier ."
+    },
+    {
+      "name": "prettier-quick",
+      "commandKind": "global",
+      "summary": "Invokes prettier to format staged changes",
+      "safeForSimultaneousRushProcesses": true,
+      "autoinstallerName": "prettier",
+      "shellCommand": "pretty-quick --staged"
+    },
+    {
+      "name": "commitlint",
+      "commandKind": "global",
+      "summary": "Invokes linter to validate commit message",
+      "safeForSimultaneousRushProcesses": false,
+      "autoinstallerName": "commitlint",
+      "shellCommand": "commitlint --edit --extends @commitlint/config-conventional"
     }
   ]
 }

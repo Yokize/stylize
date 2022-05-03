@@ -1,0 +1,11 @@
+{
+  "name": "prettier",
+  "version": "0.0.0",
+  "private": true,
+  "dependencies": {
+    "@prettier/plugin-pug": "^1.20.1",
+    "prettier": "^2.6.2",
+    "prettier-plugin-sh": "^0.10.1",
+    "pretty-quick": "^3.1.3"
+  }
+}

@@ -1,1 +1,21 @@
+@use 'sass:list'
+
+////
+/// @group map
+/// @author Nojukubi
+/// @source https://sass-lang.com/documentation/modules/map
+////
+
+/// Forward built-in module.
 @forward 'sass:map'
+
+/// Get the entries as list of keys and values.
+/// @param {Map} $map Source Map.
+/// @return {List} Retrieved entries.
+/// @example
+///   entries((key1: item1))
+@function entries($map)
+  $result: ()
+  @each $key, $value in $map
+    $result: list.append($result, ($key, $value))
+  @return $result

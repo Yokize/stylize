@@ -1,56 +1,65 @@
 @use '~sass-true' as test
 @use './index' as mixin
 
-// Shorthand to define width.
-@include test.describe('Width mixin')
-  @include test.it('should define width with args')
-    @include test.assert
-      @include test.output
-        @include mixin.width(15px, min 10px)
-      @include test.expect
+// Shorthand to define max, min and eq width.
++test.describe('Width mixin')
+  +test.it('should define width with args')
+    +test.assert
+      +test.output
+        +mixin.width(15px, min 10px)
+      +test.expect
         width: 15px
         min-width: 10px
 
-// Shorthand to define height.
-@include test.describe('Height mixin')
-  @include test.it('should define height with args')
-    @include test.assert
-      @include test.output
-        @include mixin.height(15px, min 10px)
-      @include test.expect
+  +test.it('should define width with list arg')
+    +test.assert
+      +test.output
+        +mixin.width([15px, min 10px])
+      +test.expect
+        width: 15px
+        min-width: 10px
+
+// Shorthand to define max, min and eq height.
++test.describe('Height mixin')
+  +test.it('should define height with args')
+    +test.assert
+      +test.output
+        +mixin.height(15px, min 10px)
+      +test.expect
         height: 15px
         min-height: 10px
 
-// Shorthand to define width and height.
-@include test.describe('Size mixin')
-  @include test.it('should define width with arg')
-    @include test.assert
-      @include test.output
-        @include mixin.size(1px)
-      @include test.expect
-        width: 1px
+  +test.it('should define height with list arg')
+    +test.assert
+      +test.output
+        +mixin.height([15px, min 10px])
+      +test.expect
+        height: 15px
+        min-height: 10px
 
-  @include test.it('should define width and height with args')
-    @include test.assert
-      @include test.output
-        @include mixin.size(1px, 2px)
-      @include test.expect
+// Shorthand to define complex width and height.
++test.describe('Size mixin')
+  +test.it('should define size with arg')
+    +test.assert
+      +test.output
+        +mixin.size(1px)
+      +test.expect
+        width: 1px
+        height: 1px
+
+  +test.it('should define width and height with args')
+    +test.assert
+      +test.output
+        +mixin.size(1px, 2px)
+      +test.expect
         width: 1px
         height: 2px
 
-  @include test.it('should define min width and max height with args')
-    @include test.assert
-      @include test.output
-        @include mixin.size(min 20px, max 30px)
-      @include test.expect
-        min-width: 20px
-        max-height: 30px
-
-  @include test.it('should define complex width and height with args')
-    @include test.assert
-      @include test.output
-        @include mixin.size([auto, min 20px], [10px, max 30px])
-      @include test.expect
+  +test.it('should define complex width and height with args')
+    +test.assert
+      +test.output
+        +mixin.size([auto, min 20px], [10px, max 30px])
+      +test.expect
         width: auto
         min-width: 20px
         height: 10px

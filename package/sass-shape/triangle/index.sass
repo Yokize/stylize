@@ -1,7 +1,6 @@
-@use '~@stylize/sass-func/meta'
 @use '~@stylize/sass-func/list'
-@use '~@stylize/sass-func/math' as *
-@use '~@stylize/sass-mixin/size' as *
+@use '~@stylize/sass-func/math'
+@use '~@stylize/sass-func/meta'
 
 ////
 /// @group triangle
@@ -9,101 +8,138 @@
 ////
 
 /// Mixin to create the triangle shape.
-/// @param {List} $props - Triangle Props.
+/// @param {List} $props Triangle Props.
+/// @throws Triangle direction is not valid.
 /// @example
-///   @include triangle(top #fff 5px)
-///   @include triangle(top #fff 5px 10px)
-@mixin triangle($props: [])
+///   triangle(top #fff 5px)
+///   triangle(top #fff 5px 10px)
+=triangle($props: [])
 
 /// Mixin to create the triangle shape.
-/// @param {List|String} $direction - Direction.
-/// @param {Color} $color [null] - Color.
-/// @param {Length} $width [null] - Width.
-/// @param {Length} $height [null] - Height.
+/// @param {String} $direction Direction.
+/// @param {Color} $color [null] Color.
+/// @param {Length} $width [null] Width.
+/// @param {Length} $height [null] Height.
+/// @throws Triangle direction is not valid.
 /// @example
-///   @include triangle(top, #fff, 5px)
-///   @include triangle(top, #fff, 5px, 10px)
-@mixin triangle($direction, $color: null, $width: null, $height: null)
-  @if list.has-multiple($direction)
-    @include -triangle-($direction...)
+///   triangle(top, #fff, 5px)
+///   triangle(top, #fff, 5px, 10px)
+=triangle($direction, $color: null, $width: null, $height: null)
+  @if list.has-single($direction)
+    +-triangle-($direction, $color, $width, $height)
   @else
-    @include -triangle-($direction, $color, $width, $height)
+    +-triangle-($direction...)
 
-/// Internal mixin create the triangle shape.
-/// @param {String} $direction - Direction.
-/// @param {Color} $color [null] - Color.
-/// @param {Length} $width [null] - Width.
-/// @param {Length} $height [null] - Height.
-/// @ignore
-@mixin -triangle-($direction, $color: null, $width: null, $height: null)
-  @include size(0, 0)
+/// Internal mixin to create the triangle shape.
+/// @param {String} $direction Direction.
+/// @param {Color} $color [null] Color.
+/// @param {Length} $width [null] Width.
+/// @param {Length} $height [null] Height.
+=-triangle-($direction, $color: null, $width: null, $height: null)
+  width: 0
+  height: 0
   border-style: solid
 
+  // Assign the height based on the side.
   @if $height == null
-    @if list.contains($-equal-dir-, $direction)
-      $height: to-fixed(sqrt(sqr($width) - sqr(div($width, 2))), 4)
+    @if list.contains($-calc-side-, $direction)
+      $height: -calcHeight-($width)
     @else
       $height: $width
 
   // Logic for each individual direction.
-  @if $direction == 'top'
-    @include -top-triangle-($color, $width, $height)
-  @else if $direction == 'bottom'
-    @include -bottom-triangle-($color, $width, $height)
-  @else if $direction == 'right'
-    @include -right-triangle-($color, $width, $height)
-  @else if $direction == 'left'
-    @include -left-triangle-($color, $width, $height)
-  @else if $direction == 'top-left'
-    @include -top-left-triangle-($color, $width, $height)
-  @else if $direction == 'top-right'
-    @include -top-right-triangle-($color, $width, $height)
-  @else if $direction == 'bottom-left'
-    @include -bottom-left-triangle-($color, $width, $height)
-  @else if $direction == 'bottom-right'
-    @include -bottom-right-triangle-($color, $width, $height)
+  @if $direction == top
+    +-top-triangle-($color, $width, $height)
+  @else if $direction == bottom
+    +-bottom-triangle-($color, $width, $height)
+  @else if $direction == right
+    +-right-triangle-($color, $width, $height)
+  @else if $direction == left
+    +-left-triangle-($color, $width, $height)
+  @else if $direction == top-left
+    +-top-left-triangle-($color, $width, $height)
+  @else if $direction == top-right
+    +-top-right-triangle-($color, $width, $height)
+  @else if $direction == bottom-left
+    +-bottom-left-triangle-($color, $width, $height)
+  @else if $direction == bottom-right
+    +-bottom-right-triangle-($color, $width, $height)
   @else
     @error 'Direction `#{$direction}` is not supported'
 
-// Directions which need an equalize.
-$-equal-dir-: top, bottom, left, right
+/// Directions which need calculation.
+/// @type List
+$-calc-side-: top, bottom, left, right
 
-// Mixin to create top triangle shape.
-@mixin -top-triangle-($color, $width, $height)
+/// Calculate the height based on side.
+/// @param {Length} $side Side.
+/// @return {Length} Calculated height.
+@function -calcHeight-($side)
+  // Square of triangle height using Pythagoras theorem :)
+  $tmpSqr: math.sqr($side) - math.sqr(math.div($side, 2))
+  // Calculated height of triangle and aligned to proper format.
+  @return math.to-fixed(math.sqrt($tmpSqr), 4)
+
+/// Mixin to create top triangle shape.
+/// @param {Color} $color Color.
+/// @param {Length} $width Width.
+/// @param {Length} $height Height.
+=-top-triangle-($color, $width, $height)
   border-color: transparent transparent $color transparent
-  border-width: 0 div($width, 2) $height div($width, 2)
+  border-width: 0 math.div($width, 2) $height math.div($width, 2)
 
-// Mixin to create top left triangle shape.
-@mixin -top-left-triangle-($color, $width, $height)
+/// Mixin to create top left triangle shape.
+/// @param {Color} $color Color.
+/// @param {Length} $width Width.
+/// @param {Length} $height Height.
+=-top-left-triangle-($color, $width, $height)
   border-color: $color transparent transparent transparent
   border-width: $height $width 0 0
 
-// Mixin to create top right triangle shape.
-@mixin -top-right-triangle-($color, $width, $height)
+/// Mixin to create top right triangle shape.
+/// @param {Color} $color Color.
+/// @param {Length} $width Width.
+/// @param {Length} $height Height.
+=-top-right-triangle-($color, $width, $height)
   border-color: transparent $color transparent transparent
   border-width: 0 $width $height 0
 
-// Mixin to create bottom triangle shape.
-@mixin -bottom-triangle-($color, $width, $height)
+/// Mixin to create bottom triangle shape.
+/// @param {Color} $color Color.
+/// @param {Length} $width Width.
+/// @param {Length} $height Height.
+=-bottom-triangle-($color, $width, $height)
   border-color: $color transparent transparent transparent
-  border-width: $height div($width, 2) 0 div($width, 2)
+  border-width: $height math.div($width, 2) 0 math.div($width, 2)
 
-// Mixin to create bottom left triangle shape.
-@mixin -bottom-left-triangle-($color, $width, $height)
+/// Mixin to create bottom left triangle shape.
+/// @param {Color} $color Color.
+/// @param {Length} $width Width.
+/// @param {Length} $height Height.
+=-bottom-left-triangle-($color, $width, $height)
   border-color: transparent transparent transparent $color
   border-width: $height 0 0 $width
 
-// Mixin to create bottom right triangle shape.
-@mixin -bottom-right-triangle-($color, $width, $height)
+/// Mixin to create bottom right triangle shape.
+/// @param {Color} $color Color.
+/// @param {Length} $width Width.
+/// @param {Length} $height Height.
+=-bottom-right-triangle-($color, $width, $height)
   border-color: transparent transparent $color transparent
   border-width: 0 0 $height $width
 
-// Mixin to create right triangle shape.
-@mixin -right-triangle-($color, $width, $height)
+/// Mixin to create right triangle shape.
+/// @param {Color} $color Color.
+/// @param {Length} $width Width.
+/// @param {Length} $height Height.
+=-right-triangle-($color, $width, $height)
   border-color: transparent transparent transparent $color
-  border-width: div($width, 2) 0 div($width, 2) $height
+  border-width: math.div($width, 2) 0 math.div($width, 2) $height
 
-// Mixin to create left triangle shape.
-@mixin -left-triangle-($color, $width, $height)
+/// Mixin to create left triangle shape.
+/// @param {Color} $color Color.
+/// @param {Length} $width Width.
+/// @param {Length} $height Height.
+=-left-triangle-($color, $width, $height)
   border-color: transparent $color transparent transparent
-  border-width: div($width, 2) $height div($width, 2) 0
+  border-width: math.div($width, 2) $height math.div($width, 2) 0

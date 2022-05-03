@@ -25,12 +25,12 @@ max_line_length = 120
 # Trim whitespace at the end of line.
 trim_trailing_whitespace = true
 
-[*.md]
+[*.{md,json}]
+# Not limited max line length.
+max_line_length = off
+
 # Do not end file with the newline.
 insert_final_newline = false
-
-# Not limited line length for wrapping.
-max_line_length = off
 
 # Whitespace is allowed at the end of line.
 trim_trailing_whitespace = false

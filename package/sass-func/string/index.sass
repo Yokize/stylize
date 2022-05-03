@@ -1,55 +1,73 @@
 @use 'sass:list'
 @use 'sass:string'
+
+////
+/// @group string
+/// @author Nojukubi
+/// @source https://sass-lang.com/documentation/modules/string
+////
+
+/// Forward built-in module.
 @forward 'sass:string'
 
-/// Replace $search with $replace in $string
-/// @param {String} $string - The string in which to replace
-/// @param {String} $search - Substring to find and replace
-/// @param {String} $replace [''] - New value
-/// @return {String} The string with replacement
-/// @author Nojukubi
-/// @group string
+/// Drop $n chars from beginning of the string.
+/// @param {String} $string String to slice.
+/// @param {Number} $n Number of chars.
+/// @return {String} Fragment of the string.
+///   drop('search-string', 5)
+@function drop($string, $n: 1)
+  @return string.slice($string, $n + 1)
+
+/// Replace $search with $replace in $string.
+/// @param {String} $string String in which to replace.
+/// @param {String} $search Substring to find and replace.
+/// @param {String} $replace [''] New value.
+/// @return {String} String with replacement.
 /// @example
 ///   replace('search-string', '-string')
 ///   replace('search-string', '-string', '-str')
 @function replace($string, $search, $replace: '')
   $index: string.index($string, $search)
   @if $index != null
-    @return string.slice($string, 1, $index - 1) + $replace + replace(string.slice($string, $index + string.length($search)), $search, $replace)
+    $before: string.slice($string, 1, $index - 1)
+    $after: string.slice($string, $index + string.length($search))
+    @return $before + $replace + replace($after, $search, $replace)
   @return $string
 
-/// Split $string with $separator into substrings
-/// @param {String} $string - The string to split
-/// @param {String} $separator - The string separator
-/// @return {List | String} The list of substrings
-/// @author Nojukubi
-/// @group string
+/// Split $string with $separator into substrings.
+/// @param {String} $string String to split.
+/// @param {String} $separator String separator.
+/// @return {List | String} List of substrings.
 /// @example
 ///   split('-str1-str2-', '-')
 @function split($string, $separator)
   $index: string.index($string, $separator)
-
   @if $index != null
-    @return list.join(string.slice($string, 1, $index - 1), split(string.slice($string, $index + string.length($separator)), $separator))
-
+    $before: string.slice($string, 1, $index - 1)
+    $after: string.slice($string, $index + string.length($separator))
+    @return list.join($before, split($after, $separator))
   @return $string
 
-/// Removes leading and trailing $char from $string
-/// @param {String} $string - The string to trim
-/// @return {String} The trimmed string from char
-/// @author Nojukubi
-/// @group string
+/// Get first $n chars from the $string.
+/// @param {List} $list String to slice.
+/// @param {Number} $n Number of chars.
+/// @return {List} Fragment of the string.
+///   take(string, 2)
+@function take($string, $n: 1)
+  @return string.slice($string, 1, $n)
+
+/// Removes leading and trailing $char from $string.
+/// @param {String} $string String to trim.
+/// @return {String} Trimmed string from char.
 /// @example
 ///   trim(' string ')
 ///   trim('-string-', '-')
 @function trim($string, $char: ' ')
   @return trim-start(trim-end($string, $char), $char)
 
-/// Removes trailing $char from $string
-/// @param {String} $string - The string to trim
-/// @return {String} The trimmed string from char
-/// @author Nojukubi
-/// @group string
+/// Removes trailing $char from $string.
+/// @param {String} $string String to trim.
+/// @return {String} Trimmed string from char.
 /// @example
 ///   trim-end('string ')
 ///   trim-end('string-', '-')
@@ -59,11 +77,9 @@
   @else
     @return $string
 
-/// Removes leading $char from $string
-/// @param {String} $string - The string to trim
-/// @return {String} The trimmed string from char
-/// @author Nojukubi
-/// @group string
+/// Removes leading $char from $string.
+/// @param {String} $string String to trim.
+/// @return {String} Trimmed string from char.
 /// @example
 ///   trim-start(' string')
 ///   trim-start('-string', '-')

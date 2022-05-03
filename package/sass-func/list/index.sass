@@ -1,84 +1,86 @@
+@use 'sass:map'
 @use 'sass:math'
 @use 'sass:list'
 @use '../meta'
 @use '../string'
 
-@forward 'sass:list'
-
 ////
 /// @group list
 /// @author Nojukubi
+/// @source https://sass-lang.com/documentation/modules/list
 ////
 
-/// Chunks $list into $size large lists.
-/// @param {List} $list - List with items.
-/// @param {Length} $size - Length of lists.
-/// @return {List} Divided list into chunks.
+/// Forward built-in module.
+@forward 'sass:list'
+
+/// Split the $list into $size chunks.
+/// @param {List} $list List to split up.
+/// @param {Length} $size Length of chunk.
+/// @return {List} Chunks created from list.
+/// @throws Size parameter is not a number.
 /// @example
 ///   chunks(item1 item2 item3, 2)
 @function chunk($list, $size)
-  @if (not meta.is-number($size))
-    @error 'Size is not a number for `chunk`'
-  // Length of the list which need to split.
+  @if not meta.is-number($size)
+    @error '$size: `#{$size}` not a number'
+  // Length of the given list to split.
   $length: list.length($list)
-  // In case the size chunk is more then length.
+  // Final result with all created chunks.
+  $result: -same-format-($list)
+  // Returns only 1 chunk if size is too small.
   @if $size >= $length
-    @return $list
-  // Final result with divided list into chunks.
-  $result: ()
-  // Iterate from 0 to calculated amount of chunks.
-  @for $i from 0 to math.ceil(math.div($length, $size))
-    $chunk: ()
+    @return list.append($result, $list)
+  // Chunks amount to be created from the list.
+  $amount: math.ceil(math.div($length, $size))
+  @for $i from 0 to $amount
+    $chunk: -same-format-($result)
     @for $j from 1 through $size
       $index: $i * $size + $j
       @if $index <= $length
-        $chunk: list.append($chunk, list.nth($list, $index), list.separator($list))
-    // Calculate chunks into final result list.
+        $item: list.nth($list, $index)
+        $chunk: list.append($chunk, $item)
     $result: list.append($result, $chunk)
   @return $result
 
-/// Determine whether the $list contains the $item.
-/// @param {List} $list - List with items.
-/// @param {Any} $item - Item to check.
-/// @return {Bool} True if contains item; false otherwise.
+/// Determine whether $list contains $item.
+/// @param {List} $list Source list.
+/// @param {Anything} $item Item to check.
+/// @return {Boolean} True if has item; false otherwise.
 /// @example
 ///   contains(item1 item2, item1)
 @function contains($list, $item)
   @return not not list.index($list, $item)
 
-/// Returns difference between $lists.
-/// @param {List} $lists - Lists.
-/// @return {List} Unique values.
+/// Get the difference between $lists.
+/// @param {ArgList} $lists Lists.
+/// @return {List} Difference items.
+/// @throws Lists are less than two.
 /// @example
 ///   difference(item1 item2, item3 item1)
 @function difference($lists...)
-  $result: unique(first($lists))
-  @each $list in tail($lists)
-    $temp: ()
-    @each $item in $result
-      @if not list.index($list, $item)
-        $temp: list.append($temp, $item, list.separator($list))
-    $result: $temp
+  @if list.length($lists) < 2
+    @error 'Must be at least 2 lists'
+  $result: ()
+  $common: intersection($lists...)
+  @each $list in $lists
+    @each $item in $list
+      @if not contains($common, $item)
+        $result: list.append($result, $item)
   @return $result
 
-/// Iterate through the $list and call the $function on each item.
-/// @param {List} $list - List to iterate over.
-/// @param {Function} $function - Function to call on item.
-/// @param {ArgList} $args - Extra arguments passed to function.
-/// @return {List} New list with function result for each item.
-/// @example
-///   each(item1 item2, meta.get-function(is-string))
-@function each($list, $function, $args...)
-  @for $index from 1 through list.length($list)
-    $arguments: list.join(list.nth($list, $index), $args)
-    $list: list.set-nth($list, $index, meta.call($function, $arguments...))
-  @return $list
+/// Drop $n items from beginning of the $list.
+/// @param {List} $list List to slice.
+/// @param {Number} $n Number of items.
+/// @return {List} Fragment of the list.
+///   drop(item1 item2 item3, 2)
+@function drop($list, $n: 1)
+  @return slice($list, $n + 1)
 
-/// Determine if $predicate returns true for all items in the $list.
-/// @param {List} $list - List to iterate over.
-/// @param {Function} $predicate - Predicate function.
-/// @param {ArgList} $args - Extra arguments passed to function.
-/// @return {Bool} True if all items fit the predicate.
+/// Check if $predicate satisfy all items in $list.
+/// @param {List} $list List to iterate over.
+/// @param {Function} $predicate Predicate to use.
+/// @param {ArgList} $args Extra arguments.
+/// @return {Boolean} True if items satisfy predicate.
 /// @example
 ///   every(item1 item2, meta.get-function(is-string))
 @function every($list, $predicate, $args...)
@@ -87,74 +89,81 @@
       @return false
   @return true
 
-/// Fill out the $list with a certain number of items.
-/// @param {List} $list - List to fill out.
-/// @param {Number} $amount - Amount of items.
-/// @param {Any} $value [null] - Value to set.
+/// Fill the $list to certain number of items.
+/// @param {List} $list List to fill out.
+/// @param {Number} $n Number of items.
+/// @param {Anything} $value [null] Value to add.
 /// @return {List} List with filled items.
 /// @example
-///   fill(item1 item2, 4, 0)
-@function fill($list, $amount, $value: null)
-  // New list with existing items.
-  $result: list.join((), $list, list.separator($list))
-  // In case there is space to fill.
-  @if (list.length($list) < $amount)
-    @for $index from list.length($list) + 1 through $amount
-      $result: list.append($result, $value, list.separator($index))
-  @return $result
+///   fill(item1 item2, 4, item)
+@function fill($list, $n, $value: null)
+  $length: list.length($list)
+  @if $length < $n
+    @for $i from $length + 1 through $n
+      $list: list.append($list, $value)
+  @return $list
 
-/// Get the first item on the $list.
-/// @param {List} $list - List with items.
-/// @return {Any} First item from the list.
+/// Get the first item from the $list.
+/// @param {List} $list List with items.
+/// @return {Anything} First item from list.
+/// @throws Native error if list is empty.
 /// @example
-///   first(item1 item2)
+///   first(item1 item2 item3 item4)
 @function first($list)
   @return list.nth($list, 1)
 
-/// Make the $list flattened to the specified depth level.
-/// @param {List} $list - List to be flattened.
-/// @param {Number} $depth [null] - Depth level.
-/// @return {List} Flattened list to defined depth level.
+/// Make $list flattened to certain depth level.
+/// @param {List} $list List to flattening.
+/// @param {Number} $depth [null] Depth level.
+/// @return {List} Flattened list to depth level.
 /// @example
-///   flatten(item1 item2, item3 item4)
+///   flatten(item1 item2 [item3 item4], 1)
 @function flatten($list, $depth: null)
-  $result: ()
-
+  $result: -same-format-($list)
   @each $item in $list
-    // In case the item is in the list and the depth is allowed.
+    // In case the item is the list and the depth is allowed.
     @if (has-multiple($item) and ($depth == null or $depth > 0))
-      // Recursive combination of items with depth level.
+      // Recursive unpack of items with defined depth level.
       $nFlatten: flatten($item, if($depth, $depth - 1, $depth))
       @each $nItem in $nFlatten
-        $result: list.append($result, $nItem, list.separator($list))
+        $result: list.append($result, $nItem)
     @else
-      $result: list.append($result, $item, list.separator($list))
+      $result: list.append($result, $item)
   @return $result
 
-/// Determine whether there is multiple items in the $list.
-/// @param {List} $list - List to check.
-/// @return {Bool} True if multiple items; false otherwise.
+/// Determine if there are multiple items in $list.
+/// @param {List} $list List to check.
+/// @return {Boolean} True if multiple; false otherwise.
 /// @example
-///   has-multiple(item1 item2)
+///   has-multiple(item1 item2 item3)
 @function has-multiple($list)
   @return list.length($list) > 1
 
+/// Determine if there is only one item in $list.
+/// @param {List} $list List to check.
+/// @return {Boolean} True if one item; false otherwise.
+/// @example
+///   has-single(it)
+///   has-single(item1 item2)
+@function has-single($list)
+  @return list.length($list) == 1
+
 /// Insert $value at the $index to the $list.
-/// @param {List} $list - List to extend.
-/// @param {Number} $index - Index position.
-/// @param {Any} $value - Value to insert.
-/// @return {List} The extended list with new value.
+/// @param {List} $list List to extend.
+/// @param {Number} $index Insert index.
+/// @param {Anything} $value Value to insert.
+/// @return {List} Extended list with new value.
+/// @throws Index parameter is not valid.
+/// @throws Index parameter is not a number.
 /// @example
 ///   insert-nth(item1 item3, 2, item2)
 @function insert-nth($list, $index, $value)
   $length: list.length($list)
-
-  @if meta.type-of($index) != number
-    @error '$index `#{$index}` is not a number'
+  @if not meta.is-number($index)
+    @error '$index: `#{$index}` is not a number'
   @else if $index < 1 or $index > list.length($list)
-    @error '$index `#{$index}` must be in range between 1 and #{$length}'
-
-  $result: ()
+    @error '$index: `#{$index}` can be [1, #{$length}]'
+  $result: -same-format-($list)
   @for $i from 1 through $length
     @if $i == $index
       $result: list.append($result, $value)
@@ -162,70 +171,85 @@
   @return $result
 
 /// Returns intersections between $lists.
-/// @param {List} $lists - Lists.
-/// @return {List} Intersected values.
+/// @param {ArgList} $lists Lists.
+/// @return {List} Intersected items.
+/// @throws Lists are less than two.
 /// @example
-///   intersection(item1 item2, item3 item1)
+///   intersection(item2 item3, item3 item1)
 @function intersection($lists...)
+  @if list.length($lists) < 2
+    @error 'Must be at least 2 lists'
   $result: unique(first($lists))
   @each $list in tail($lists)
-    $temp: ()
+    $temp: -same-format-($result)
     @each $item in $result
-      @if not not list.index($list, $item)
-        $temp: list.append($temp, $item, list.separator($list))
+      @if contains($list, $item)
+        $temp: list.append($temp, $item)
     $result: $temp
   @return $result
 
 /// Determine whether the $list is empty.
-/// @param {List} $list - List to check.
-/// @return {Bool} True if empty; false otherwise.
+/// @param {List} $list List to check.
+/// @return {Boolean} True if empty; false otherwise.
 /// @example
 ///   is-empty([])
 ///   is-empty(item1 item2)
 @function is-empty($list)
   @return list.length($list) == 0
 
-/// Determine whether there is only one item in the $list.
-/// @param {List} $list - List to check.
-/// @return {Bool} True if one item; false otherwise.
+/// Get the last item from the $list.
+/// @param {List} $list List with items.
+/// @return {Anything} Last item from list.
+/// @throws Native error if list is empty.
 /// @example
-///   is-single(item)
-@function is-single($list)
-  @return list.length($list) == 1
-
-/// Get the last item on the $list.
-/// @param {List} $list - List with items.
-/// @return {Any} Last item from the list.
-/// @example
-///   last(item1 item2)
+///   last(item1 item2 item3)
 @function last($list)
   @return list.nth($list, list.length($list))
 
-/// Get the last index of $value on the $list.
-/// @param {List} $list - List with items.
-/// @param {Any} $value - Value to find.
+/// Get the last index of $value in the $list.
+/// @param {List} $list Source list.
+/// @param {Any} $value Value to find.
 /// @return {Number} Index of last value.
 /// @example
 ///   last-index(item1 item1 item2, item1)
 @function last-index($list, $value)
+  @if is-empty($list)
+    @return null
   @for $i from list.length($list) through 1
     @if list.nth($list, $i) == $value
       @return $i
   @return null
 
-/// Prepend an $item to the $list.
-/// @param {List} $list - List to copy.
-/// @param {Any} $item - Item to be added to the start.
-/// @param {String} $separator [auto] - Separator (coma or space).
-/// @return {List} A copy of $list with $item added to the start.
+/// Iterate through $list and call $function.
+/// @param {List} $list List to iterate over.
+/// @param {Function} $func Function to call.
+/// @param {ArgList} $args Extra arguments.
+/// @return {List} New list with result for each item.
 /// @example
-///   prepend(item1, item2)
-///   prepend(item1, item2, comma)
-@function prepend($list, $item, $separator: auto)
-  @return list.join($item, $list, $separator)
+///   map(item1 item2, meta.get-function(is-string))
+@function map($list, $func, $args...)
+  $result: -same-format-($list)
+  @for $i from 1 through list.length($list)
+    $allArg: list.join(list.nth($list, $i), $args)
+    $result: list.append($result, meta.call($func, $allArg...))
+  @return $result
 
-/// Create a list with a specified range ($n).
-/// @param {Number} $n - Range.
+/// Prepend $item to the start of the $list.
+/// @param {List} $list List to extend.
+/// @param {Any} $item Item add to the start.
+/// @param {String} $separator [auto] Separator.
+/// @return {List} Copy of $list with $item added.
+/// @example
+///   prepend(item1 item2, item3)
+///   prepend(item1 item2, item3, space)
+///   prepend(item1 item2, item3, comma)
+@function prepend($list, $item, $separator: auto)
+  $result: -same-format-($list)
+  $result: list.join($result, $item)
+  @return list.join($result, $list, $separator)
+
+/// Create the list with a specified range.
+/// @param {Number} $n Range.
 /// @return {List} Created List.
 /// @example
 ///   range(4)
@@ -235,70 +259,137 @@
     $range: list.append($range, $i)
   @return $range
 
-/// Remove item under $index from the $list.
-/// @param {List} $list - List to change.
-/// @param {Number} $index - Item to remove.
+/// Remove the $item from the $list.
+/// @param {List} $list List to change.
+/// @param {Any} $item Item to remove.
 /// @return {List} List without item.
+/// @example
+///   remove(item1 item2 item1, item1)
+@function remove($list, $item)
+  @if is-empty($list)
+    @return $list
+  $index: last-index($list, $item)
+  @if $index != null
+    $temp: remove-nth($list, $index)
+    @return remove($temp, $item)
+  @return $list
+
+/// Remove item under $index from the $list.
+/// @param {List} $list List to change.
+/// @param {Number} $index Index of item.
+/// @return {List} List without item.
+/// @throws Index parameter is not valid.
+/// @throws Index parameter is not a number.
 /// @example
 ///   remove-nth(item1 item2 item3, 2)
 @function remove-nth($list, $index)
-  @if $index == 0 or $index > list.length($list)
-    @error 'Invalid index'
-
+  $length: list.length($list)
+  @if not meta.is-number($index)
+    @error '$index: `#{$index}` is not a number'
+  @else if $index == 0 or $index > $length
+    @error '$index: `#{$index}` can be [1, #{$length}]'
   @if $index == 1
-    @return slice($list, 2)
+    @return tail($list)
+  $after: slice($list, $index + 1)
+  $before: slice($list, 1, $index - 1)
+  @return list.join($before, $after)
 
-  @return list.join(slice($list, 1, $index - 1), slice($list, $index + 1))
-
-/// Slice $list between $start and $end.
-/// @param {List} $list - List to slice.
-/// @param {Number} $start [1] - Start index.
-/// @param {Number} $end [length($list)] - End index.
-/// @return {List} Fragment of the list.
+/// Reverse the $list from end to start.
+/// @param {List} $list List to change
+/// @return {List} Reversed list.
 /// @example
-///   fill([1px], 4, 0)
-@function slice($list, $start: 1, $end: length($list))
-  $result: ()
-  @if list.length($list) < $start
-    @return $result
-  @for $i from $start through $end
-    $result: list.append($result, list.nth($list, $i), list.separator($list))
+///   reverse(item1 item2 item3)
+@function reverse($list)
+  $length: list.length($list)
+  @if $length < 2
+    @return $list
+  $result: -same-format-($list)
+  @for $i from $length through 1
+    $item: list.nth($list, $i)
+    $result: list.append($result, $item)
   @return $result
 
-/// Get all items except the first.
-/// @param {List} $list - List to slice.
+/// Slice $list between $start and $end.
+/// @param {List} $list List to slice.
+/// @param {Number} $start [1] Start index.
+/// @param {Number} $end [null] End index.
 /// @return {List} Fragment of the list.
+/// @example
+///   slice(item1 item2 item3, 2)
+@function slice($list, $start: 1, $end: null)
+  $length: list.length($list)
+  @if $end == null
+    $end: $length
+  $result: -same-format-($list)
+  @if $length < $start
+    @return $result
+  @for $i from $start through $end
+    $item: list.nth($list, $i)
+    $result: list.append($result, $item)
+  @return $result
+
+/// Check if $predicate satisfy some items in $list.
+/// @param {List} $list List to iterate over.
+/// @param {Function} $predicate Predicate to use.
+/// @param {ArgList} $args Extra arguments.
+/// @return {Boolean} True if some items satisfy predicate.
+/// @example
+///   some(item1 true, meta.get-function(is-string))
+@function some($list, $predicate, $args...)
+  @each $item in $list
+    @if meta.call($predicate, $item, $args...)
+      @return true
+  @return false
+
+/// Get all items except the first.
+/// @param {List} $list List to slice.
+/// @return {List} Fragment of the list.
+///   tail(item1 item2 item3)
 @function tail($list)
   @return slice($list, 2)
 
-/// Joins all the items of the list with glue.
-/// @param {List} $list - List to join.
-/// @param {String} $glue [''] - Glue.
-/// @return {String} Joined items of the list with glue.
+/// Get first $n items from the $list.
+/// @param {List} $list List to slice.
+/// @param {Number} $n Number of items.
+/// @return {List} Fragment of the list.
+///   take(item1 item2 item3, 2)
+@function take($list, $n: 1)
+  @return slice($list, 1, $n)
+
+/// Joins all items of the list with glue.
+/// @param {List} $list List to join.
+/// @param {String} $glue [''] Glue.
+/// @return {String} Joined items with glue.
 /// @example
 ///   to-string(item1 item2)
 ///   to-string(item1 item2, ', ')
 @function to-string($list, $glue: '')
   $result: ''
-
-  @for $index from 1 through list.length($list)
-    // Retrieve an item from the list by index
-    $item: list.nth($list, $index)
-    // Combine linear and nested items
-    $result: $result + if(has-multiple($item), to-string($item, $glue), $item)
-    // In case the last items the glue is not needed
-    @if $index != list.length($list)
+  $length: list.length($list)
+  @for $i from 1 through $length
+    $item: list.nth($list, $i)
+    @if has-multiple($item)
+      $item: to-string($item, $glue)
+    $result: $result + $item
+    @if $i != $length
       $result: $result + $glue
-  // Unquote string to remove any single or double quotes
-  @return string.quote($result)
+  @return string.unquote($result)
 
 /// Removes duplicate values from $list.
-/// @param {List} $list - List.
+/// @param {List} $list List.
 /// @example
-///   unique(item1 item2 item1)
+///   unique(item1 item2 item1 item3)
 @function unique($list)
-  $result: ()
+  $result: -same-format-($list)
   @each $item in $list
     @if not list.index($result, $item)
-      $result: list.append($result, $item, list.separator($list))
+      $result: list.append($result, $item)
   @return $result
+
+/// Create the list base on source.
+/// @param {List} $list Source List.
+/// @return {List} Newly created list.
+@function -same-format-($list)
+  $separator: list.separator($list)
+  $bracketed: list.is-bracketed($list)
+  @return list.join([], [], $separator, $bracketed)

@@ -1,31 +1,68 @@
-[![chat](https://img.shields.io/gitter/room/stylize/community?style=flat-square&color=informational&logo=gitter&label)](https://gitter.im/Yokize/stylize)
-[![sass](https://img.shields.io/static/v1?style=flat-square&logo=sass&color=informational&logoColor=white&label=Sass&message=1.38.0)](https://www.npmjs.com/package/sass)
+# Sass-shape
 
-Sass mixins for creating different shapes.
+> Sass mixins for creating shapes
+
+[![chat](https://img.shields.io/gitter/room/stylize/community?style=flat-square&logo=gitter&color=blue&label=chat)](https://gitter.im/Yokize/stylize)
+[![sass](https://img.shields.io/static/v1?style=flat-square&logo=sass&color=blue&label=Sass&message=latest)](https://www.npmjs.com/package/sass)
+
+<details>
+<summary>
+  <b>Table of Contents</b>
+</summary>
+
+- [Circle](#circle)
+- [Ellipse](#ellipse)
+- [Square](#square)
+- [Rectangle](#rectangle)
+- [Triangle](#triangle)
+
+</details>
+
+<a name="install"></a>
 
 ## Install
 
-```shell script
+```shell
 npm install @stylize/sass-shape --save-dev
 ```
 
+### Other packages
+
+| Name                                                                     | Description              | Package                                                                                                                           |
+| :----------------------------------------------------------------------- | :----------------------- | :-------------------------------------------------------------------------------------------------------------------------------- |
+| [@stylize/sass-func](https://www.npmjs.com/package/@stylize/sass-func)   | Func's for general usage | [![npm](https://img.shields.io/npm/v/@stylize/sass-func?style=for-the-badge)](https://www.npmjs.com/package/@stylize/sass-func)   |
+| [@stylize/sass-mixin](https://www.npmjs.com/package/@stylize/sass-mixin) | Mixins for general usage | [![npm](https://img.shields.io/npm/v/@stylize/sass-mixin?style=for-the-badge)](https://www.npmjs.com/package/@stylize/sass-mixin) |
+
+<a name="usage"></a>
+
 ## Usage
 
-Shapes use [sass-mixin](https://github.com/Yokize/stylize/tree/master/package/sass-mixin), so complex `size`, `width` and `height` args can be defined.
+Mixins can be imported directly from the package or namespace.
 
-### Circle
+```sass
+@use '~@stylize/sass-shape' as *
+```
+
+```sass
+@use '~@stylize/sass-shape/<namespace>' as *
+```
+
+Shapes use [sass-mixin](https://www.npmjs.com/package/@stylize/sass-mixin), so complex `size`, `width` and `height` args can be used.
+
+<a name="circle"></a>
+
+## Circle
 
 Mixin defines the circle with `size` and `background`.
 
 ```sass
-@use '~@stylize/sass-shape/circle' as *
-
-// Signature.
 @include circle($size: null, $background: null)
 ```
 
 <details>
-<summary>Examples</summary>
+<summary>
+  <u>Examples</u>
+</summary>
 
 ```sass
 // Radius 50%.
@@ -48,19 +85,20 @@ Mixin defines the circle with `size` and `background`.
 
 </details>
 
-### Ellipse
+<a name="ellipse"></a>
+
+## Ellipse
 
 Mixin defines the ellipse with `width`, `height` and `background`.
 
 ```sass
-@use '~@stylize/sass-shape/ellipse' as *
-
-// Signature.
 @include ellipse($width: null, $height: null, $background: null)
 ```
 
 <details>
-<summary>Examples</summary>
+<summary>
+  <u>Examples</u>
+</summary>
 
 ```sass
 // Radius 50%.
@@ -83,19 +121,20 @@ Mixin defines the ellipse with `width`, `height` and `background`.
 
 </details>
 
-### Square
+<a name="square"></a>
+
+## Square
 
 Mixin defines the square with `size`, `border-radius` and `background`.
 
 ```sass
-@use '~@stylize/sass-shape/square' as *
-
-// Signature.
 @include square($size: null, $radius: null, $background: null)
 ```
 
 <details>
-<summary>Examples</summary>
+<summary>
+  <u>Examples</u>
+</summary>
 
 ```sass
 // [eq] width × height.
@@ -118,19 +157,20 @@ Mixin defines the square with `size`, `border-radius` and `background`.
 
 </details>
 
-### Rectangle
+<a name="rectangle"></a>
+
+## Rectangle
 
 Mixin defines the rectangle with `width`, `height`, `border-radius` and `background`.
 
 ```sass
-@use '~@stylize/sass-shape/rectangle' as *
-
-// Signature.
 @include rectangle($width: null, $height: null, $radius: null, $background: null)
 ```
 
 <details>
-<summary>Examples</summary>
+<summary>
+  <u>Examples</u>
+</summary>
 
 ```sass
 // [min] width.
@@ -155,28 +195,26 @@ Mixin defines the rectangle with `width`, `height`, `border-radius` and `backgro
 
 </details>
 
-### Triangle
+<a name="triangle"></a>
+
+## Triangle
 
 Mixin defines the triangle with `direction`, `color`, `width` and `height`.
 
 ```sass
-@use '~@stylize/sass-shape/triangle' as *
-
-// Signature.
-@include triangle($props: [])
 @include triangle($direction, $color, $width, $height: null)
 ```
 
 <details>
-<summary>Examples</summary>
+<summary>
+  <u>Examples</u>
+</summary>
 
 ```sass
+// ↑ Triangle in top direction.
 @include triangle(top #fff 5px)
-@include triangle(top, #fff, 5px, 10px)
+// ↖ Triangle in top-left direction.
+@include triangle(top-left, #fff, 5px, 10px)
 ```
 
 </details>
-
-## Coverage
-
-The mixins are completely covered with [sass-true](https://www.npmjs.com/package/sass-true).

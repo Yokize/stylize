@@ -1,38 +1,52 @@
 @use '~@stylize/sass-func/list'
-@use '~@stylize/sass-func/font' as func
 
 ////
 /// @group font
 /// @author Nojukubi
 ////
 
-/// Base safe font.
-/// @type Length
-$base-font: func.$base-font !default
+/// Shorthand mixin for font.
+/// @param {List} $props Font Props.
+/// @example
+///   font(10px)
+///   font(10px 16px)
+///   font(10px normal 300)
+///   font(10px normal 300 Arial)
+///   font(10px normal 300 (Arial sans-serif))
+=font($props: [])
 
 /// Shorthand mixin for font.
-/// @param {List} $props - Font Props.
+/// @param {String|Length} $size [null] Font Size.
+/// @param {String|Length} $line [null] Line Height.
+/// @param {String|Number} $weight [null] Font Weight.
+/// @param {String|List} $family [null] Font Family.
 /// @example
-///   @include font(10px)
-///   @include font(10px 16px)
-///   @include font(10px normal 300)
-///   @include font(10px normal 300 Arial)
-///   @include font(10px normal 300 (Arial, sans-serif))
-@mixin font($props: [])
-
-/// Shorthand mixin for font.
-/// @param {String|Length} $size [inherit] - Font Size.
-/// @param {String|Length} $line [normal] - Line Height.
-/// @param {String|Number} $weight [normal] - Font Weight.
-/// @param {String|List} $family [$base-font] - Font Family.
-/// @example
-///   @include font(10px)
-///   @include font(10px, 16px)
-///   @include font(10px, normal, 300)
-///   @include font(10px, normal, 300, Arial)
-///   @include font(10px, normal, 300, (Arial, sans-serif))
-@mixin font($size: inherit, $line: normal, $weight: normal, $family: $base-font)
-  @if list.has-multiple($size)
-    font: func.font($size...)
+///   font(10px)
+///   font(10px, 16px)
+///   font(10px, normal, 300)
+///   font(10px, normal, 300, Arial)
+///   font(10px, normal, 300, (Arial, sans-serif))
+=font($size: null, $line: null, $weight: null, $family: null)
+  @if list.has-single($size)
+    +-font-($size, $line, $weight, $family)
   @else
-    font: func.font($size, $line, $weight, $family)
+    +-font-($size...)
+
+/// Mixin for smooth font rendering.
+/// @example
+///   font-smoothing
+=font-smoothing
+  &, &::after, &::before
+    -webkit-font-smoothing: antialiased
+    -moz-osx-font-smoothing: grayscale
+
+/// Internal mixin to generate font properties.
+/// @param {String|Length} $size [null] Font Size.
+/// @param {String|Length} $line [null] Line Height.
+/// @param {String|Number} $weight [null] Font Weight.
+/// @param {String|List} $family [null] Font Family.
+=-font-($size: null, $line: null, $weight: null, $family: null)
+  font-size: $size
+  line-height: $line
+  font-weight: $weight
+  font-family: $family

@@ -1,306 +1,346 @@
 @use '~sass-true' as test
 @use './index' as mixin
+@use '../z-index' as *
+
+// Pre-configure z.
++set-order((header: 3))
+
+// Expect: position center.
+=expect-center($position, $z: null)
+  transform: translate(-50%, -50%)
+  +expect-position($position, 50%, null, null, 50%, $z)
+
+// Expect: position cover.
+=expect-cover($position, $offset: 0, $z: null)
+  +expect-position($position, $offset, $offset, $offset, $offset, $z)
+
+// Expect: position common.
+=expect-position($position, $top: null, $right: null, $bottom: null, $left: null, $z: null)
+  position: $position
+  top: $top
+  right: $right
+  bottom: $bottom
+  left: $left
+  z-index: $z
 
 // Shorthand mixin for position.
-@include test.describe('Position mixin')
-  @include test.it('should define position with list')
-    @include test.assert
-      @include test.output
-        @include mixin.position(relative 0 null 0 null 1)
-      @include test.expect
-        position: relative
-        top: 0
-        bottom: 0
-        z-index: 1
++test.describe('Position mixin')
+  +test.it('should define position with args')
+    +test.assert
+      +test.output
+        +mixin.position(relative, 0, 2px, 0, 2px, 1)
+      +test.expect
+        +expect-position(relative, 0, 2px, 0, 2px, 1)
 
-  @include test.it('should define position with args')
-    @include test.assert
-      @include test.output
-        @include mixin.position(relative, 0, null, 0, null, 1)
-      @include test.expect
-        position: relative
-        top: 0
-        bottom: 0
-        z-index: 1
+  +test.it('should define position with list arg')
+    +test.assert
+      +test.output
+        +mixin.position(relative 0 2px 0 2px 1)
+      +test.expect
+        +expect-position(relative, 0, 2px, 0, 2px, 1)
 
-  @include test.it('should define position with keyword args')
-    @include test.assert
-      @include test.output
-        @include mixin.position(relative, $top: 0, $bottom: 0)
-      @include test.expect
+  +test.it('should define position with default args')
+    +test.assert
+      +test.output
+        +mixin.position(relative)
+      +test.expect
         position: relative
-        top: 0
-        bottom: 0
 
-  @include test.it('should define position with default args')
-    @include test.assert
-      @include test.output
-        @include mixin.position(relative)
-      @include test.expect
-        position: relative
+  +test.it('should define position with keyword args')
+    +test.assert
+      +test.output
+        +mixin.position(relative, $top: 0, $bottom: 0, $z: 1)
+      +test.expect
+        +expect-position(relative, 0, null, 0, null, 1)
+
+  +test.it('should define position with named z-index')
+    +test.assert
+      +test.output
+        +mixin.position(relative, $z: header)
+      +test.expect
+        +expect-position(relative, $z: 3)
 
 // Shorthand mixin for relative position.
-@include test.describe('Relative mixin')
-  @include test.it('should define relative position with list')
-    @include test.assert
-      @include test.output
-        @include mixin.relative(0 null 0 null 1)
-      @include test.expect
-        position: relative
-        top: 0
-        bottom: 0
-        z-index: 1
++test.describe('Relative mixin')
+  +test.it('should define relative position with args')
+    +test.assert
+      +test.output
+        +mixin.relative(0, 2px, 0, 2px, 1)
+      +test.expect
+        +expect-position(relative, 0, 2px, 0, 2px, 1)
 
-  @include test.it('should define relative position with args')
-    @include test.assert
-      @include test.output
-        @include mixin.relative(0, null, 0, null, 1)
-      @include test.expect
-        position: relative
-        top: 0
-        bottom: 0
-        z-index: 1
+  +test.it('should define relative position with list arg')
+    +test.assert
+      +test.output
+        +mixin.relative(0 2px 0 2px 1)
+      +test.expect
+        +expect-position(relative, 0, 2px, 0, 2px, 1)
 
-  @include test.it('should define relative position with keyword args')
-    @include test.assert
-      @include test.output
-        @include mixin.relative($top: 0, $bottom: 0)
-      @include test.expect
+  +test.it('should define relative position with default args')
+    +test.assert
+      +test.output
+        +mixin.relative
+      +test.expect
         position: relative
-        top: 0
-        bottom: 0
 
-  @include test.it('should define relative position with default args')
-    @include test.assert
-      @include test.output
-        @include mixin.relative
-      @include test.expect
-        position: relative
+  +test.it('should define relative position with keyword args')
+    +test.assert
+      +test.output
+        +mixin.relative($top: 0, $bottom: 0, $z: header)
+      +test.expect
+        +expect-position(relative, 0, null, 0, null, 3)
 
 // Shorthand mixin for absolute position.
-@include test.describe('Absolute mixin')
-  @include test.it('should define absolute position with list')
-    @include test.assert
-      @include test.output
-        @include mixin.absolute(0 null 0 null 1)
-      @include test.expect
-        position: absolute
-        top: 0
-        bottom: 0
-        z-index: 1
++test.describe('Absolute mixin')
+  +test.it('should define absolute position with args')
+    +test.assert
+      +test.output
+        +mixin.absolute(0, 2px, 0, 2px, 1)
+      +test.expect
+        +expect-position(absolute, 0, 2px, 0, 2px, 1)
 
-  @include test.it('should define absolute position with args')
-    @include test.assert
-      @include test.output
-        @include mixin.absolute(0, null, 0, null, 1)
-      @include test.expect
-        position: absolute
-        top: 0
-        bottom: 0
-        z-index: 1
+  +test.it('should define absolute position with list arg')
+    +test.assert
+      +test.output
+        +mixin.absolute(0 2px 0 2px 1)
+      +test.expect
+        +expect-position(absolute, 0, 2px, 0, 2px, 1)
 
-  @include test.it('should define absolute position with keyword args')
-    @include test.assert
-      @include test.output
-        @include mixin.absolute($top: 0, $bottom: 0)
-      @include test.expect
+  +test.it('should define absolute position with default args')
+    +test.assert
+      +test.output
+        +mixin.absolute
+      +test.expect
         position: absolute
-        top: 0
-        bottom: 0
 
-  @include test.it('should define absolute position with default args')
-    @include test.assert
-      @include test.output
-        @include mixin.absolute
-      @include test.expect
-        position: absolute
+  +test.it('should define absolute position with keyword args')
+    +test.assert
+      +test.output
+        +mixin.absolute($top: 0, $bottom: 0, $z: header)
+      +test.expect
+        +expect-position(absolute, 0, null, 0, null, 3)
 
 // Shorthand mixin for absolute cover position.
-@include test.describe('Absolute cover mixin')
-  @include test.it('should define absolute cover position with offset')
-    @include test.assert
-      @include test.output
-        @include mixin.absolute-cover(2px)
-      @include test.expect
-        position: absolute
-        top: 2px
-        right: 2px
-        bottom: 2px
-        left: 2px
++test.describe('Absolute cover mixin')
+  +test.it('should define absolute cover position with offset')
+    +test.assert
+      +test.output
+        +mixin.absolute-cover(2px)
+      +test.expect
+        +expect-cover(absolute, 2px)
 
-  @include test.it('should define absolute cover position with z-index')
-    @include test.assert
-      @include test.output
-        @include mixin.absolute-cover(2px 2)
-      @include test.expect
-        position: absolute
-        top: 2px
-        right: 2px
-        bottom: 2px
-        left: 2px
-        z-index: 2
+  +test.it('should define absolute cover position with z-index')
+    +test.assert
+      +test.output
+        +mixin.absolute-cover(2px 2)
+      +test.expect
+        +expect-cover(absolute, 2px, 2)
 
 // Shorthand mixin for absolute center position.
-@include test.describe('Absolute center mixin')
-  @include test.it('should define absolute center position with z-index')
-    @include test.assert
-      @include test.output
-        @include mixin.absolute-center(2)
-      @include test.expect
-        transform: translate(-50%, -50%)
-        position: absolute
-        top: 50%
-        left: 50%
-        z-index: 2
++test.describe('Absolute center mixin')
+  +test.it('should define absolute center position with z-index')
+    +test.assert
+      +test.output
+        +mixin.absolute-center(2)
+      +test.expect
+        +expect-center(absolute, 2)
+
+// Shorthand mixin for absolute alignment position.
++test.describe('Absolute alignment mixin')
+  +test.it('should define absolute at top-left position with z-index')
+    +test.assert
+      +test.output
+        +mixin.absolute-top-left(2)
+      +test.expect
+        +expect-position(absolute, 0, null, null, 0, 2)
+
+  +test.it('should define absolute at top-right position with z-index')
+    +test.assert
+      +test.output
+        +mixin.absolute-top-right(2)
+      +test.expect
+        +expect-position(absolute, 0, 0, null, null, 2)
+
+  +test.it('should define absolute at bottom-left position with z-index')
+    +test.assert
+      +test.output
+        +mixin.absolute-bottom-left(2)
+      +test.expect
+        +expect-position(absolute, null, null, 0, 0, 2)
+
+  +test.it('should define absolute at bottom-right position with z-index')
+    +test.assert
+      +test.output
+        +mixin.absolute-bottom-right(2)
+      +test.expect
+        +expect-position(absolute, null, 0, 0, null, 2)
 
 // Shorthand mixin for fixed position.
-@include test.describe('Fixed mixin')
-  @include test.it('should define fixed position with list')
-    @include test.assert
-      @include test.output
-        @include mixin.fixed(0 null 0 null 1)
-      @include test.expect
-        position: fixed
-        top: 0
-        bottom: 0
-        z-index: 1
++test.describe('Fixed mixin')
+  +test.it('should define fixed position with args')
+    +test.assert
+      +test.output
+        +mixin.fixed(0, 2px, 0, 2px, 1)
+      +test.expect
+        +expect-position(fixed, 0, 2px, 0, 2px, 1)
 
-  @include test.it('should define fixed position with args')
-    @include test.assert
-      @include test.output
-        @include mixin.fixed(0, null, 0, null, 1)
-      @include test.expect
-        position: fixed
-        top: 0
-        bottom: 0
-        z-index: 1
+  +test.it('should define fixed position with list arg')
+    +test.assert
+      +test.output
+        +mixin.fixed(0 2px 0 2px 1)
+      +test.expect
+        +expect-position(fixed, 0, 2px, 0, 2px, 1)
 
-  @include test.it('should define fixed position with keyword args')
-    @include test.assert
-      @include test.output
-        @include mixin.fixed($top: 0, $bottom: 0)
-      @include test.expect
+  +test.it('should define fixed position with default args')
+    +test.assert
+      +test.output
+        +mixin.fixed
+      +test.expect
         position: fixed
-        top: 0
-        bottom: 0
 
-  @include test.it('should define fixed position with default args')
-    @include test.assert
-      @include test.output
-        @include mixin.fixed
-      @include test.expect
-        position: fixed
+  +test.it('should define fixed position with keyword args')
+    +test.assert
+      +test.output
+        +mixin.fixed($top: 0, $bottom: 0, $z: header)
+      +test.expect
+        +expect-position(fixed, 0, null, 0, null, 3)
 
 // Shorthand mixin for fixed cover position.
-@include test.describe('Fixed cover mixin')
-  @include test.it('should define fixed cover position with offset')
-    @include test.assert
-      @include test.output
-        @include mixin.fixed-cover(2px)
-      @include test.expect
-        position: fixed
-        top: 2px
-        right: 2px
-        bottom: 2px
-        left: 2px
++test.describe('Fixed cover mixin')
+  +test.it('should define fixed cover position with offset')
+    +test.assert
+      +test.output
+        +mixin.fixed-cover(2px)
+      +test.expect
+        +expect-cover(fixed, 2px)
 
-  @include test.it('should define fixed cover position with z-index')
-    @include test.assert
-      @include test.output
-        @include mixin.fixed-cover(2px 2)
-      @include test.expect
-        position: fixed
-        top: 2px
-        right: 2px
-        bottom: 2px
-        left: 2px
-        z-index: 2
+  +test.it('should define fixed cover position with z-index')
+    +test.assert
+      +test.output
+        +mixin.fixed-cover(2px 2)
+      +test.expect
+        +expect-cover(fixed, 2px, 2)
 
 // Shorthand mixin for fixed center position.
-@include test.describe('Fixed center mixin')
-  @include test.it('should define fixed center position with z-index')
-    @include test.assert
-      @include test.output
-        @include mixin.fixed-center(2)
-      @include test.expect
-        transform: translate(-50%, -50%)
-        position: fixed
-        top: 50%
-        left: 50%
-        z-index: 2
++test.describe('Fixed center mixin')
+  +test.it('should define fixed center position with z-index')
+    +test.assert
+      +test.output
+        +mixin.fixed-center(2)
+      +test.expect
+        +expect-center(fixed, 2)
+
+// Shorthand mixin for fixed alignment position.
++test.describe('Fixed alignment mixin')
+  +test.it('should define fixed at top-left position with z-index')
+    +test.assert
+      +test.output
+        +mixin.fixed-top-left(2)
+      +test.expect
+        +expect-position(fixed, 0, null, null, 0, 2)
+
+  +test.it('should define fixed at top-right position with z-index')
+    +test.assert
+      +test.output
+        +mixin.fixed-top-right(2)
+      +test.expect
+        +expect-position(fixed, 0, 0, null, null, 2)
+
+  +test.it('should define fixed at bottom-left position with z-index')
+    +test.assert
+      +test.output
+        +mixin.fixed-bottom-left(2)
+      +test.expect
+        +expect-position(fixed, null, null, 0, 0, 2)
+
+  +test.it('should define fixed at bottom-right position with z-index')
+    +test.assert
+      +test.output
+        +mixin.fixed-bottom-right(2)
+      +test.expect
+        +expect-position(fixed, null, 0, 0, null, 2)
 
 // Shorthand mixin for sticky position.
-@include test.describe('Sticky mixin')
-  @include test.it('should define sticky position with list')
-    @include test.assert
-      @include test.output
-        @include mixin.sticky(0 null 0 null 1)
-      @include test.expect
-        position: sticky
-        top: 0
-        bottom: 0
-        z-index: 1
++test.describe('Sticky mixin')
+  +test.it('should define sticky position with args')
+    +test.assert
+      +test.output
+        +mixin.sticky(0, 2px, 0, 2px, 1)
+      +test.expect
+        +expect-position(sticky, 0, 2px, 0, 2px, 1)
 
-  @include test.it('should define sticky position with args')
-    @include test.assert
-      @include test.output
-        @include mixin.sticky(0, null, 0, null, 1)
-      @include test.expect
-        position: sticky
-        top: 0
-        bottom: 0
-        z-index: 1
+  +test.it('should define sticky position with list arg')
+    +test.assert
+      +test.output
+        +mixin.sticky(0 2px 0 2px 1)
+      +test.expect
+        +expect-position(sticky, 0, 2px, 0, 2px, 1)
 
-  @include test.it('should define sticky position with keyword args')
-    @include test.assert
-      @include test.output
-        @include mixin.sticky($top: 0, $bottom: 0)
-      @include test.expect
+  +test.it('should define sticky position with default args')
+    +test.assert
+      +test.output
+        +mixin.sticky
+      +test.expect
         position: sticky
-        top: 0
-        bottom: 0
 
-  @include test.it('should define sticky position with default args')
-    @include test.assert
-      @include test.output
-        @include mixin.sticky
-      @include test.expect
-        position: sticky
+  +test.it('should define sticky position with keyword args')
+    +test.assert
+      +test.output
+        +mixin.sticky($top: 0, $bottom: 0, $z: header)
+      +test.expect
+        +expect-position(sticky, 0, null, 0, null, 3)
 
 // Shorthand mixin for sticky cover position.
-@include test.describe('Sticky cover mixin')
-  @include test.it('should define sticky cover position with offset')
-    @include test.assert
-      @include test.output
-        @include mixin.sticky-cover(2px)
-      @include test.expect
-        position: sticky
-        top: 2px
-        right: 2px
-        bottom: 2px
-        left: 2px
++test.describe('Sticky cover mixin')
+  +test.it('should define sticky cover position with offset')
+    +test.assert
+      +test.output
+        +mixin.sticky-cover(2px)
+      +test.expect
+        +expect-cover(sticky, 2px)
 
-  @include test.it('should define sticky cover position with z-index')
-    @include test.assert
-      @include test.output
-        @include mixin.sticky-cover(2px 2)
-      @include test.expect
-        position: sticky
-        top: 2px
-        right: 2px
-        bottom: 2px
-        left: 2px
-        z-index: 2
+  +test.it('should define sticky cover position with z-index')
+    +test.assert
+      +test.output
+        +mixin.sticky-cover(2px 2)
+      +test.expect
+        +expect-cover(sticky, 2px, 2)
 
 // Shorthand mixin for absolute center position.
-@include test.describe('Sticky center mixin')
-  @include test.it('should define sticky center position with z-index')
-    @include test.assert
-      @include test.output
-        @include mixin.sticky-center(2)
-      @include test.expect
-        transform: translate(-50%, -50%)
-        position: sticky
-        top: 50%
-        left: 50%
-        z-index: 2
++test.describe('Sticky center mixin')
+  +test.it('should define sticky center position with z-index')
+    +test.assert
+      +test.output
+        +mixin.sticky-center(2)
+      +test.expect
+        +expect-center(sticky, 2)
+
+// Shorthand mixin for sticky alignment position.
++test.describe('Sticky alignment mixin')
+  +test.it('should define sticky at top-left position with z-index')
+    +test.assert
+      +test.output
+        +mixin.sticky-top-left(2)
+      +test.expect
+        +expect-position(sticky, 0, null, null, 0, 2)
+
+  +test.it('should define sticky at top-right position with z-index')
+    +test.assert
+      +test.output
+        +mixin.sticky-top-right(2)
+      +test.expect
+        +expect-position(sticky, 0, 0, null, null, 2)
+
+  +test.it('should define sticky at bottom-left position with z-index')
+    +test.assert
+      +test.output
+        +mixin.sticky-bottom-left(2)
+      +test.expect
+        +expect-position(sticky, null, null, 0, 0, 2)
+
+  +test.it('should define sticky at bottom-right position with z-index')
+    +test.assert
+      +test.output
+        +mixin.sticky-bottom-right(2)
+      +test.expect
+        +expect-position(sticky, null, 0, 0, null, 2)

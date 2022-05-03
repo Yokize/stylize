@@ -1,30 +1,75 @@
-[![chat](https://img.shields.io/gitter/room/stylize/community?style=flat-square&color=informational&logo=gitter&label)](https://gitter.im/Yokize/stylize)
-[![sass](https://img.shields.io/static/v1?style=flat-square&logo=sass&color=informational&logoColor=white&label=Sass&message=1.38.0)](https://www.npmjs.com/package/sass)
+# Sass-mixin
 
-Sass mixins for general usage.
+> Sass mixins for general usage
+
+[![chat](https://img.shields.io/gitter/room/stylize/community?style=flat-square&logo=gitter&color=blue&label=chat)](https://gitter.im/Yokize/stylize)
+[![sass](https://img.shields.io/static/v1?style=flat-square&logo=sass&color=blue&label=Sass&message=latest)](https://www.npmjs.com/package/sass)
+
+<details>
+<summary>
+  <b>Table of Contents</b>
+</summary>
+
+- [Flex](#flex)
+- [Font](#font)
+- [Media](#media)
+- [Position](#position)
+  - [Absolute](#absolute)
+  - [Fixed](#fixed)
+  - [Sticky](#sticky)
+  - [Relative](#relative)
+- [Pseudo](#pseudo)
+- [Size](#size)
+  - [Width](#width)
+  - [Height](#height)
+- [Support](#support)
+- [Z-index](#z-index)
+
+</details>
+
+<a name="install"></a>
 
 ## Install
 
-```shell script
+```shell
 npm install @stylize/sass-mixin --save-dev
 ```
 
+### Other packages
+
+| Name                                                                     | Description                | Package                                                                                                                           |
+| :----------------------------------------------------------------------- | :------------------------- | :-------------------------------------------------------------------------------------------------------------------------------- |
+| [@stylize/sass-func](https://www.npmjs.com/package/@stylize/sass-func)   | Func's for general usage   | [![npm](https://img.shields.io/npm/v/@stylize/sass-func?style=for-the-badge)](https://www.npmjs.com/package/@stylize/sass-func)   |
+| [@stylize/sass-shape](https://www.npmjs.com/package/@stylize/sass-shape) | Mixins for creating shapes | [![npm](https://img.shields.io/npm/v/@stylize/sass-shape?style=for-the-badge)](https://www.npmjs.com/package/@stylize/sass-shape) |
+
+<a name="usage"></a>
+
 ## Usage
 
-### Flex
+Mixins can be imported directly from the package or namespace.
+
+```sass
+@use '~@stylize/sass-mixin' as *
+```
+
+```sass
+@use '~@stylize/sass-mixin/<namespace>' as *
+```
+
+<a name="flex"></a>
+
+## Flex
 
 Mixins defines the shorthand for [Flexbox Layout](https://css-tricks.com/snippets/css/a-guide-to-flexbox).
 
 ```sass
-@use '~@stylize/sass-mixin/flex' as *
-
-// Signature.
-@include flex($props: [])
 @include flex($direction: null, $main: null, $cross: null, $wrap: null, $content: null)
 ```
 
 <details>
-<summary>Examples</summary>
+<summary>
+  <u>Examples</u>
+</summary>
 
 ```sass
 // Default.
@@ -44,15 +89,13 @@ Mixins defines the shorthand for [Flexbox Layout](https://css-tricks.com/snippet
 </details>
 
 ```sass
-@use '~@stylize/sass-mixin/flex' as *
-
-// Signature.
-@include inline-flex($props: [])
 @include inline-flex($direction: null, $main: null, $cross: null, $wrap: null, $content: null)
 ```
 
 <details>
-<summary>Examples</summary>
+<summary>
+  <u>Examples</u>
+</summary>
 
 ```sass
 // Default.
@@ -71,20 +114,95 @@ Mixins defines the shorthand for [Flexbox Layout](https://css-tricks.com/snippet
 
 </details>
 
-### Font
+#### Shorthands
 
-Mixin defines the shorthand for Font prop with `font-size`, `line-height`, `font-weight` and `font-family`.
+The package additionally provides the shorthands `flex-row`, `flex-row-center`, `flex-col`, `flex-col-center`, which behave the same way, but take fewer parameters.
+
+<details>
+<summary>
+  <u>Signatures</u>
+</summary>
 
 ```sass
-@use '~@stylize/sass-mixin/font' as *
+@include flex-row($props: [])
+```
 
-// Signature.
-@include font($props: [])
-@include font($size: inherit, $line: normal, $weight: normal, $family: $base-font)
+```sass
+@include flex-row($main: null, $cross: null, $wrap: null, $content: null)
+```
+
+```sass
+@include flex-row-center($props: [])
+```
+
+```sass
+@include flex-row-center($wrap: null, $content: null)
+```
+
+```sass
+@include flex-col($props: [])
+```
+
+```sass
+@include flex-col($main: null, $cross: null, $wrap: null, $content: null)
+```
+
+```sass
+@include flex-col-center($props: [])
+```
+
+```sass
+@include flex-col-center($wrap: null, $content: null)
+```
+
+```sass
+@include inline-flex-row($props: [])
+```
+
+```sass
+@include inline-flex-row($main: null, $cross: null, $wrap: null, $content: null)
+```
+
+```sass
+@include inline-flex-row-center($props: [])
+```
+
+```sass
+@include inline-flex-row-center($wrap: null, $content: null)
+```
+
+```sass
+@include inline-flex-col($props: [])
+```
+
+```sass
+@include inline-flex-col($main: null, $cross: null, $wrap: null, $content: null)
+```
+
+```sass
+@include inline-flex-col-center($props: [])
+```
+
+```sass
+@include inline-flex-col-center($wrap: null, $content: null)
+```
+
+</details>
+
+<a name="font"></a>
+
+## Font
+
+Mixin defines the shorthand for Font with `font-size`, `line-height`, `font-weight` and `font-family`.
+
+```sass
+@include font($size: null, $line: null, $weight: null, $family: null)
 ```
 
 <details>
-<summary>Examples</summary>
+<summary>
+  <u>Examples</u>
+</summary>
 
 ```sass
 // Default.
@@ -101,77 +219,124 @@ Mixin defines the shorthand for Font prop with `font-size`, `line-height`, `font
 
 </details>
 
-### Media
+#### Smoothing
 
-Mixin defines the shorthand for media queries with configurable settings and caching.
+`font-smoothing` mixin enable anti-aliasing when fonts are rendered.
+
+<a name="media"></a>
+
+## Media
+
+Mixin defines the advanced shorthand for media queries.
+The advantage over other solutions is the configurable settings and caching.
 
 ```sass
-@use '~@stylize/sass-mixin/media' as *
-
-// Signature.
-@include media($props...)
-
-// Operator.
-@include media('w>sm', 'h<=sm')
-
-// Keywords.
-@include media('portrait', 'landscape')
+@include media($conditions...)
 ```
 
 <details>
-<summary>Examples</summary>
+<summary>
+  <u>Examples</u>
+</summary>
 
 ```sass
+// Eq height 200px.
+@include media('h=200px')
 // Min width 201px.
-@include media('>200px'))
-
+@include media('>200px')
+// Max or eq width 200px.
+@include media('w<=200px')
+// Orientation portrait.
+@include media('portrait')
 // Min width 769px AND min height 768px.
 @include media('w>sm', 'h<=sm')
-
+// Native media query for resolution (can use : instead of =).
+@include media('resolution=192dpi')
 // Screen with min width 769px OR print with min height 768px.
-@include media((sc1: screen 'w>sm', sc2: print 'h<=sm'))
+@include media((group1: screen 'w>sm', group2: print 'h<=sm'))
 ```
 
 </details>
 
-#### Features
+### Operators
+
+Mixin supports a number of operators that determine whether the `min` and `max` prefixes should be added:
+
+- `<` Less than.
+- `>` Greater than.
+- `=`, `:` Equal.
+- `<=`, `≤` Less than or equal.
+- `>=`, `≥` Greater than or equal.
+
+The logical operators `and`, and `or (,)` can be defined by the arguments type.
+In case `list` is one of the arguments, the media conditions will be combined by the `and` operator; in the case of `map` the conditions will be combined by the `or` operator.
+
+### Em vs Px
+
+The default breakpoints are defined in `px`, and can be changed to `em` with mixin.
 
 ```sass
-/// Media features describe specific characteristics
-/// of the user agent, output device or environment.
-$features: ('w': 'width', 'h': 'height', 'o': 'orientation') !default
+// Em with default size.
+@include use-em
 ```
-
-#### Keywords
-
-Default keywords are `portrait`, `landscape`, `retina2x`, `retina3x`
 
 ```sass
-/// Predefined media conditions with unique keyword.
-$keywords: () !default
+// Em with custom base size.
+@include use-em(20px)
 ```
 
-#### Breakpoints
+### Keywords
+
+Defines the keywords for [standard media feature](https://developer.mozilla.org/en-US/docs/Web/CSS/Media_Queries).
+
+Default keywords are `w` for `width`, `h` for `height`.
 
 ```sass
-/// Predefined breakpoints used with media feature.
-$breakpoints: (mc: 360px, xs: 480px, sm: 768px, md: 1024px, lg: 1200px) !default
+$keywords: ('w': 'width', 'h': 'height') !default
+
+// Dynamically add the keyword.
+@include add-keyword($keyword, $feature)
 ```
+
+### Shortcuts
+
+Defines the shortcut for media query, which can be referred to by unique name.
+
+Default shortcuts are `portrait`, `landscape`, `retina2x`, `retina3x`.
+
+```sass
+$shortcuts: () !default
+
+// Dynamically add the shortcut.
+@include add-shortcut($name, $condition)
+```
+
+### Breakpoints
+
+Predefined breakpoints used with media feature.
+
+```sass
+$breakpoints: (mc: 360px, xs: 480px, sm: 768px, md: 1024px, lg: 1200px, xl: 1440px) !default
+
+// Dynamically add the breakpoint.
+@include add-breakpoint($name, $value)
+```
+
+<a name="position"></a>
 
 ## Position
 
-Mixin defines the shorthand mixin for position property.
+Mixin defines the shorthand for position property.
+All mixins can take `z-index`, which can be individually configured by the corresponding [mixin](#z-index) or [sass-func](https://www.npmjs.com/package/@stylize/sass-func).
 
 ```sass
-@use '~@stylize/sass-mixin/position' as *
-
-// Signature.
-@include position($props: [])
 @include position($position, $top: null, $right: null, $bottom: null, $left: null, $z: null)
 ```
 
 <details>
-<summary>Examples</summary>
+<summary>
+  <u>Examples</u>
+</summary>
 
 ```sass
 // Relative with top 0.
@@ -180,72 +345,76 @@ Mixin defines the shorthand mixin for position property.
 @include position(relative, $left: 0)
 // Relative with top 0, right 2px, left 3px, z-index 1.
 @include position(relative, 0, 2px, null, 3px, 1)
+// Relative with top 0, right 2px, left 3px, z-index keyword `header`.
+@include position(relative, 0, 2px, null, 3px, header)
 ```
 
 </details>
 
-## Relative
+<a name="relative"></a>
 
-Mixin defines the shorthand mixin for relative position.
+### Relative
+
+Mixin defines the shorthand for relative position.
 
 ```sass
-@use '~@stylize/sass-mixin/position' as *
-
-// Signature.
-@include relative($props: [])
 @include relative($top: null, $right: null, $bottom: null, $left: null, $z: null)
 ```
 
 <details>
-<summary>Examples</summary>
+<summary>
+  <u>Examples</u>
+</summary>
 
 ```sass
 // Relative with left 0.
 @include relative($left: 0)
-// Relative with top 0, right 2px.
-@include relative(0, 2px)
+// Relative with top 0, right 2px, left 3px.
+@include relative(0, 2px, 3px)
 // Relative with top 0, right 2px, left 3px, z-index 1.
 @include relative(0 2px null 3px 1)
+// Relative with top 0, right 2px, left 3px, z-index keyword `header`.
+@include relative(0, 2px, null, 3px, header)
 ```
 
 </details>
 
-## Absolute
+<a name="absolute"></a>
 
-Mixin defines the shorthand mixin for absolute position.
+### Absolute
+
+Mixin defines the shorthand for absolute position.
 
 ```sass
-@use '~@stylize/sass-mixin/position' as *
-
-// Signature.
-@include absolute($props: [])
 @include absolute($top: null, $right: null, $bottom: null, $left: null, $z: null)
 ```
 
 <details>
-<summary>Examples</summary>
+<summary>
+  <u>Examples</u>
+</summary>
 
 ```sass
 // Absolute with left 0.
 @include absolute($left: 0)
-// Absolute with top 0, right 2px.
-@include absolute(0, 2px)
+// Absolute with top 0, right 2px, left 3px.
+@include absolute(0, 2px, 3px)
 // Absolute with top 0, right 2px, left 3px, z-index 1.
 @include absolute(0 2px null 3px 1)
 ```
 
 </details>
 
-### Cover
+Shorthand to cover the parent container using `absolute`.
 
 ```sass
-// Signature.
-@include absolute-cover($props: [])
 @include absolute-cover($offset: 0, $z: null)
 ```
 
 <details>
-<summary>Examples</summary>
+<summary>
+  <u>Examples</u>
+</summary>
 
 ```sass
 // Absolute with offset 0.
@@ -258,28 +427,26 @@ Mixin defines the shorthand mixin for absolute position.
 
 </details>
 
-### Center
+Shorthand to align at center in parent container using `absolute`.
 
 ```sass
-// Signature.
-@include absolute-center($props: [])
 @include absolute-center($z: null)
 ```
 
-## Fixed
+<a name="fixed"></a>
 
-Mixin defines the shorthand mixin for fixed position.
+### Fixed
+
+Mixin defines the shorthand for fixed position.
 
 ```sass
-@use '~@stylize/sass-mixin/position' as *
-
-// Signature.
-@include fixed($props: [])
 @include fixed($top: null, $right: null, $bottom: null, $left: null, $z: null)
 ```
 
 <details>
-<summary>Examples</summary>
+<summary>
+  <u>Examples</u>
+</summary>
 
 ```sass
 // Fixed with left 0.
@@ -292,16 +459,16 @@ Mixin defines the shorthand mixin for fixed position.
 
 </details>
 
-### Cover
+Shorthand to cover the parent container using `fixed`.
 
 ```sass
-// Signature.
-@include fixed-cover($props: [])
 @include fixed-cover($offset: 0, $z: null)
 ```
 
 <details>
-<summary>Examples</summary>
+<summary>
+  <u>Examples</u>
+</summary>
 
 ```sass
 // Fixed with offset 0.
@@ -314,28 +481,26 @@ Mixin defines the shorthand mixin for fixed position.
 
 </details>
 
-### Center
+Shorthand to align at center in parent container using `fixed`.
 
 ```sass
-// Signature.
-@include fixed-center($props: [])
 @include fixed-center($z: null)
 ```
 
-## Sticky
+<a name="sticky"></a>
 
-Mixin defines the shorthand mixin for sticky position.
+### Sticky
+
+Mixin defines the shorthand for sticky position.
 
 ```sass
-@use '~@stylize/sass-mixin/position' as *
-
-// Signature.
-@include sticky($props: [])
 @include sticky($top: null, $right: null, $bottom: null, $left: null, $z: null)
 ```
 
 <details>
-<summary>Examples</summary>
+<summary>
+  <u>Examples</u>
+</summary>
 
 ```sass
 // Sticky with left 0.
@@ -348,16 +513,16 @@ Mixin defines the shorthand mixin for sticky position.
 
 </details>
 
-### Cover
+Shorthand to cover the parent container using `sticky`.
 
 ```sass
-// Signature.
-@include sticky-cover($props: [])
 @include sticky-cover($offset: 0, $z: null)
 ```
 
 <details>
-<summary>Examples</summary>
+<summary>
+  <u>Examples</u>
+</summary>
 
 ```sass
 // Sticky with offset 0.
@@ -370,39 +535,42 @@ Mixin defines the shorthand mixin for sticky position.
 
 </details>
 
-### Center
+Shorthand to align at center in parent container using `sticky`.
 
 ```sass
-// Signature.
-@include sticky-center($props: [])
 @include sticky-center($z: null)
 ```
 
+<a name="pseudo"></a>
+
 ## Pseudo
 
-Mixin defines the shorthand mixin for after / before pseudo.
+Mixin defines the shorthand for `after` / `before` pseudo.
 
 ```sass
-@use '~@stylize/sass-mixin/pseudo' as *
-
-// Signature.
 @include before($content: '')
-@include after($content: '')
+  // @content
 ```
+
+```sass
+@include after($content: '')
+  // @content
+```
+
+<a name="size"></a>
 
 ## Size
 
-Mixin defines the shorthand to define with complex width and height.
+Mixin defines the shorthand for complex (eq, min, max) width and height.
 
 ```sass
-@use '~@stylize/sass-mixin/size' as *
-
-// Signature.
-@mixin size($width: null, $height: null)
+@mixin size($width: null, $height: $width)
 ```
 
 <details>
-<summary>Examples</summary>
+<summary>
+  <u>Examples</u>
+</summary>
 
 ```sass
 // [eq] width.
@@ -419,19 +587,20 @@ Mixin defines the shorthand to define with complex width and height.
 
 </details>
 
-## Width
+<a name="width"></a>
 
-Mixin defines the shorthand to define with complex width.
+### Width
+
+Mixin defines the shorthand for complex (eq, min, max) width.
 
 ```sass
-@use '~@stylize/sass-mixin/size' as *
-
-// Signature.
 @mixin width($props...)
 ```
 
 <details>
-<summary>Examples</summary>
+<summary>
+  <u>Examples</u>
+</summary>
 
 ```sass
 // [eq] width.
@@ -444,19 +613,20 @@ Mixin defines the shorthand to define with complex width.
 
 </details>
 
-## Height
+<a name="height"></a>
 
-Mixin defines the shorthand to define with complex height.
+### Height
+
+Mixin defines the shorthand for complex (eq, min, max) height.
 
 ```sass
-@use '~@stylize/sass-mixin/size' as *
-
-// Signature.
 @mixin height($props...)
 ```
 
 <details>
-<summary>Examples</summary>
+<summary>
+  <u>Examples</u>
+</summary>
 
 ```sass
 // [eq] height.
@@ -469,29 +639,59 @@ Mixin defines the shorthand to define with complex height.
 
 </details>
 
+<a name="support"></a>
+
 ## Support
 
 Mixin determine whether hover is supported.
 
 ```sass
-@use '~@stylize/sass-mixin/support' as *
-
-// Signature.
 @include support-hover
 ```
 
 <details>
-<summary>Examples</summary>
+<summary>
+  <u>Examples</u>
+</summary>
 
 ```sass
 // Capitalize link on hover.
 @include support-hover
-  .link
+  &:hover
     text-transform: capitalize
 ```
 
 </details>
 
-## Coverage
+<a name="z-index"></a>
 
-The mixins are completely covered with [sass-true](https://www.npmjs.com/package/sass-true).
+## Z-index
+
+Mixin use the [sass-func](https://www.npmjs.com/package/@stylize/sass-func) to handle the `z-index`.
+
+```sass
+@include z-index($path...)
+```
+
+```sass
+@include set-order($config, $base: 0)
+```
+
+<details>
+<summary>
+  <u>Examples</u>
+</summary>
+
+```sass
+// Configure by list and base.
+@include set-order(footer header, 100)
+// Configure by complex map.
+@include set-order((layout: (cashier: (toggle: 2))))
+
+// Z-index [101] by base.
+@include z-index(footer)
+// Z-index [2] by complex path.
+@include z-index(layout cashier toggle)
+```
+
+</details>

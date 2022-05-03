@@ -2,27 +2,49 @@
 @use './index' as mixin
 
 // Shorthand mixin for ::before pseudo
-@include test.describe('Before mixin')
-  @include test.it('should define before pseudo')
-    @include test.assert
-      @include test.output
++test.describe('Before mixin')
+  +test.it('should define before pseudo with text')
+    +test.assert
+      +test.output
         .text
-          @include mixin.before('↺')
+          +mixin.before('↺')
             font-weight: normal
-      @include test.expect
+      +test.expect
         .text::before
           content: '↺'
           font-weight: normal
 
-// Shorthand mixin for ::after pseudo
-@include test.describe('After mixin')
-  @include test.it('should define after pseudo')
-    @include test.assert
-      @include test.output
+  +test.it('should define before pseudo with data-attribute')
+    +test.assert
+      +test.output
         .text
-          @include mixin.after('↺')
+          +mixin.before(attr(data-text))
             font-weight: normal
-      @include test.expect
+      +test.expect
+        .text::before
+          content: attr(data-text)
+          font-weight: normal
+
+// Shorthand mixin for ::after pseudo
++test.describe('After mixin')
+  +test.it('should define after pseudo with text')
+    +test.assert
+      +test.output
+        .text
+          +mixin.after('↺')
+            font-weight: normal
+      +test.expect
         .text::after
           content: '↺'
+          font-weight: normal
+
+  +test.it('should define after pseudo with data-attribute')
+    +test.assert
+      +test.output
+        .text
+          +mixin.after(attr(data-text))
+            font-weight: normal
+      +test.expect
+        .text::after
+          content: attr(data-text)
           font-weight: normal
