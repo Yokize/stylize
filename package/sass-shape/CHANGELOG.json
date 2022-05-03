@@ -1,0 +1,25 @@
+{
+  "name": "@stylize/sass-shape",
+  "entries": [
+    {
+      "version": "1.0.0",
+      "tag": "@stylize/sass-shape_v1.0.0",
+      "date": "Tue, 03 May 2022 09:29:21 GMT",
+      "comments": {
+        "major": [
+          {
+            "comment": "Initial release"
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@stylize/sass-func\" from `0.0.1-rc.3` to `1.0.0`"
+          },
+          {
+            "comment": "Updating dependency \"@stylize/sass-mixin\" from `0.0.1-rc.4` to `1.0.0`"
+          }
+        ]
+      }
+    }
+  ]
+}

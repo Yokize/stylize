@@ -1,6 +1,6 @@
 {
   "name": "@stylize/sass-mixin",
-  "version": "0.0.1-rc.4",
+  "version": "1.0.0",
   "license": "MIT",
   "description": "Sass mixins for general usage",
   "homepage": "https://github.com/Yokize/stylize",
@@ -35,7 +35,7 @@
     "test": "sasstool test"
   },
   "dependencies": {
-    "@stylize/sass-func": "0.0.1-rc.3"
+    "@stylize/sass-func": "1.0.0"
   },
   "devDependencies": {
     "@stylize/sass-tool": "0.0.0",
