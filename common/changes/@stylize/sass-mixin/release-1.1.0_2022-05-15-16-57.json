@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@stylize/sass-mixin",
+      "comment": "docs: added badges for build and license",
+      "type": "none"
+    }
+  ],
+  "packageName": "@stylize/sass-mixin"
+}

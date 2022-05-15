@@ -1,9 +1,13 @@
 # Sass-mixin
 
-> Sass mixins for general usage
+<blockquote>
+  Sass mixins for general usage
+</blockquote>
 
+[![build](https://img.shields.io/github/workflow/status/Yokize/stylize/CI?style=flat-square)](https://github.com/Yokize/stylize/actions/workflows/CI.yml)
 [![chat](https://img.shields.io/gitter/room/stylize/community?style=flat-square&logo=gitter&color=blue&label=chat)](https://gitter.im/Yokize/stylize)
 [![sass](https://img.shields.io/static/v1?style=flat-square&logo=sass&color=blue&label=Sass&message=latest)](https://www.npmjs.com/package/sass)
+[![MIT](https://img.shields.io/github/license/Yokize/stylize?style=flat-square&color=blue&label)](https://en.wikipedia.org/wiki/MIT_License)
 
 <details>
 <summary>
