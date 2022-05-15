@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@stylize/sass-mixin",
+      "comment": "docs: added badges and links",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@stylize/sass-mixin"
+}

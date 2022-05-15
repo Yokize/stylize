@@ -1,4 +1,4 @@
-# Stylize
+# @stylize
 
 <p>
   <a href="https://gitter.im/Yokize/stylize">
