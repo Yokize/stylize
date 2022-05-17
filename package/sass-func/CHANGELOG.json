@@ -2,6 +2,18 @@
   "name": "@stylize/sass-func",
   "entries": [
     {
+      "version": "1.0.1",
+      "tag": "@stylize/sass-func_v1.0.1",
+      "date": "Tue, 17 May 2022 05:31:20 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "docs: added badges and links"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.0.0",
       "tag": "@stylize/sass-func_v1.0.0",
       "date": "Tue, 03 May 2022 09:29:21 GMT",

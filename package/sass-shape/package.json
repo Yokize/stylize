@@ -1,6 +1,6 @@
 {
   "name": "@stylize/sass-shape",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "license": "MIT",
   "description": "Sass mixins for creating shapes",
   "homepage": "https://github.com/Yokize/stylize#readme",
@@ -33,8 +33,8 @@
     "test": "sasstool test"
   },
   "dependencies": {
-    "@stylize/sass-func": "1.0.0",
-    "@stylize/sass-mixin": "1.0.0"
+    "@stylize/sass-func": "1.0.1",
+    "@stylize/sass-mixin": "1.0.1"
   },
   "devDependencies": {
     "@stylize/sass-tool": "0.0.0",
