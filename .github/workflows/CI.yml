@@ -82,7 +82,7 @@ jobs:
           fi
 
       # Prepare packages needed for the release.
-      - name: Create artifact
+      - name: Prepare artifacts
         run: >
           ls ./package | xargs -I % echo '
             cp -v LICENSE ./package/%;
@@ -93,8 +93,8 @@ jobs:
       - name: Release packages
         run: >-
           node common/scripts/install-run-rush.js publish
-          --apply
-          --publish
-          --include-all
-          --set-access-level public
-          --npm-auth-token ${{secrets.NPM_AUTH_TOKEN}}
+            --apply
+            --publish
+            --include-all
+            --set-access-level public
+            --npm-auth-token ${{secrets.NPM_AUTH_TOKEN}}
