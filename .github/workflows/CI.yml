@@ -82,7 +82,7 @@ jobs:
           fi
 
       # Prepare packages needed for the release.
-      - name: Create artifact
+      - name: Prepare artifacts
         run: >
           ls ./package | xargs -I % echo '
             cp -v LICENSE ./package/%;
