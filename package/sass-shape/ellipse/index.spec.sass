@@ -1,25 +1,25 @@
 @use '~sass-true' as test
 @use './index' as mixin
 
-// Input: width.
+// Fixture: width
 $width: 20px
 
-// Input: height.
+// Fixture: height
 $height: 30px
 
-// Input: background.
-$background: linear-gradient(#fff, #000)
+// Fixture: color
+$color: linear-gradient(#fff, #000)
 
 // Mixin to create the ellipse shape.
 +test.describe('Ellipse mixin')
   +test.it('should create the ellipse with args')
     +test.assert
       +test.output
-        +mixin.ellipse($width, $height, $background)
+        +mixin.ellipse($width, $height, $color)
       +test.expect
         width: $width
         height: $height
-        background: $background
+        background: $color
         border-radius: 50%
 
   +test.it('should create the ellipse with default args')
@@ -32,10 +32,11 @@ $background: linear-gradient(#fff, #000)
   +test.it('should create the ellipse with keyword args')
     +test.assert
       +test.output
-        +mixin.ellipse($width: $width, $height: $height)
+        +mixin.ellipse($width: $width, $height: $height, $color: $color)
       +test.expect
         width: $width
         height: $height
+        background: $color
         border-radius: 50%
 
   +test.it('should create the ellipse with complex size args')
@@ -48,12 +49,12 @@ $background: linear-gradient(#fff, #000)
         max-height: $height * 2
         border-radius: 50%
 
-  +test.it('should create the ellipse with complex background arg')
+  +test.it('should create the ellipse with complex color arg')
     +test.assert
       +test.output
-        +mixin.ellipse($width, $height, [$background, $background])
+        +mixin.ellipse($width, $height, [$color, $color])
       +test.expect
         width: $width
         height: $height
-        background: $background, $background
+        background: $color, $color
         border-radius: 50%

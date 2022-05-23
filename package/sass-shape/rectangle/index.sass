@@ -11,28 +11,28 @@
 /// @param {List|Length} $width [null] Width.
 /// @param {List|Length} $height [null] Height.
 /// @param {List|Length} $radius [null] Radius.
-/// @param {List|Color} $background [null] Background.
+/// @param {List|Color} $color [null] Color.
 /// @example
-///   rectangle
+///   rectangle(20px)
 ///   rectangle(min 20px)
-///   rectangle(10px, max 20px)
-///   rectangle($background: #fff)
-///   rectangle(min 10px, 20px, 4px)
+///   rectangle(min 10px, max 20px)
+///   rectangle(min 10px, max 20px, 4px)
 ///   rectangle(max 10px, max 20px, 4px, #fff)
+///   rectangle($width: 10px, $height: 20px, $radius: 4px, $color: #fff)
 ///
 ///   Complex examples:
 ///   rectangle([auto, min 20px], max 20px, 4px, #fff)
 ///   rectangle([40px, min 20px], [20px, max 10px], 4px 3px, #fff)
 ///   rectangle([40px, min 20px], [20px, max 10px], [4px, 3px], #fff)
-///   rectangle([40px, min 20px], [20px, max 10px], [4px, 3px], linear-gradient(#e66465, #9198e5))
-=rectangle($width: null, $height: null, $radius: null, $background: null)
+///   rectangle([40px, min 20px], [20px, max 10px], [4px, 3px], linear-gradient(#fff, #000))
+=rectangle($width: null, $height: null, $radius: null, $color: null)
   +size.width($width)
   +size.height($height)
 
-  @if meta.is-list($background)
-    background: list.join($background, [], auto, false)
+  @if meta.is-list($color)
+    background: list.join($color, [], auto, false)
   @else
-    background: $background
+    background: $color
 
   @if meta.is-list($radius)
     border-radius: list.join($radius, [], space, false)

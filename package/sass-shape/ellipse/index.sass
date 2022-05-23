@@ -8,17 +8,18 @@
 /// Mixin to create the ellipse shape.
 /// @param {List|Length} $width [null] Width.
 /// @param {List|Length} $height [null] Height.
-/// @param {List|Color} $background [null] Background.
+/// @param {List|Color} $color [null] Color.
 /// @example
 ///   ellipse
 ///   ellipse(20px)
 ///   ellipse(min 20px)
-///   ellipse($background: #fff)
+///   ellipse(min 20px, max 20px)
 ///   ellipse(min 10px, max 20px, #fff)
+///   ellipse($width: 10px, $height: 20px, $color: #fff)
 ///
 ///   Complex examples:
 ///   ellipse([auto, min 20px], max 20px, #fff)
 ///   ellipse([40px, min 20px], [20px, max 10px], #fff)
-///   ellipse([40px, min 20px], [20px, max 10px], linear-gradient(#e66465, #9198e5))
-=ellipse($width: null, $height: null, $background: null)
-  +shape.rectangle($width, $height, 50%, $background)
+///   ellipse([40px, min 20px], [20px, max 10px], linear-gradient(#fff, #000))
+=ellipse($width: null, $height: null, $color: null)
+  +shape.rectangle($width, $height, 50%, $color)

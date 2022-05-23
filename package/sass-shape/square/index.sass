@@ -8,17 +8,17 @@
 /// Mixin to create the square shape.
 /// @param {List|Length} $size [null] Size.
 /// @param {List|Length} $radius [null] Radius.
-/// @param {List|Color} $background [null] Background.
+/// @param {List|Color} $color [null] Color.
 /// @example
 ///   square(20px)
 ///   square(min 20px, 5px)
 ///   square(max 20px, 5px, #fff)
-///   square($background: #fff)
+///   square($size: 20px, $radius: 4px, $color: #fff)
 ///
 ///   Complex examples:
 ///   square([auto, min 20px], 5px, #fff)
 ///   square([40px, min 20px, max 50px], 5px 4px, #fff)
 ///   square([40px, min 20px, max 50px], [5px, 4px], #fff)
-///   square([40px, min 20px, max 50px], [5px, 4px], linear-gradient(#e66465, #9198e5))
-=square($size: null, $radius: null, $background: null)
-  +shape.rectangle($size, $size, $radius, $background)
+///   square([40px, min 20px, max 50px], [5px, 4px], linear-gradient(#fff, #000))
+=square($size: null, $radius: null, $color: null)
+  +shape.rectangle($size, $size, $radius, $color)

@@ -1,22 +1,22 @@
 @use '~sass-true' as test
 @use './index' as mixin
 
-// Input: size.
+// Fixture: size
 $size: 20px
 
-// Input: background.
-$background: linear-gradient(#fff, #000)
+// Fixture: color
+$color: linear-gradient(#fff, #000)
 
 // Mixin to create the circle shape.
 +test.describe('Circle mixin')
   +test.it('should create the circle with args')
     +test.assert
       +test.output
-        +mixin.circle($size, $background)
+        +mixin.circle($size, $color)
       +test.expect
         width: $size
         height: $size
-        background: $background
+        background: $color
         border-radius: 50%
 
   +test.it('should create the circle with default args')
@@ -29,10 +29,11 @@ $background: linear-gradient(#fff, #000)
   +test.it('should create the circle with keyword args')
     +test.assert
       +test.output
-        +mixin.circle($size: $size)
+        +mixin.circle($size: $size, $color: $color)
       +test.expect
         width: $size
         height: $size
+        background: $color
         border-radius: 50%
 
   +test.it('should create the circle with complex size arg')
@@ -46,12 +47,12 @@ $background: linear-gradient(#fff, #000)
         min-height: $size
         border-radius: 50%
 
-  +test.it('should create the circle with complex background arg')
+  +test.it('should create the circle with complex color arg')
     +test.assert
       +test.output
-        +mixin.circle($size, [$background, $background])
+        +mixin.circle($size, [$color, $color])
       +test.expect
         width: $size
         height: $size
-        background: $background, $background
+        background: $color, $color
         border-radius: 50%

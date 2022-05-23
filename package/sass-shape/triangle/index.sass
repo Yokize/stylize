@@ -24,6 +24,7 @@
 /// @example
 ///   triangle(top, #fff, 5px)
 ///   triangle(top, #fff, 5px, 10px)
+///   triangle($direction: top, $color: #fff, $width: 5px, $height: 5px)
 =triangle($direction, $color: null, $width: null, $height: null)
   @if list.has-single($direction)
     +-triangle-($direction, $color, $width, $height)
