@@ -1,25 +1,25 @@
 @use '~sass-true' as test
 @use './index' as mixin
 
-// Input: size.
+// Fixture: size
 $size: 20px
 
-// Input: radius.
+// Fixture: radius
 $radius: 2px
 
-// Input: background.
-$background: linear-gradient(#fff, #000)
+// Fixture: color
+$color: linear-gradient(#fff, #000)
 
 // Mixin to create the square shape.
 +test.describe('Square mixin')
   +test.it('should create the square with args')
     +test.assert
       +test.output
-        +mixin.square($size, $radius, $background)
+        +mixin.square($size, $radius, $color)
       +test.expect
         width: $size
         height: $size
-        background: $background
+        background: $color
         border-radius: $radius
 
   +test.it('should create the square with default args')
@@ -31,8 +31,11 @@ $background: linear-gradient(#fff, #000)
   +test.it('should create the square with keyword args')
     +test.assert
       +test.output
-        +mixin.square($radius: $radius)
+        +mixin.square($size: $size, $radius: $radius, $color: $color)
       +test.expect
+        width: $size
+        height: $size
+        background: $color
         border-radius: $radius
 
   +test.it('should create the square with complex size arg')
@@ -54,11 +57,11 @@ $background: linear-gradient(#fff, #000)
         min-height: $size
         border-radius: 5px 4px
 
-  +test.it('should create the square with complex background arg')
+  +test.it('should create the square with complex color arg')
     +test.assert
       +test.output
-        +mixin.square($size, null, [$background, $background])
+        +mixin.square($size, null, [$color, $color])
       +test.expect
         width: $size
         height: $size
-        background: $background, $background
+        background: $color, $color

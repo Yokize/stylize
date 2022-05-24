@@ -1,28 +1,28 @@
 @use '~sass-true' as test
 @use './index' as mixin
 
-// Input: width.
+// Fixture: width
 $width: 20px
 
-// Input: height.
+// Fixture: height
 $height: 30px
 
-// Input: radius.
+// Fixture: radius
 $radius: 4px
 
-// Input: background.
-$background: linear-gradient(#fff, #000)
+// Fixture: color
+$color: linear-gradient(#fff, #000)
 
 // Mixin to create the rectangle shape.
 +test.describe('Rectangle mixin')
   +test.it('should create the rectangle with args')
     +test.assert
       +test.output
-        +mixin.rectangle($width, $height, $radius, $background)
+        +mixin.rectangle($width, $height, $radius, $color)
       +test.expect
         width: $width
         height: $height
-        background: $background
+        background: $color
         border-radius: $radius
 
   +test.it('should create the rectangle with default args')
@@ -34,10 +34,12 @@ $background: linear-gradient(#fff, #000)
   +test.it('should create the rectangle with keyword args')
     +test.assert
       +test.output
-        +mixin.rectangle($width: $width, $height: $height)
+        +mixin.rectangle($width: $width, $height: $height, $radius: $radius, $color: $color)
       +test.expect
         width: $width
         height: $height
+        background: $color
+        border-radius: $radius
 
   +test.it('should create the rectangle with complex size args')
     +test.assert
@@ -57,11 +59,11 @@ $background: linear-gradient(#fff, #000)
         height: $height
         border-radius: 4px 3px
 
-  +test.it('should create the rectangle with complex background arg')
+  +test.it('should create the rectangle with complex color arg')
     +test.assert
       +test.output
-        +mixin.rectangle($width, $height, null, [$background, $background])
+        +mixin.rectangle($width, $height, null, [$color, $color])
       +test.expect
         width: $width
         height: $height
-        background: $background, $background
+        background: $color, $color

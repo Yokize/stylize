@@ -57,10 +57,10 @@ Shapes use [sass-mixin](https://www.npmjs.com/package/@stylize/sass-mixin), so c
 
 ## Circle
 
-Mixin defines the circle with `size` and `background`.
+Mixin defines the circle with `size` and `color`.
 
 ```sass
-@include circle($size: null, $background: null)
+@include circle($size: null, $color: null)
 ```
 
 <details>
@@ -75,15 +75,15 @@ Mixin defines the circle with `size` and `background`.
 @include circle(20px)
 // Radius 50%, [min] width × height.
 @include circle(min 20px)
-// Radius 50%, [max] width × height, background.
+// Radius 50%, [max] width × height, color.
 @include circle(max 20px, #fff)
-// Radius 50%, [min] width × height, background.
-@include circle($size: min 20px, $background: #fff)
-// Radius 50%, [eq, min] width × height, background.
+// Radius 50%, [min] width × height, color.
+@include circle($size: min 20px, $color: #fff)
+// Radius 50%, [eq, min] width × height, color.
 @include circle([auto, min 20px], #fff)
-// Radius 50%, [eq, min, max] width × height, background.
+// Radius 50%, [eq, min, max] width × height, color.
 @include circle([40px, min 20px, max 50px], #fff)
-// Radius 50%, [eq, min, max] width × height, gradient background.
+// Radius 50%, [eq, min, max] width × height, gradient color.
 @include circle([40px, min 20px, max 50px], linear-gradient(#e66465, #9198e5))
 ```
 
@@ -93,10 +93,10 @@ Mixin defines the circle with `size` and `background`.
 
 ## Ellipse
 
-Mixin defines the ellipse with `width`, `height` and `background`.
+Mixin defines the ellipse with `width`, `height` and `color`.
 
 ```sass
-@include ellipse($width: null, $height: null, $background: null)
+@include ellipse($width: null, $height: null, $color: null)
 ```
 
 <details>
@@ -113,13 +113,13 @@ Mixin defines the ellipse with `width`, `height` and `background`.
 @include ellipse(min 20px)
 // Radius 50%, [max] width.
 @include ellipse($width: max 20px)
-// Radius 50%, [min] width, [max] height, background.
+// Radius 50%, [min] width, [max] height, color.
 @include ellipse(min 10px, max 20px, #fff)
-// Radius 50%, [eq, min] width, [max] height, background.
+// Radius 50%, [eq, min] width, [max] height, color.
 @include ellipse([auto, min 20px], max 20px, #fff)
-// Radius 50%, [eq, min] width, [eq, max] height, background.
+// Radius 50%, [eq, min] width, [eq, max] height, color.
 @include ellipse([40px, min 20px], [20px, max 10px], #fff)
-// Radius 50%, [eq, min] width, [eq, max] height, gradient background.
+// Radius 50%, [eq, min] width, [eq, max] height, gradient color.
 @include ellipse([40px, min 20px], [20px, max 10px], linear-gradient(#e66465, #9198e5))
 ```
 
@@ -129,10 +129,10 @@ Mixin defines the ellipse with `width`, `height` and `background`.
 
 ## Square
 
-Mixin defines the square with `size`, `border-radius` and `background`.
+Mixin defines the square with `size`, `radius` and `color`.
 
 ```sass
-@include square($size: null, $radius: null, $background: null)
+@include square($size: null, $radius: null, $color: null)
 ```
 
 <details>
@@ -145,17 +145,17 @@ Mixin defines the square with `size`, `border-radius` and `background`.
 @include square(20px)
 // [min] width × height, radius.
 @include square(min 20px, 5px)
-// [max] width × height, radius, background.
+// [max] width × height, radius, color.
 @include square(max 20px, 5px, #fff)
-// [min] width × height, radius, background.
-@include square($size: min 20px, $radius: 4px, $background: #fff)
-// [eq, min] width × height, radius, background.
+// [min] width × height, radius, color.
+@include square($size: min 20px, $radius: 4px, $color: #fff)
+// [eq, min] width × height, radius, color.
 @include square([auto, min 20px], 5px, #fff)
-// [eq, min, max] width × height, [top-left, bottom-right] radius, background.
+// [eq, min, max] width × height, [top-left, bottom-right] radius, color.
 @include square([40px, min 20px, max 50px], 5px 4px, #fff)
-// [eq, min, max] width × height, [top-left, bottom-right] radius, background.
+// [eq, min, max] width × height, [top-left, bottom-right] radius, color.
 @include square([40px, min 20px, max 50px], [5px, 4px], #fff)
-// [eq, min, max] width × height, [top-left, bottom-right] radius, gradient background.
+// [eq, min, max] width × height, [top-left, bottom-right] radius, gradient color.
 @include square([40px, min 20px, max 50px], [5px, 4px], linear-gradient(#e66465, #9198e5))
 ```
 
@@ -165,10 +165,10 @@ Mixin defines the square with `size`, `border-radius` and `background`.
 
 ## Rectangle
 
-Mixin defines the rectangle with `width`, `height`, `border-radius` and `background`.
+Mixin defines the rectangle with `width`, `height`, `radius` and `color`.
 
 ```sass
-@include rectangle($width: null, $height: null, $radius: null, $background: null)
+@include rectangle($width: null, $height: null, $radius: null, $color: null)
 ```
 
 <details>
@@ -181,19 +181,19 @@ Mixin defines the rectangle with `width`, `height`, `border-radius` and `backgro
 @include rectangle(min 20px)
 // [eq] width, [max] height.
 @include rectangle(10px, max 20px)
-// [eq] width, background.
-@include rectangle($width: 10px, $background: #fff)
 // [min] width, [eq] height, radius.
 @include rectangle(min 10px, 20px, 4px)
-// [max] width, [max] height, radius, background.
+// [max] width, [max] height, radius, color.
 @include rectangle(max 10px, max 20px, 4px, #fff)
-// [eq, min] width, [max] height, radius, background.
+// [eq, min] width, [max] height, radius, color.
 @include rectangle([auto, min 20px], max 20px, 4px, #fff)
-// [eq, min] width, [eq, min] height, [top-left, bottom-right] radius, background.
+// [eq] width, [eq] height, [top-left, bottom-right] radius, color.
+@include rectangle($width: 10px, $height: 20px, $radius: 4px 3px, $color: #fff)
+// [eq, min] width, [eq, min] height, [top-left, bottom-right] radius, color.
 @include rectangle([40px, min 20px], [20px, min 10px], 4px 3px, #fff)
-// [eq, min] width, [eq, min] height, [top-left, bottom-right] radius, background.
+// [eq, min] width, [eq, min] height, [top-left, bottom-right] radius, color.
 @include rectangle([40px, min 20px], [20px, min 10px], [4px, 3px], #fff)
-// [eq, min] width, [eq, min] height, [top-left, bottom-right] radius, gradient background.
+// [eq, min] width, [eq, min] height, [top-left, bottom-right] radius, gradient color.
 @include rectangle([40px, min 20px], [20px, min 10px], [4px, 3px], linear-gradient(#e66465, #9198e5))
 ```
 
