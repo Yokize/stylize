@@ -1,6 +1,6 @@
 {
   "name": "@stylize/sass-shape",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "license": "MIT",
   "description": "Sass mixins for creating shapes",
   "homepage": "https://github.com/Yokize/stylize#readme",

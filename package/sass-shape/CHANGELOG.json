@@ -2,6 +2,18 @@
   "name": "@stylize/sass-shape",
   "entries": [
     {
+      "version": "2.0.0",
+      "tag": "@stylize/sass-shape_v2.0.0",
+      "date": "Tue, 24 May 2022 06:50:36 GMT",
+      "comments": {
+        "major": [
+          {
+            "comment": "feat: rename background arg to color"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.0.1",
       "tag": "@stylize/sass-shape_v1.0.1",
       "date": "Tue, 17 May 2022 05:31:20 GMT",
