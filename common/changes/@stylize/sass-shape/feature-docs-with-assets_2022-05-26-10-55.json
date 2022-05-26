@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@stylize/sass-shape",
+      "comment": "docs: added assets to the README",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@stylize/sass-shape"
+}

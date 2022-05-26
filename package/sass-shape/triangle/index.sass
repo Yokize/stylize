@@ -8,12 +8,12 @@
 ////
 
 /// Mixin to create the triangle shape.
-/// @param {List} $props Triangle Props.
+/// @param {List} $args Triangle Args.
 /// @throws Triangle direction is not valid.
 /// @example
 ///   triangle(top #fff 5px)
 ///   triangle(top #fff 5px 10px)
-=triangle($props: [])
+=triangle($args: [])
 
 /// Mixin to create the triangle shape.
 /// @param {String} $direction Direction.
@@ -36,6 +36,7 @@
 /// @param {Color} $color [null] Color.
 /// @param {Length} $width [null] Width.
 /// @param {Length} $height [null] Height.
+/// @throws Triangle direction is not valid.
 =-triangle-($direction, $color: null, $width: null, $height: null)
   width: 0
   height: 0
@@ -77,9 +78,9 @@ $-calc-side-: top, bottom, left, right
 /// @return {Length} Calculated height.
 @function -calcHeight-($side)
   // Square of triangle height using Pythagoras theorem :)
-  $tmpSqr: math.sqr($side) - math.sqr(math.div($side, 2))
+  $tmp: math.sqr($side) - math.sqr(math.div($side, 2))
   // Calculated height of triangle and aligned to proper format.
-  @return math.to-fixed(math.sqrt($tmpSqr), 4)
+  @return math.to-fixed(math.sqrt($tmp), 4)
 
 /// Mixin to create top triangle shape.
 /// @param {Color} $color Color.

@@ -1,13 +1,12 @@
-# Sass-shape
-
 <blockquote>
-  Sass mixins for creating shapes
+  Collection of Sass mixins for creating various shapes
 </blockquote>
 
-[![build](https://img.shields.io/github/workflow/status/Yokize/stylize/CI?style=flat-square)](https://github.com/Yokize/stylize/actions/workflows/CI.yml)
+![test](https://img.shields.io/github/workflow/status/Yokize/stylize/CI?style=flat-square&label=test)
+![deps](https://img.shields.io/librariesio/release/npm/@stylize/sass-shape?style=flat-square)
+![sass](https://img.shields.io/static/v1?style=flat-square&logo=sass&color=blue&label=sass&message=latest)
+![MIT](https://img.shields.io/github/license/Yokize/stylize?style=flat-square&color=blue)
 [![chat](https://img.shields.io/gitter/room/stylize/community?style=flat-square&logo=gitter&color=blue&label=chat)](https://gitter.im/Yokize/stylize)
-[![sass](https://img.shields.io/static/v1?style=flat-square&logo=sass&color=blue&label=Sass&message=latest)](https://www.npmjs.com/package/sass)
-[![MIT](https://img.shields.io/github/license/Yokize/stylize?style=flat-square&color=blue&label)](https://en.wikipedia.org/wiki/MIT_License)
 
 <details>
 <summary>
@@ -47,15 +46,13 @@ Mixins can be imported directly from the package or namespace.
 @use '~@stylize/sass-shape' as *
 ```
 
-```sass
-@use '~@stylize/sass-shape/<namespace>' as *
-```
-
 Shapes use [sass-mixin](https://www.npmjs.com/package/@stylize/sass-mixin), so complex `size`, `width` and `height` args can be used.
 
 <a name="circle"></a>
 
 ## Circle
+
+![image](https://raw.githubusercontent.com/Yokize/stylize/main/.github/assets/shape/circle.svg)
 
 Mixin defines the circle with `size` and `color`.
 
@@ -84,7 +81,7 @@ Mixin defines the circle with `size` and `color`.
 // Radius 50%, [eq, min, max] width × height, color.
 @include circle([40px, min 20px, max 50px], #fff)
 // Radius 50%, [eq, min, max] width × height, gradient color.
-@include circle([40px, min 20px, max 50px], linear-gradient(#e66465, #9198e5))
+@include circle([40px, min 20px, max 50px], linear-gradient(#fff, #000))
 ```
 
 </details>
@@ -92,6 +89,8 @@ Mixin defines the circle with `size` and `color`.
 <a name="ellipse"></a>
 
 ## Ellipse
+
+![image](https://raw.githubusercontent.com/Yokize/stylize/main/.github/assets/shape/ellipse.svg)
 
 Mixin defines the ellipse with `width`, `height` and `color`.
 
@@ -120,7 +119,7 @@ Mixin defines the ellipse with `width`, `height` and `color`.
 // Radius 50%, [eq, min] width, [eq, max] height, color.
 @include ellipse([40px, min 20px], [20px, max 10px], #fff)
 // Radius 50%, [eq, min] width, [eq, max] height, gradient color.
-@include ellipse([40px, min 20px], [20px, max 10px], linear-gradient(#e66465, #9198e5))
+@include ellipse([40px, min 20px], [20px, max 10px], linear-gradient(#fff, #000))
 ```
 
 </details>
@@ -128,6 +127,8 @@ Mixin defines the ellipse with `width`, `height` and `color`.
 <a name="square"></a>
 
 ## Square
+
+![image](https://raw.githubusercontent.com/Yokize/stylize/main/.github/assets/shape/square.svg)
 
 Mixin defines the square with `size`, `radius` and `color`.
 
@@ -156,7 +157,7 @@ Mixin defines the square with `size`, `radius` and `color`.
 // [eq, min, max] width × height, [top-left, bottom-right] radius, color.
 @include square([40px, min 20px, max 50px], [5px, 4px], #fff)
 // [eq, min, max] width × height, [top-left, bottom-right] radius, gradient color.
-@include square([40px, min 20px, max 50px], [5px, 4px], linear-gradient(#e66465, #9198e5))
+@include square([40px, min 20px, max 50px], [5px, 4px], linear-gradient(#fff, #000))
 ```
 
 </details>
@@ -164,6 +165,8 @@ Mixin defines the square with `size`, `radius` and `color`.
 <a name="rectangle"></a>
 
 ## Rectangle
+
+![image](https://raw.githubusercontent.com/Yokize/stylize/main/.github/assets/shape/rectangle.svg)
 
 Mixin defines the rectangle with `width`, `height`, `radius` and `color`.
 
@@ -194,7 +197,7 @@ Mixin defines the rectangle with `width`, `height`, `radius` and `color`.
 // [eq, min] width, [eq, min] height, [top-left, bottom-right] radius, color.
 @include rectangle([40px, min 20px], [20px, min 10px], [4px, 3px], #fff)
 // [eq, min] width, [eq, min] height, [top-left, bottom-right] radius, gradient color.
-@include rectangle([40px, min 20px], [20px, min 10px], [4px, 3px], linear-gradient(#e66465, #9198e5))
+@include rectangle([40px, min 20px], [20px, min 10px], [4px, 3px], linear-gradient(#fff, #000))
 ```
 
 </details>
@@ -202,6 +205,8 @@ Mixin defines the rectangle with `width`, `height`, `radius` and `color`.
 <a name="triangle"></a>
 
 ## Triangle
+
+![image](https://raw.githubusercontent.com/Yokize/stylize/main/.github/assets/shape/triangle.svg)
 
 Mixin defines the triangle with `direction`, `color`, `width` and `height`.
 

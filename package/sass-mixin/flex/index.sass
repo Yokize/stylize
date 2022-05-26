@@ -7,7 +7,7 @@
 ////
 
 /// Shorthand mixin for flex.
-/// @param {List} $props Flex Props.
+/// @param {List} $args Flex Args.
 /// @example
 ///   flex
 ///   flex(row)
@@ -15,7 +15,7 @@
 ///   flex(row center stretch)
 ///   flex(row center stretch wrap)
 ///   flex(row center stretch wrap space-evenly)
-=flex($props: [])
+=flex($args: [])
 
 /// Shorthand mixin for flex.
 /// @param {String} $direction [null] Direction.
@@ -38,14 +38,14 @@
     +-flex-(flex, $direction...)
 
 /// Shorthand mixin for flex row.
-/// @param {List} $props Flex Props.
+/// @param {List} $args Flex Args.
 /// @example
 ///   flex-row
 ///   flex-row(center)
 ///   flex-row(center stretch)
 ///   flex-row(center stretch wrap)
 ///   flex-row(center stretch wrap space-evenly)
-=flex-row($props: [])
+=flex-row($args: [])
 
 /// Shorthand mixin for flex row.
 /// @param {String} $main [null] Main Axis.
@@ -66,12 +66,12 @@
     +-flex-(flex, row, $main...)
 
 /// Shorthand mixin for flex row center.
-/// @param {List} $props Flex Props.
+/// @param {List} $args Flex Args.
 /// @example
 ///   flex-row-center
 ///   flex-row-center(wrap)
 ///   flex-row-center(wrap space-evenly)
-=flex-row-center($props: [])
+=flex-row-center($args: [])
 
 /// Shorthand mixin for flex row center.
 /// @param {String} $wrap [null] Wrap Items.
@@ -88,14 +88,14 @@
     +-flex-(flex, row, center, center, $wrap...)
 
 /// Shorthand mixin for flex column.
-/// @param {List} $props Flex Props.
+/// @param {List} $args Flex Args.
 /// @example
 ///   flex-col
 ///   flex-col(center)
 ///   flex-col(center stretch)
 ///   flex-col(center stretch wrap)
 ///   flex-col(center stretch wrap space-evenly)
-=flex-col($props: [])
+=flex-col($args: [])
 
 /// Shorthand mixin for flex column.
 /// @param {String} $main [null] Main Axis.
@@ -116,12 +116,12 @@
     +-flex-(flex, column, $main...)
 
 /// Shorthand mixin for flex column center.
-/// @param {List} $props Flex Props.
+/// @param {List} $args Flex Args.
 /// @example
 ///   flex-col-center
 ///   flex-col-center(wrap)
 ///   flex-col-center(wrap space-evenly)
-=flex-col-center($props: [])
+=flex-col-center($args: [])
 
 /// Shorthand mixin for flex column center.
 /// @param {String} $wrap [null] Wrap Items.
@@ -138,7 +138,7 @@
     +-flex-(flex, column, center, center, $wrap...)
 
 /// Shorthand mixin for inline-flex.
-/// @param {List} $props Flex Props.
+/// @param {List} $args Flex Args.
 /// @example
 ///   inline-flex
 ///   inline-flex(row)
@@ -146,7 +146,7 @@
 ///   inline-flex(row center stretch)
 ///   inline-flex(row center stretch wrap)
 ///   inline-flex(row center stretch wrap space-evenly)
-=inline-flex($props: [])
+=inline-flex($args: [])
 
 /// Shorthand mixin for inline-flex.
 /// @param {String} $direction [null] Direction.
@@ -169,14 +169,14 @@
     +-flex-(inline-flex, $direction...)
 
 /// Shorthand mixin for inline-flex row.
-/// @param {List} $props Flex Props.
+/// @param {List} $args Flex Args.
 /// @example
 ///   inline-flex-row
 ///   inline-flex-row(center)
 ///   inline-flex-row(center stretch)
 ///   inline-flex-row(center stretch wrap)
 ///   inline-flex-row(center stretch wrap space-evenly)
-=inline-flex-row($props: [])
+=inline-flex-row($args: [])
 
 /// Shorthand mixin for inline-flex row.
 /// @param {String} $main [null] Main Axis.
@@ -197,12 +197,12 @@
     +-flex-(inline-flex, row, $main...)
 
 /// Shorthand mixin for inline-flex row center.
-/// @param {List} $props Flex Props.
+/// @param {List} $args Flex Args.
 /// @example
 ///   inline-flex-row-center
 ///   inline-flex-row-center(wrap)
 ///   inline-flex-row-center(wrap space-evenly)
-=inline-flex-row-center($props: [])
+=inline-flex-row-center($args: [])
 
 /// Shorthand mixin for inline-flex row center.
 /// @param {String} $wrap [null] Wrap Items.
@@ -219,14 +219,14 @@
     +-flex-(inline-flex, row, center, center, $wrap...)
 
 /// Shorthand mixin for inline-flex column.
-/// @param {List} $props Flex Props.
+/// @param {List} $args Flex Args.
 /// @example
 ///   inline-flex-col
 ///   inline-flex-col(center)
 ///   inline-flex-col(center stretch)
 ///   inline-flex-col(center stretch wrap)
 ///   inline-flex-col(center stretch wrap space-evenly)
-=inline-flex-col($props: [])
+=inline-flex-col($args: [])
 
 /// Shorthand mixin for inline-flex column.
 /// @param {String} $main [null] Main Axis.
@@ -247,12 +247,12 @@
     +-flex-(inline-flex, column, $main...)
 
 /// Shorthand mixin for inline-flex column center.
-/// @param {List} $props Flex Props.
+/// @param {List} $args Flex Args.
 /// @example
 ///   inline-flex-col-center
 ///   inline-flex-col-center(wrap)
 ///   inline-flex-col-center(wrap space-evenly)
-=inline-flex-col-center($props: [])
+=inline-flex-col-center($args: [])
 
 /// Shorthand mixin for inline-flex column center.
 /// @param {String} $wrap [null] Wrap Items.

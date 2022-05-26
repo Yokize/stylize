@@ -90,7 +90,7 @@ $-config-gt-: (ops: ['>=' '≥' $-symbol-gt-], prefix: min)
 /// @return {String} Native media query.
 @function -create-query-str-($data)
   // Unquote string for correct parse.
-  $data: string.quote($data)
+  $data: string.unquote($data)
   // Get the operator from raw string.
   $operator: -get-operator-($data)
   // Further parse in case operator exist.
@@ -227,10 +227,11 @@ $keywords: (w: 'width', h: 'height') !default
 /// @type Map
 $breakpoints: (mc: 360px, xs: 480px, sm: 768px, md: 1024px, lg: 1200px, xl: 1440px) !default
 
-/// Use em instead of px for defined breakpoints.
+/// Use Em instead of Px for defined breakpoints.
 /// @param {Length} $base [16px] Base size.
 /// @example
-///   use-em(16px)
+///   use-em
+///   use-em(20px)
 =use-em($base: unit.$base-size)
   @each $name, $value in $breakpoints
     @if unit.get($value) == px

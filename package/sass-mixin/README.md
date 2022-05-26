@@ -1,13 +1,12 @@
-# Sass-mixin
-
 <blockquote>
-  Sass mixins for general usage
+  Collection of Sass mixins for general usage
 </blockquote>
 
-[![build](https://img.shields.io/github/workflow/status/Yokize/stylize/CI?style=flat-square)](https://github.com/Yokize/stylize/actions/workflows/CI.yml)
+![test](https://img.shields.io/github/workflow/status/Yokize/stylize/CI?style=flat-square&label=test)
+![deps](https://img.shields.io/librariesio/release/npm/@stylize/sass-mixin?style=flat-square)
+![sass](https://img.shields.io/static/v1?style=flat-square&logo=sass&color=blue&label=sass&message=latest)
+![MIT](https://img.shields.io/github/license/Yokize/stylize?style=flat-square&color=blue)
 [![chat](https://img.shields.io/gitter/room/stylize/community?style=flat-square&logo=gitter&color=blue&label=chat)](https://gitter.im/Yokize/stylize)
-[![sass](https://img.shields.io/static/v1?style=flat-square&logo=sass&color=blue&label=Sass&message=latest)](https://www.npmjs.com/package/sass)
-[![MIT](https://img.shields.io/github/license/Yokize/stylize?style=flat-square&color=blue&label)](https://en.wikipedia.org/wiki/MIT_License)
 
 <details>
 <summary>
@@ -56,15 +55,33 @@ Mixins can be imported directly from the package or namespace.
 @use '~@stylize/sass-mixin' as *
 ```
 
+<a name="overloading"></a>
+
+#### Overloading
+
+Several mixins in this package support overloading, so you can use them in the usual way with named arguments or accept a list as an argument, which will be destructured.
+
 ```sass
-@use '~@stylize/sass-mixin/<namespace>' as *
+// $args will be destructured to $arg1 and $arg2.
+@include mixin($args: [])
+
+// Receive in usual way with support of named arguments.
+@include mixin($arg1: null, $arg2: null)
 ```
 
 <a name="flex"></a>
 
 ## Flex
 
-Mixins defines the shorthand for [Flexbox Layout](https://css-tricks.com/snippets/css/a-guide-to-flexbox).
+![image](https://raw.githubusercontent.com/Yokize/stylize/main/.github/assets/mixin/flex.svg)
+
+[Flexbox Layout](https://css-tricks.com/snippets/css/a-guide-to-flexbox) module ([W3C Candidate Recommendation](https://www.w3.org/TR/css-flexbox/)) aims at providing a more efficient way to lay out, align and distribute space among items in a container, even when their size is unknown and/or dynamic.
+
+Supports [overloaded](#overloading) signature with single argument.
+
+_Display: flex_
+
+Element behaves like a block element and lays out its content according to the flexbox model.
 
 ```sass
 @include flex($direction: null, $main: null, $cross: null, $wrap: null, $content: null)
@@ -92,6 +109,10 @@ Mixins defines the shorthand for [Flexbox Layout](https://css-tricks.com/snippet
 
 </details>
 
+_Display: inline-flex_
+
+Element behaves like an inline element and lays out its content according to the flexbox model.
+
 ```sass
 @include inline-flex($direction: null, $main: null, $cross: null, $wrap: null, $content: null)
 ```
@@ -118,86 +139,25 @@ Mixins defines the shorthand for [Flexbox Layout](https://css-tricks.com/snippet
 
 </details>
 
+<a name="flex-shorthands"></a>
+
 #### Shorthands
 
-The package additionally provides the shorthands `flex-row`, `flex-row-center`, `flex-col`, `flex-col-center`, which behave the same way, but take fewer parameters.
+Package additionally provides the shorthands `*-row`, `*-row-center`, `*-col`, `*-col-center`, which behave the same way, but take fewer parameters.
 
-<details>
-<summary>
-  <u>Signatures</u>
-</summary>
-
-```sass
-@include flex-row($props: [])
-```
-
-```sass
-@include flex-row($main: null, $cross: null, $wrap: null, $content: null)
-```
-
-```sass
-@include flex-row-center($props: [])
-```
+Example of `flex` mixin for `row` direction with `center` alignment:
 
 ```sass
 @include flex-row-center($wrap: null, $content: null)
 ```
 
-```sass
-@include flex-col($props: [])
-```
-
-```sass
-@include flex-col($main: null, $cross: null, $wrap: null, $content: null)
-```
-
-```sass
-@include flex-col-center($props: [])
-```
-
-```sass
-@include flex-col-center($wrap: null, $content: null)
-```
-
-```sass
-@include inline-flex-row($props: [])
-```
-
-```sass
-@include inline-flex-row($main: null, $cross: null, $wrap: null, $content: null)
-```
-
-```sass
-@include inline-flex-row-center($props: [])
-```
-
-```sass
-@include inline-flex-row-center($wrap: null, $content: null)
-```
-
-```sass
-@include inline-flex-col($props: [])
-```
-
-```sass
-@include inline-flex-col($main: null, $cross: null, $wrap: null, $content: null)
-```
-
-```sass
-@include inline-flex-col-center($props: [])
-```
-
-```sass
-@include inline-flex-col-center($wrap: null, $content: null)
-```
-
-</details>
-
 <a name="font"></a>
 
 ## Font
 
-Mixin defines the shorthand for Font with `font-size`, `line-height`, `font-weight` and `font-family`.
+![image](https://raw.githubusercontent.com/Yokize/stylize/main/.github/assets/mixin/font.svg)
+
+Mixin defines the shorthand for Font with CSS properties `font-size`, `line-height`, `font-weight` and `font-family`.
 
 ```sass
 @include font($size: null, $line: null, $weight: null, $family: null)
@@ -223,6 +183,8 @@ Mixin defines the shorthand for Font with `font-size`, `line-height`, `font-weig
 
 </details>
 
+<a name="font-smoothing"></a>
+
 #### Smoothing
 
 `font-smoothing` mixin enable anti-aliasing when fonts are rendered.
@@ -231,8 +193,12 @@ Mixin defines the shorthand for Font with `font-size`, `line-height`, `font-weig
 
 ## Media
 
-Mixin defines the advanced shorthand for media queries.
-The advantage over other solutions is the configurable settings and caching.
+![image](https://raw.githubusercontent.com/Yokize/stylize/main/.github/assets/mixin/media.svg)
+
+[Media Queries](https://developer.mozilla.org/en-US/docs/Web/CSS/Media_Queries) are useful to modify site or application depending on the general type of device (e.g., print vs screen) or specific characteristics and parameters (e.g., screen resolution or browser viewport width). Media query is composed of an optional media type and any number of media feature expressions.
+Multiple queries can be combined in various ways by using logical operators.
+
+Mixin defines the advanced shorthand for media queries with advantage over other solutions in the configurable settings and caching.
 
 ```sass
 @include media($conditions...)
@@ -262,7 +228,9 @@ The advantage over other solutions is the configurable settings and caching.
 
 </details>
 
-### Operators
+<a name="media-operators"></a>
+
+#### Operators
 
 Mixin supports a number of operators that determine whether the `min` and `max` prefixes should be added:
 
@@ -273,11 +241,13 @@ Mixin supports a number of operators that determine whether the `min` and `max` 
 - `>=`, `≥` Greater than or equal.
 
 The logical operators `and`, and `or (,)` can be defined by the arguments type.
-In case `list` is one of the arguments, the media conditions will be combined by the `and` operator; in the case of `map` the conditions will be combined by the `or` operator.
+In case `list` is one of the arguments, the media conditions will be combined by the `and` operator; in the case of `map` argument the conditions will be combined by the `or` operator.
 
-### Em vs Px
+<a name="media-px-vs-em"></a>
 
-The default breakpoints are defined in `px`, and can be changed to `em` with mixin.
+#### Px vs Em
+
+Default breakpoints are defined in `px`, and can be changed to `em` to support [zooming](https://css-tricks.com/zooming-squishes).
 
 ```sass
 // Em with default size.
@@ -289,7 +259,9 @@ The default breakpoints are defined in `px`, and can be changed to `em` with mix
 @include use-em(20px)
 ```
 
-### Keywords
+<a name="media-keywords"></a>
+
+#### Keywords
 
 Defines the keywords for [standard media feature](https://developer.mozilla.org/en-US/docs/Web/CSS/Media_Queries).
 
@@ -302,7 +274,9 @@ $keywords: ('w': 'width', 'h': 'height') !default
 @include add-keyword($keyword, $feature)
 ```
 
-### Shortcuts
+<a name="media-shortcuts"></a>
+
+#### Shortcuts
 
 Defines the shortcut for media query, which can be referred to by unique name.
 
@@ -315,7 +289,9 @@ $shortcuts: () !default
 @include add-shortcut($name, $condition)
 ```
 
-### Breakpoints
+<a name="media-breakpoints"></a>
+
+#### Breakpoints
 
 Predefined breakpoints used with media feature.
 
@@ -330,8 +306,11 @@ $breakpoints: (mc: 360px, xs: 480px, sm: 768px, md: 1024px, lg: 1200px, xl: 1440
 
 ## Position
 
-Mixin defines the shorthand for position property.
-All mixins can take `z-index`, which can be individually configured by the corresponding [mixin](#z-index) or [sass-func](https://www.npmjs.com/package/@stylize/sass-func).
+![image](https://raw.githubusercontent.com/Yokize/stylize/main/.github/assets/mixin/position.svg)
+
+The `position` CSS property sets how an element is positioned in a document. The `top`, `right`, `bottom`, and `left` properties determine the final location of positioned elements. `z-index` determine the stack order and can be individually configured by the corresponding [mixin](#z-index) or [sass-func](https://www.npmjs.com/package/@stylize/sass-func).
+
+Supports [overloaded](#overloading) signature with single argument.
 
 ```sass
 @include position($position, $top: null, $right: null, $bottom: null, $left: null, $z: null)
@@ -437,6 +416,10 @@ Shorthand to align at center in parent container using `absolute`.
 @include absolute-center($z: null)
 ```
 
+#### Shorthands
+
+Package additionally provides the shorthands `absolute-top-left`, `absolute-top-right`, `absolute-bottom-left`, `absolute-bottom-right`, which behave the same way and set zero offset to corresponding directions.
+
 <a name="fixed"></a>
 
 ### Fixed
@@ -490,6 +473,10 @@ Shorthand to align at center in parent container using `fixed`.
 ```sass
 @include fixed-center($z: null)
 ```
+
+#### Shorthands
+
+Package additionally provides the shorthands `fixed-top-left`, `fixed-top-right`, `fixed-bottom-left`, `fixed-bottom-right`, which behave the same way and set zero offset to corresponding directions.
 
 <a name="sticky"></a>
 
@@ -545,9 +532,15 @@ Shorthand to align at center in parent container using `sticky`.
 @include sticky-center($z: null)
 ```
 
+#### Shorthands
+
+Package additionally provides the shorthands `sticky-top-left`, `sticky-top-right`, `sticky-bottom-left`, `sticky-bottom-right`, which behave the same way and set zero offset to corresponding directions.
+
 <a name="pseudo"></a>
 
 ## Pseudo
+
+![image](https://raw.githubusercontent.com/Yokize/stylize/main/.github/assets/mixin/pseudo.svg)
 
 Mixin defines the shorthand for `after` / `before` pseudo.
 
@@ -564,6 +557,8 @@ Mixin defines the shorthand for `after` / `before` pseudo.
 <a name="size"></a>
 
 ## Size
+
+![image](https://raw.githubusercontent.com/Yokize/stylize/main/.github/assets/mixin/size.svg)
 
 Mixin defines the shorthand for complex (eq, min, max) width and height.
 
@@ -598,7 +593,7 @@ Mixin defines the shorthand for complex (eq, min, max) width and height.
 Mixin defines the shorthand for complex (eq, min, max) width.
 
 ```sass
-@mixin width($props...)
+@mixin width($args...)
 ```
 
 <details>
@@ -624,7 +619,7 @@ Mixin defines the shorthand for complex (eq, min, max) width.
 Mixin defines the shorthand for complex (eq, min, max) height.
 
 ```sass
-@mixin height($props...)
+@mixin height($args...)
 ```
 
 <details>

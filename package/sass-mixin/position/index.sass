@@ -9,7 +9,7 @@
 ////
 
 /// Shorthand mixin for position property.
-/// @param {List} $props Position Props.
+/// @param {List} $args Position Args.
 /// @example
 ///   position(absolute)
 ///   position(absolute null 0)
@@ -17,7 +17,7 @@
 ///   position(absolute 0 1px null 0)
 ///   position(absolute 0 1px null 1px 1)
 ///   position(absolute 0 1px null 1px header)
-=position($props: [])
+=position($args: [])
 
 /// Shorthand mixin for position property.
 /// @param {String} $position Position.
@@ -41,7 +41,7 @@
     +-position-($position...)
 
 /// Shorthand mixin for relative position.
-/// @param {List} $props Position Props.
+/// @param {List} $args Position Args.
 /// @example
 ///   relative
 ///   relative(0 null)
@@ -49,7 +49,7 @@
 ///   relative(0 1px null 1px)
 ///   relative(0 1px null 1px 1)
 ///   relative(0 1px null 1px header)
-=relative($props: [])
+=relative($args: [])
 
 /// Shorthand mixin for relative position.
 /// @param {Length} $top [null] Top offset.
@@ -72,7 +72,7 @@
     +-position-(relative, $top...)
 
 /// Shorthand mixin for absolute position.
-/// @param {List} $props Position Props.
+/// @param {List} $args Position Args.
 /// @example
 ///   absolute
 ///   absolute(null 0)
@@ -80,7 +80,7 @@
 ///   absolute(0 1px null 1px)
 ///   absolute(0 1px null 1px 1)
 ///   absolute(0 1px null 1px header)
-=absolute($props: [])
+=absolute($args: [])
 
 /// Shorthand mixin for absolute position.
 /// @param {Length} $top [null] Top offset.
@@ -103,11 +103,11 @@
     +-position-(absolute, $top...)
 
 /// Shorthand to cover the parent container using absolute.
-/// @param {List} $props Cover Props.
+/// @param {List} $args Cover Args.
 /// @example
 ///   absolute-cover(10px 2)
 ///   absolute-cover(10px header)
-=absolute-cover($props: [])
+=absolute-cover($args: [])
 
 /// Shorthand to cover the parent container using absolute.
 /// @param {Length} $offset [0] Offset.
@@ -170,7 +170,7 @@
   +-position-(absolute, $bottom: 0, $right: 0, $z: $z)
 
 /// Shorthand mixin for fixed position.
-/// @param {List} $props Position Props.
+/// @param {List} $args Position Args.
 /// @example
 ///   fixed
 ///   fixed(null 0)
@@ -178,7 +178,7 @@
 ///   fixed(0 1px null 0)
 ///   fixed(0 1px null 1px 1)
 ///   fixed(0 1px null 1px header)
-=fixed($props: [])
+=fixed($args: [])
 
 /// Shorthand mixin for fixed position.
 /// @param {Length} $top [null] Top offset.
@@ -201,11 +201,11 @@
     +-position-(fixed, $top...)
 
 /// Shorthand to cover the parent container using fixed.
-/// @param {List} $props Cover Props.
+/// @param {List} $args Cover Args.
 /// @example
 ///   fixed-cover(10px 2)
 ///   fixed-cover(10px header)
-=fixed-cover($props: [])
+=fixed-cover($args: [])
 
 /// Shorthand to cover the parent container using fixed.
 /// @param {Length} $offset [0] Offset.
@@ -268,7 +268,7 @@
   +-position-(fixed, $bottom: 0, $right: 0, $z: $z)
 
 /// Shorthand mixin for sticky position.
-/// @param {List} $props Position Props.
+/// @param {List} $args Position Args.
 /// @example
 ///   sticky
 ///   sticky(null 0)
@@ -276,7 +276,7 @@
 ///   sticky(0 1px null 0)
 ///   sticky(0 1px null 1px 1)
 ///   sticky(0 1px null 1px header)
-=sticky($props: [])
+=sticky($args: [])
 
 /// Shorthand mixin for sticky position.
 /// @param {Length} $top [null] Top offset.
@@ -299,11 +299,11 @@
     +-position-(sticky, $top...)
 
 /// Shorthand to cover the parent container using sticky.
-/// @param {List} $props Cover Props.
+/// @param {List} $args Cover Args.
 /// @example
 ///   sticky-cover(10px 2)
 ///   sticky-cover(10px header)
-=sticky-cover($props: [])
+=sticky-cover($args: [])
 
 /// Shorthand to cover the parent container using sticky.
 /// @param {Length} $offset [0] Offset.

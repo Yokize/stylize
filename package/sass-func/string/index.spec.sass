@@ -1,46 +1,46 @@
 @use '~sass-true' as test
 @use './index' as string
 
-@include test.describe('String')
-  @include test.describe('drop')
-    @include test.it('should drop $n chars from beginning of the string')
-      @include test.assert-equal(string.drop(str1-str2, 5), str2)
++test.describe('String')
+  +test.describe('drop')
+    +test.it('should drop $n chars from beginning of the string')
+      +test.assert-equal(string.drop(str1-str2, 5), str2)
 
-  @include test.describe('replace')
-    @include test.it('should replace the part of string with default replacement')
-      @include test.assert-equal(string.replace(str1-str2, -str2), str1)
+  +test.describe('replace')
+    +test.it('should replace the part of string with default replacement')
+      +test.assert-equal(string.replace(str1-str2, -str2), str1)
 
-    @include test.it('should replace the part of string with defined replacement')
-      @include test.assert-equal(string.replace(str1-str2, str2, str3), str1-str3)
+    +test.it('should replace the part of string with defined replacement')
+      +test.assert-equal(string.replace(str1-str2, str2, str3), str1-str3)
 
-  @include test.describe('split')
-    @include test.it('should split string with separator into substrings')
-      @include test.assert-equal(string.split(str1-str2, '-'), (str1 str2))
+  +test.describe('split')
+    +test.it('should split string with separator into substrings')
+      +test.assert-equal(string.split(str1-str2, '-'), (str1 str2))
 
-    @include test.it('should split complex string with separator into substrings')
-      @include test.assert-equal(string.split(-str1-str2-, '-'), ('' str1 str2 ''))
+    +test.it('should split complex string with separator into substrings')
+      +test.assert-equal(string.split(-str1-str2-, '-'), ('' str1 str2 ''))
 
-  @include test.describe('take')
-    @include test.it('should get $n chars from beginning of the string')
-      @include test.assert-equal(string.take(str1-str2, 4), str1)
+  +test.describe('take')
+    +test.it('should get $n chars from beginning of the string')
+      +test.assert-equal(string.take(str1-str2, 4), str1)
 
-  @include test.describe('trim')
-    @include test.it('should remove leading and trailing character from string')
-      @include test.assert-equal(string.trim('-str-', '-'), str)
+  +test.describe('trim')
+    +test.it('should remove leading and trailing character from string')
+      +test.assert-equal(string.trim('-str-', '-'), str)
 
-    @include test.it('should remove leading and trailing default whitespace from string')
-      @include test.assert-equal(string.trim(' str '), str)
+    +test.it('should remove leading and trailing default whitespace from string')
+      +test.assert-equal(string.trim(' str '), str)
 
-  @include test.describe('trim-end')
-    @include test.it('should remove trailing character from string')
-      @include test.assert-equal(string.trim-end('-str-', '-'), '-str')
+  +test.describe('trim-end')
+    +test.it('should remove trailing character from string')
+      +test.assert-equal(string.trim-end('-str-', '-'), '-str')
 
-    @include test.it('should remove trailing default whitespace from string')
-      @include test.assert-equal(string.trim-end(' str '), ' str')
+    +test.it('should remove trailing default whitespace from string')
+      +test.assert-equal(string.trim-end(' str '), ' str')
 
-  @include test.describe('trim-start')
-    @include test.it('should remove leading character from string')
-      @include test.assert-equal(string.trim-start('-str-', '-'), 'str-')
+  +test.describe('trim-start')
+    +test.it('should remove leading character from string')
+      +test.assert-equal(string.trim-start('-str-', '-'), 'str-')
 
-    @include test.it('should remove leading default whitespace from string')
-      @include test.assert-equal(string.trim-start(' str '), 'str ')
+    +test.it('should remove leading default whitespace from string')
+      +test.assert-equal(string.trim-start(' str '), 'str ')

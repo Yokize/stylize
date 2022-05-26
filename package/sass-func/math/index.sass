@@ -11,6 +11,21 @@
 /// Forward built-in module.
 @forward 'sass:math'
 
+/// Raises $base to the power of $exponent.
+/// @param {Number} $base Base to raise.
+/// @param {Number} $exponent Exponent.
+/// @return {Number} Number raised to the power.
+/// @example
+///   pow(10, 2)
+///   pow(10px, 2)
+@function pow($base, $exponent)
+  $native: meta.get-function('pow', false, 'math')
+  @if (math.is-unitless($base))
+    @return meta.call($native, $base, $exponent)
+  @else
+    $result: meta.call($native, unit.strip($base), $exponent)
+    @return unit.add($result, math.unit($base))
+
 /// Raises $number to the power of 2.
 /// @param {Number} $number Number.
 /// @return {Number} Calculated number.
@@ -38,18 +53,3 @@
 @function to-fixed($float, $digits: 2)
   $pow: pow(10, $digits)
   @return math.div(round($float * $pow), $pow)
-
-/// Raises $base to the power of $exponent.
-/// @param {Number} $base Base to raise.
-/// @param {Number} $exponent Exponent.
-/// @return {Number} Number raised to the power.
-/// @example
-///   pow(10, 2)
-///   pow(10px, 2)
-@function pow($base, $exponent)
-  $native: meta.get-function('pow', false, 'math')
-  @if (math.is-unitless($base))
-    @return meta.call($native, $base, $exponent)
-  @else
-    $result: meta.call($native, unit.strip($base), $exponent)
-    @return unit.add($result, math.unit($base))
