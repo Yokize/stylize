@@ -1,19 +1,19 @@
 @use '~sass-true' as test
 @use './index' as math
 
-@include test.describe('Math')
-  @include test.describe('sqr')
-    @include test.it('should get the number to the power of 2')
-      @include test.assert-equal(math.sqr(10px), 100px)
++test.describe('Math')
+  +test.describe('pow')
+    +test.it('should raise base to the power of exponent')
+      +test.assert-equal(math.pow(5px, 2), 25px)
 
-  @include test.describe('sqrt')
-    @include test.it('should get the square root of number')
-      @include test.assert-equal(math.sqrt(100px), 10px)
+  +test.describe('sqr')
+    +test.it('should get the number to the power of 2')
+      +test.assert-equal(math.sqr(10px), 100px)
 
-  @include test.describe('to-fixed')
-    @include test.it('should format number to fixed amount of decimals')
-      @include test.assert-equal(math.to-fixed(1.333px, 2), 1.33px)
+  +test.describe('sqrt')
+    +test.it('should get the square root of number')
+      +test.assert-equal(math.sqrt(100px), 10px)
 
-  @include test.describe('pow')
-    @include test.it('should raise base to the power of exponent')
-      @include test.assert-equal(math.pow(5px, 2), 25px)
+  +test.describe('to-fixed')
+    +test.it('should format number to fixed amount of decimals')
+      +test.assert-equal(math.to-fixed(1.333px, 2), 1.33px)

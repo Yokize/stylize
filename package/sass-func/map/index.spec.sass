@@ -2,8 +2,8 @@
 @use '~sass-true' as test
 @use './index' as map
 
-@include test.describe('Map')
-  @include test.describe('entries')
-    @include test.it('should return map enties as a list')
++test.describe('Map')
+  +test.describe('entries')
+    +test.it('should return map enties as a list')
       $entries: map.entries((key1: val1))
-      @include test.assert-equal(list.nth($entries, 1), (key1, val1))
+      +test.assert-equal(list.nth($entries, 1), (key1, val1))

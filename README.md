@@ -4,7 +4,7 @@
   <a href="https://gitter.im/Yokize/stylize">
     <img src="https://img.shields.io/gitter/room/Yokize/stylize?style=flat-square&logo=gitter&color=blue&label=chat" alt="gitter" />
   </a>
-  
+
   <a href="https://www.npmjs.com/package/sass">
     <img src="https://img.shields.io/static/v1?style=flat-square&logo=sass&color=blue&label=sass&message=latest" alt="sass" />
   </a>

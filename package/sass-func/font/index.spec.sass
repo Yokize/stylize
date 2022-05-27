@@ -5,17 +5,17 @@
 // Base family.
 $family: func.$base-family
 
-@include test.describe('Font')
-  @include test.it('should create the value with args')
++test.describe('Font')
+  +test.it('should create the value with args')
     $output: 'normal normal bold 1px / 1 Arial, Helvetica'
-    @include test.assert-equal(func.font(1px, 1, bold, Arial Helvetica), string.unquote($output))
+    +test.assert-equal(func.font(1px, 1, bold, Arial Helvetica), string.unquote($output))
 
-  @include test.it('should create the value with list arg')
+  +test.it('should create the value with list arg')
     $output: 'normal normal bold 1px / 1 Arial, Helvetica'
-    @include test.assert-equal(func.font(1px 1 bold [Arial Helvetica]), string.unquote($output))
+    +test.assert-equal(func.font(1px 1 bold [Arial Helvetica]), string.unquote($output))
 
-  @include test.it('should create the value with default args')
-    @include test.assert-equal(func.font(), string.unquote('normal normal normal medium / normal #{$family}'))
+  +test.it('should create the value with default args')
+    +test.assert-equal(func.font(), string.unquote('normal normal normal medium / normal #{$family}'))
 
-  @include test.it('should create the value with keyword args')
-    @include test.assert-equal(func.font($weight: bold), string.unquote('normal normal bold medium / normal #{$family}'))
+  +test.it('should create the value with keyword args')
+    +test.assert-equal(func.font($weight: bold), string.unquote('normal normal bold medium / normal #{$family}'))

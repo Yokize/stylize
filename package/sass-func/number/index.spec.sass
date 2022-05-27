@@ -1,19 +1,19 @@
 @use '~sass-true' as test
 @use './index' as number
 
-@include test.describe('Number')
-  @include test.describe('parse')
-    @include test.it('should parse number with units')
-      @include test.assert-equal(number.parse('1px'), 1px)
++test.describe('Number')
+  +test.describe('parse')
+    +test.it('should parse number with units')
+      +test.assert-equal(number.parse('1px'), 1px)
 
-    @include test.it('should parse number without units')
-      @include test.assert-equal(number.parse('100'), 100)
+    +test.it('should parse number without units')
+      +test.assert-equal(number.parse('100'), 100)
 
-    @include test.it('should parse negative number')
-      @include test.assert-equal(number.parse('-1px'), -1px)
+    +test.it('should parse negative number')
+      +test.assert-equal(number.parse('-1px'), -1px)
 
-    @include test.it('should parse decimal number')
-      @include test.assert-equal(number.parse('-100.01px'), -100.01px)
+    +test.it('should parse decimal number')
+      +test.assert-equal(number.parse('-100.01px'), -100.01px)
 
-    @include test.it('should return null in case can not parse')
-      @include test.assert-equal(number.parse('invalid'), null)
+    +test.it('should return null in case can not parse')
+      +test.assert-equal(number.parse('invalid'), null)

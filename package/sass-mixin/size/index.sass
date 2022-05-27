@@ -7,37 +7,37 @@
 ////
 
 /// Shorthand to define max, min and eq width.
-/// @param {List} $props Width Props.
+/// @param {List} $args Width Args.
 /// @example
 ///   width([min 10px])
 ///   width([min 10px, max 30px])
-=width($props: [])
+=width($args: [])
 
 /// Shorthand to define max, min and eq width.
-/// @param {ArgList} $props Width Props.
+/// @param {ArgList} $args Width Args.
 /// @example
 ///   width(10px)
 ///   width(min 10px)
 ///   width(min 10px, max 30px)
-=width($props...)
-  +-unpack-value-(width, $props)
+=width($args...)
+  +-unpack-value-(width, $args)
 
 /// Shorthand to define max, min and eq height.
-/// @param {List} $props Height Props.
+/// @param {List} $args Height Args.
 /// @example
 ///   height(10px)
 ///   height(min 10px)
 ///   height(min 10px, max 30px)
-=height($props: [])
+=height($args: [])
 
 /// Shorthand to define max, min and eq height.
-/// @param {ArgList} $props Height Props.
+/// @param {ArgList} $args Height Args.
 /// @example
 ///   height(10px)
 ///   height(min 10px)
 ///   height(min 10px, max 30px)
-=height($props...)
-  +-unpack-value-(height, $props)
+=height($args...)
+  +-unpack-value-(height, $args)
 
 /// Shorthand to define complex width and height.
 /// @param {List|Length} $width [null] Width.

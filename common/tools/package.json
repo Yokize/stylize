@@ -2,7 +2,6 @@
   "name": "@stylize/sass-tool",
   "version": "0.0.0",
   "private": true,
-  "license": "MIT",
   "bin": {
     "sasstool": "index.js"
   },

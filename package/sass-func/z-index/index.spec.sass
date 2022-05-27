@@ -1,12 +1,12 @@
 @use '~sass-true' as test
 @use './index' as func
 
-@include test.describe('Z-index')
-  @include test.it('should get z-index from list config')
++test.describe('Z-index')
+  +test.it('should get z-index from list config')
     $_: func.set-order(header footer, 2)
-    @include test.assert-equal(func.z-index(header), 3)
-    @include test.assert-equal(func.z-index(footer), 4)
+    +test.assert-equal(func.z-index(header), 3)
+    +test.assert-equal(func.z-index(footer), 4)
 
-  @include test.it('should get z-index from nested map config')
+  +test.it('should get z-index from nested map config')
     $_: func.set-order((layout: (cashier: (toggle: 2))))
-    @include test.assert-equal(func.z-index(layout cashier toggle), 2)
+    +test.assert-equal(func.z-index(layout cashier toggle), 2)

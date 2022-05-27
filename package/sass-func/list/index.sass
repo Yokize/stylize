@@ -390,6 +390,9 @@
 /// @param {List} $list Source List.
 /// @return {List} Newly created list.
 @function -same-format-($list)
+  // Inherit the list separator.
   $separator: list.separator($list)
+  // Determine whether list has brackets.
   $bracketed: list.is-bracketed($list)
+  // Create the new list in proper format.
   @return list.join([], [], $separator, $bracketed)
