@@ -1,6 +1,13 @@
 # Change Log - @stylize/sass-func
 
-This log was last generated on Tue, 17 May 2022 05:31:20 GMT and should not be manually modified.
+This log was last generated on Fri, 27 May 2022 05:18:02 GMT and should not be manually modified.
+
+## 1.0.2
+Fri, 27 May 2022 05:18:02 GMT
+
+### Patches
+
+- docs: added assets to the README
 
 ## 1.0.1
 Tue, 17 May 2022 05:31:20 GMT

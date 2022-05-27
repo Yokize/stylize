@@ -1,6 +1,13 @@
 # Change Log - @stylize/sass-shape
 
-This log was last generated on Tue, 24 May 2022 06:50:36 GMT and should not be manually modified.
+This log was last generated on Fri, 27 May 2022 05:18:02 GMT and should not be manually modified.
+
+## 2.0.1
+Fri, 27 May 2022 05:18:02 GMT
+
+### Patches
+
+- docs: added assets to the README
 
 ## 2.0.0
 Tue, 24 May 2022 06:50:36 GMT

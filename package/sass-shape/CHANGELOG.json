@@ -2,6 +2,26 @@
   "name": "@stylize/sass-shape",
   "entries": [
     {
+      "version": "2.0.1",
+      "tag": "@stylize/sass-shape_v2.0.1",
+      "date": "Fri, 27 May 2022 05:18:02 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "docs: added assets to the README"
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@stylize/sass-func\" from `1.0.1` to `1.0.2`"
+          },
+          {
+            "comment": "Updating dependency \"@stylize/sass-mixin\" from `1.0.1` to `1.0.2`"
+          }
+        ]
+      }
+    },
+    {
       "version": "2.0.0",
       "tag": "@stylize/sass-shape_v2.0.0",
       "date": "Tue, 24 May 2022 06:50:36 GMT",
