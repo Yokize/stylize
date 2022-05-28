@@ -1,12 +1,15 @@
+# sass-shape
+
+[![chat](https://img.shields.io/gitter/room/stylize/community?style=flat-square&logo=gitter&color=blue&label)](https://gitter.im/Yokize/stylize)
+[![test](https://img.shields.io/github/workflow/status/Yokize/stylize/CI?style=flat-square&label=test)](https://github.com/Yokize/stylize/actions/workflows/CI.yml)
+[![deps](https://img.shields.io/librariesio/release/npm/@stylize/sass-shape?style=flat-square)](https://github.com/Yokize/stylize/actions/workflows/CI.yml)
+[![last](https://img.shields.io/github/last-commit/yokize/stylize?style=flat-square)](https://github.com/Yokize/stylize)
+[![sass](https://img.shields.io/static/v1?style=flat-square&logo=sass&color=blue&label=Sass&message=latest)](https://www.npmjs.com/package/sass)
+[![MIT](https://img.shields.io/npm/l/@stylize/sass-shape?style=flat-square&color=blue)](https://en.wikipedia.org/wiki/MIT_License)
+
 <blockquote>
   Collection of Sass mixins for creating various shapes
 </blockquote>
-
-![test](https://img.shields.io/github/workflow/status/Yokize/stylize/CI?style=flat-square&label=test)
-![deps](https://img.shields.io/librariesio/release/npm/@stylize/sass-shape?style=flat-square)
-![sass](https://img.shields.io/static/v1?style=flat-square&logo=sass&color=blue&label=sass&message=latest)
-![MIT](https://img.shields.io/github/license/Yokize/stylize?style=flat-square&color=blue)
-[![chat](https://img.shields.io/gitter/room/stylize/community?style=flat-square&logo=gitter&color=blue&label=chat)](https://gitter.im/Yokize/stylize)
 
 <details>
 <summary>
