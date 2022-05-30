@@ -2,6 +2,23 @@
   "name": "@stylize/sass-mixin",
   "entries": [
     {
+      "version": "1.0.3",
+      "tag": "@stylize/sass-mixin_v1.0.3",
+      "date": "Mon, 30 May 2022 07:39:08 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "docs: added title and additional badge"
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@stylize/sass-func\" from `1.0.2` to `1.0.3`"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.0.2",
       "tag": "@stylize/sass-mixin_v1.0.2",
       "date": "Fri, 27 May 2022 05:18:02 GMT",
