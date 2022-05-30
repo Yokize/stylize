@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@stylize/sass-func",
+      "comment": "docs: added title and additional badge",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@stylize/sass-func"
+}
