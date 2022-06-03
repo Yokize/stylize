@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@stylize/sass-func",
+      "comment": "feat: remove the peer dependency",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@stylize/sass-func"
+}
