@@ -1,6 +1,13 @@
 # Change Log - @stylize/sass-func
 
-This log was last generated on Mon, 30 May 2022 07:39:08 GMT and should not be manually modified.
+This log was last generated on Sat, 04 Jun 2022 12:20:48 GMT and should not be manually modified.
+
+## 1.0.4
+Sat, 04 Jun 2022 12:20:48 GMT
+
+### Patches
+
+- feat: remove the peer dependency
 
 ## 1.0.3
 Mon, 30 May 2022 07:39:08 GMT

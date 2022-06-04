@@ -2,6 +2,26 @@
   "name": "@stylize/sass-shape",
   "entries": [
     {
+      "version": "2.0.3",
+      "tag": "@stylize/sass-shape_v2.0.3",
+      "date": "Sat, 04 Jun 2022 12:20:48 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "feat: remove the peer dependency"
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@stylize/sass-func\" from `1.0.3` to `1.0.4`"
+          },
+          {
+            "comment": "Updating dependency \"@stylize/sass-mixin\" from `1.0.3` to `1.1.0`"
+          }
+        ]
+      }
+    },
+    {
       "version": "2.0.2",
       "tag": "@stylize/sass-shape_v2.0.2",
       "date": "Mon, 30 May 2022 07:39:08 GMT",

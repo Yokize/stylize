@@ -2,6 +2,18 @@
   "name": "@stylize/sass-func",
   "entries": [
     {
+      "version": "1.0.4",
+      "tag": "@stylize/sass-func_v1.0.4",
+      "date": "Sat, 04 Jun 2022 12:20:48 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "feat: remove the peer dependency"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.0.3",
       "tag": "@stylize/sass-func_v1.0.3",
       "date": "Mon, 30 May 2022 07:39:08 GMT",
