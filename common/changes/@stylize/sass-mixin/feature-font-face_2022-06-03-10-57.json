@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@stylize/sass-mixin",
+      "comment": "feat: add face-font mixin",
+      "type": "minor"
+    }
+  ],
+  "packageName": "@stylize/sass-mixin"
+}

@@ -1,4 +1,5 @@
 @use '~@stylize/sass-func/list'
+@use '~@stylize/sass-func/string'
 
 ////
 /// @group font
@@ -32,6 +33,47 @@
   @else
     +-font-($size...)
 
+/// Shorthand mixin for font-face.
+/// @param {String} $name Font Name.
+/// @param {String} $path Font Path.
+/// @param {List} $ext Font Extensions.
+/// @param {String} $local Local Font.
+/// @example
+///   font-face(Roboto, '..fonts/roboto')
+///   font-face(Roboto, '..fonts/roboto', [eot])
+///   font-face(Roboto, '..fonts/roboto', [eot], Arial)
+=font-face($name, $path, $ext: [woff, woff2], $local: null)
+  // Normalize the font name.
+  $name: string.unquote($name)
+  // Define the native font-face.
+  @font-face
+    font-style: normal
+    font-weight: normal
+    font-family: string.quote($name)
+    @content
+
+    $src: []
+    @if $local != null
+      $src: join($src, string.unquote("local('#{$local}')"))
+    // In case the ext contains eot.
+    @if list.contains($ext, eot)
+      src: -font-url-($path, eot)
+      $src: join($src, -font-url-($path, 'eot?#iefix', embedded-opentype))
+    // In case the ext contains woff.
+    @if list.contains($ext, woff)
+      $src: join($src, -font-url-($path, woff, woff))
+    // In case the ext contains woff2.
+    @if list.contains($ext, woff2)
+      $src: join($src, -font-url-($path, woff2, woff2))
+    // In case the ext contains ttf.
+    @if list.contains($ext, ttf)
+      $src: join($src, -font-url-($path, ttf, truetype))
+    // In case the ext contains svg.
+    @if list.contains($ext, svg)
+      $src: join($src, -font-url-($path, 'svg##{$name}', svg))
+    // Join the sources with glue.
+    src: list.to-string($src, ', ')
+
 /// Mixin for smooth font rendering.
 /// @example
 ///   font-smoothing
@@ -50,3 +92,15 @@
   line-height: $line
   font-weight: $weight
   font-family: $family
+
+/// Create the font url for font-face based on args.
+/// @param {String} $path Font Path.
+/// @param {String} $ext Font Extension.
+/// @param {String} $format Font Format.
+/// @example
+///   -font-url-('..fonts/roboto', eot)
+@function -font-url-($path, $ext, $format: null)
+  $url: "url('#{$path}.#{$ext}')"
+  @if $format != null
+    $url: "#{$url} format('#{$format}')"
+  @return string.unquote($url)

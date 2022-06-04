@@ -18,6 +18,8 @@
 
 - [Flex](#flex)
 - [Font](#font)
+  - [Face](#font-face)
+  - [Smoothing](#font-smoothing)
 - [Media](#media)
 - [Position](#position)
   - [Absolute](#absolute)
@@ -162,6 +164,8 @@ Example of `flex` mixin for `row` direction with `center` alignment:
 
 Mixin defines the shorthand for Font with CSS properties `font-size`, `line-height`, `font-weight` and `font-family`.
 
+Supports [overloaded](#overloading) signature with single argument.
+
 ```sass
 @include font($size: null, $line: null, $weight: null, $family: null)
 ```
@@ -182,6 +186,32 @@ Mixin defines the shorthand for Font with CSS properties `font-size`, `line-heig
 @include font(10px, 1rem, 300)
 // Font size, line-height, font-weight, font-family.
 @include font(10px, 1rem, 300, (Arial, san-sarif))
+```
+
+</details>
+
+<a name="font-face"></a>
+
+#### Font Face
+
+Mixin defines the shorthand for Font-Face.
+
+```sass
+@include font-face($name, $path, $ext: [woff, woff2], $local: null)
+```
+
+<details>
+<summary>
+  <u>Examples</u>
+</summary>
+
+```sass
+// Font face in modern formats [woff, woff2].
+@include font-face(Roboto, '..fonts/roboto')
+// Font face in custom formats [eot, svg, ttf].
+@include font-face(Roboto, '..fonts/roboto', [eot, svg, ttf])
+// Font face in modern formats with priority to local font.
+@include font-face(Roboto, '..fonts/roboto', $local: Arial)
 ```
 
 </details>
